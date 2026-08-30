@@ -1,0 +1,12 @@
+# Demo Script
+
+1. Open the app. Point out that the bundled public example is already loaded and the site-tool badge reports seven read-only tools in a compatible browser.
+2. Ask the agent: “Summarize the loaded UCE record and separate verified checks from recorded assertions.”
+3. Open **Verification checks**. Highlight the locally passed schema, identifier/hash equality, ES256 signature, and located chronology anchor. Highlight that canonical-manifest integrity is unavailable rather than overstated.
+4. Open **Chronology**. Contrast the claimed creation date, evidence-system events, and external Arweave block timestamp.
+5. Open **Recorded assertions**. Show that author, identity, originality, rights, and AI-policy values are never described as legal facts.
+6. Select a known local file. Show that only filename, size, and SHA-256 appear, followed by match or mismatch; the file is not uploaded.
+7. Ask the agent to call `compare_local_file_to_uce_record`. Show that it can inspect only the already-selected digest result.
+8. End on: “This result verifies evidence integrity; it is not a legal determination.”
+
+Fallback: if WebMCP is unavailable, use the same visible controls. If CbyUCE live JSON is blocked by CORS, reload the bundled demo or paste public JSON.

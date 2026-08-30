@@ -54,13 +54,13 @@ Git cadence: focused local commits after clean milestones
       Acceptance: Registration is feature-detected, top-level, idempotent, and visible.
       Verify: Unavailable, repeated-registration, schema, and tool-handler tests.
 
-- [ ] **9. Harden and automate checks**
+- [x] **9. Harden and automate checks**
       Spec ref: `spec.md > Failure strategy`
       What to build: CI, security documentation, dependency/license audit, accessibility polish, complete edge-case suite.
       Acceptance: All automated checks pass with no secrets or prohibited dependencies.
       Verify: `npm run check` plus repository scans.
 
-- [ ] **10. Prepare local submission materials**
+- [x] **10. Prepare local submission materials**
       Spec ref: `spec.md > Public sources`
       What to build: README, architecture/demo docs, notice/trademark files, and publication-readiness report.
       Acceptance: Exact limitations and remaining external steps are documented.

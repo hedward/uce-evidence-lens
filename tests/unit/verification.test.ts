@@ -44,6 +44,18 @@ describe("evidence verification", () => {
     ).toBe("recorded_assertion");
   });
 
+  it("fails identifier equality for a tampered manifest hash", async () => {
+    const tampered = structuredClone(demoRecord);
+    tampered.manifestHash = "0".repeat(64);
+    const result = await verifyRecord(tampered, tampered.publicKeys);
+    expect(
+      result.checks.find((check) => check.id === "identifier")?.status,
+    ).toBe("failed");
+    expect(
+      result.checks.find((check) => check.id === "platform_signature")?.status,
+    ).toBe("failed");
+  });
+
   it("computes the expected local SHA-256 digest", async () => {
     const digest = await sha256Bytes(new TextEncoder().encode("hello"));
     expect(digest).toBe(

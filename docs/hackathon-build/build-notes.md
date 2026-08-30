@@ -23,3 +23,12 @@
 - Registered and live-tested seven imperative, read-only WebMCP tools in the top-level page.
 - Verified desktop and 390×844 layouts; the mobile page had no horizontal overflow.
 - `npm run check` passed with 22 tests before the documentation/CI milestone.
+
+## 2026-08-30 — Hardening and publication review
+
+- Added CI, README, security, trademark, notice, license-review, demo, public-data, and publication-readiness documents.
+- Expanded the suite to 23 tests, including valid, tampered, malformed, missing-key, signature, digest, network/CORS, malicious-string, WebMCP-unavailable, repeated-registration, and tool-input cases.
+- Repository search found no executable HTML injection/evaluation/storage APIs and no credential/private-key signatures.
+- Confirmed zero production dependencies and complete license metadata for installed lockfile entries.
+- `npm audit` reported zero known vulnerabilities.
+- The formal Codex Security workbench scan could not start because its required desktop scan capabilities were unavailable; a local source-backed audit was completed and is not represented as a workbench report.
