@@ -1,0 +1,459 @@
+import type { AppController, AppState } from "../app/controller";
+import type { EvidenceCheck, EvidenceStatus } from "../types/record";
+import {
+  inspectChronology,
+  listAssertions,
+  LEGAL_NOTICE,
+} from "../verification/evidence";
+
+type Child = Node | string | null | undefined;
+
+function el<K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  options: {
+    className?: string;
+    text?: string;
+    attrs?: Record<string, string>;
+  } = {},
+  ...children: Child[]
+): HTMLElementTagNameMap[K] {
+  const element = document.createElement(tag);
+  if (options.className) element.className = options.className;
+  if (options.text !== undefined) element.textContent = options.text;
+  Object.entries(options.attrs ?? {}).forEach(([name, value]) =>
+    element.setAttribute(name, value),
+  );
+  children.forEach((child) => {
+    if (child instanceof Node) element.append(child);
+    else if (child !== null && child !== undefined)
+      element.append(document.createTextNode(child));
+  });
+  return element;
+}
+
+function formatDate(value: string): string {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const date = new Date(value);
+  return Number.isNaN(date.valueOf())
+    ? value
+    : date.toLocaleString(undefined, {
+        dateStyle: "medium",
+        timeStyle: "medium",
+      });
+}
+
+function safeLink(url: string, label: string): HTMLElement {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:") throw new Error("unsafe");
+    return el("a", {
+      text: label,
+      attrs: { href: parsed.toString(), target: "_blank", rel: "noreferrer" },
+    });
+  } catch {
+    return el("span", { text: label });
+  }
+}
+
+const statusLabels: Record<EvidenceStatus, string> = {
+  passed: "Passed",
+  failed: "Failed",
+  unavailable: "Unavailable",
+  not_performed: "Not performed",
+  recorded_assertion: "Recorded assertion",
+};
+
+function checkCard(check: EvidenceCheck): HTMLElement {
+  const status = el("span", {
+    className: `status status--${check.status}`,
+    text: statusLabels[check.status],
+  });
+  const card = el(
+    "article",
+    { className: "check-card" },
+    el(
+      "div",
+      { className: "check-card__heading" },
+      el("h3", { text: check.label }),
+      status,
+    ),
+    el("p", { text: check.explanation }),
+  );
+  if (check.source)
+    card.append(
+      el(
+        "p",
+        { className: "source-line" },
+        "Source: ",
+        safeLink(check.source, check.source),
+      ),
+    );
+  return card;
+}
+
+function definitionList(
+  entries: Array<[string, string | undefined]>,
+): HTMLElement {
+  const list = el("dl", { className: "facts" });
+  entries.forEach(([term, value]) => {
+    if (!value) return;
+    list.append(
+      el("div", {}, el("dt", { text: term }), el("dd", { text: value })),
+    );
+  });
+  return list;
+}
+
+function loader(controller: AppController, busy: boolean): HTMLElement {
+  const input = el("input", {
+    attrs: {
+      id: "record-source",
+      name: "source",
+      type: "text",
+      placeholder: "Public CbyUCE URL, record hash, or Arweave URL",
+      autocomplete: "off",
+      spellcheck: "false",
+    },
+  });
+  const submit = el("button", {
+    className: "button button--primary",
+    text: busy ? "Loading…" : "Load record",
+  });
+  submit.type = "submit";
+  submit.disabled = busy;
+  const form = el(
+    "form",
+    {
+      className: "load-form",
+      attrs: { "aria-label": "Load a public UCE record" },
+    },
+    el("label", {
+      text: "Public record source",
+      attrs: { for: "record-source" },
+    }),
+    el("div", { className: "load-form__row" }, input, submit),
+    el("p", {
+      className: "field-note",
+      text: "Approved sources only: cbyuce.com and arweave.net. CbyUCE live JSON may be blocked by CORS.",
+    }),
+  );
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    void controller.load(input.value);
+  });
+
+  const demoButton = el("button", {
+    className: "button button--quiet",
+    text: "Reload bundled demo",
+  });
+  demoButton.type = "button";
+  demoButton.disabled = busy;
+  demoButton.addEventListener("click", () => void controller.load("demo"));
+
+  const textarea = el("textarea", {
+    attrs: {
+      id: "record-json",
+      rows: "5",
+      placeholder:
+        "Paste a public manifest or { manifest, verification } JSON response",
+      spellcheck: "false",
+    },
+  });
+  const pasteButton = el("button", {
+    className: "button button--quiet",
+    text: "Validate pasted JSON",
+  });
+  pasteButton.type = "button";
+  pasteButton.disabled = busy;
+  pasteButton.addEventListener(
+    "click",
+    () => void controller.loadJson(textarea.value),
+  );
+  const details = el(
+    "details",
+    { className: "paste-panel" },
+    el("summary", { text: "Paste public JSON instead" }),
+    el("label", { text: "Public record JSON", attrs: { for: "record-json" } }),
+    textarea,
+    pasteButton,
+  );
+
+  return el(
+    "section",
+    { className: "panel loader", attrs: { "aria-labelledby": "load-heading" } },
+    el("h2", {
+      text: "Open an evidence record",
+      attrs: { id: "load-heading" },
+    }),
+    form,
+    el("div", { className: "loader__actions" }, demoButton),
+    details,
+  );
+}
+
+function recordView(
+  controller: AppController,
+  state: Readonly<AppState>,
+): HTMLElement | null {
+  const record = state.record;
+  if (!record) return null;
+  const summary = el(
+    "section",
+    {
+      className: "panel hero-record",
+      attrs: { "aria-labelledby": "record-heading" },
+    },
+    el("p", {
+      className: "eyebrow",
+      text: `${record.schema} · v${record.schemaVersion}`,
+    }),
+    el("h2", { text: record.title, attrs: { id: "record-heading" } }),
+    el("p", {
+      className: "assertion-callout",
+      text: `Recorded author assertion: ${record.authorName}`,
+    }),
+    definitionList([
+      ["Record identifier", record.id],
+      ["Recorded manifest hash", record.manifestHash],
+      ["Registration timestamp", formatDate(record.registrationTimestamp)],
+      ["Claimed creation date", record.creationDate],
+      ["Work category", record.workCategory],
+      ["Loaded from", record.loadedFrom.replaceAll("_", " ")],
+    ]),
+    el(
+      "p",
+      { className: "source-line" },
+      "Public source: ",
+      safeLink(record.source, record.source),
+    ),
+  );
+
+  const checks = el(
+    "section",
+    {
+      className: "section-block",
+      attrs: { "aria-labelledby": "checks-heading" },
+    },
+    el(
+      "div",
+      { className: "section-heading" },
+      el(
+        "div",
+        {},
+        el("p", { className: "eyebrow", text: "Browser-performed operations" }),
+        el("h2", {
+          text: "Verification checks",
+          attrs: { id: "checks-heading" },
+        }),
+      ),
+      state.verification
+        ? el("p", {
+            className: "section-summary",
+            text: state.verification.summary,
+          })
+        : null,
+    ),
+    el(
+      "div",
+      { className: "check-grid" },
+      ...(state.verification?.checks ?? []).map(checkCard),
+    ),
+  );
+
+  const firstFile = record.files[0];
+  const fileInput = el("input", { attrs: { id: "local-file", type: "file" } });
+  fileInput.disabled = state.busy;
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+    if (file) void controller.selectLocalFile(file);
+  });
+  const filePanel = el(
+    "section",
+    {
+      className: "panel local-file",
+      attrs: { "aria-labelledby": "local-heading" },
+    },
+    el("p", { className: "eyebrow", text: "Private by design" }),
+    el("h2", { text: "Compare a local file", attrs: { id: "local-heading" } }),
+    el("p", {
+      text: "The selected file is hashed with SHA-256 in this browser. Its contents are not uploaded, stored, or exposed to agent tools.",
+    }),
+    firstFile
+      ? definitionList([
+          ["Recorded filename", firstFile.filename],
+          ["Recorded SHA-256", firstFile.sha256],
+          ["Recorded size", `${firstFile.bytes.toLocaleString()} bytes`],
+        ])
+      : el("p", { text: "This record contains no supported file entry." }),
+    el("label", {
+      className: "file-label",
+      text: "Choose a file to hash",
+      attrs: { for: "local-file" },
+    }),
+    fileInput,
+    state.localFile
+      ? definitionList([
+          ["Selected filename", state.localFile.name],
+          ["Selected size", `${state.localFile.bytes.toLocaleString()} bytes`],
+          ["Computed SHA-256", state.localFile.sha256],
+        ])
+      : null,
+    state.localComparison ? checkCard(state.localComparison) : null,
+  );
+
+  const chronology = inspectChronology(record);
+  const timeline = el(
+    "section",
+    {
+      className: "section-block",
+      attrs: { "aria-labelledby": "chronology-heading" },
+    },
+    el("p", { className: "eyebrow", text: "Claims are not anchors" }),
+    el("h2", { text: "Chronology", attrs: { id: "chronology-heading" } }),
+    el(
+      "ol",
+      { className: "timeline" },
+      ...chronology.map((item) =>
+        el(
+          "li",
+          { className: `timeline__item timeline__item--${item.kind}` },
+          el(
+            "div",
+            { className: "timeline__meta" },
+            el("span", {
+              className: "timeline__kind",
+              text: item.kind.replaceAll("_", " "),
+            }),
+            el("time", {
+              text: formatDate(item.timestamp),
+              attrs: { datetime: item.timestamp },
+            }),
+          ),
+          el("h3", { text: item.label }),
+          el("p", { text: item.limitation }),
+          el(
+            "p",
+            { className: "source-line" },
+            "Source: ",
+            item.source.startsWith("https://")
+              ? safeLink(item.source, item.source)
+              : el("code", { text: item.source }),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  const assertions = el(
+    "section",
+    {
+      className: "section-block",
+      attrs: { "aria-labelledby": "assertions-heading" },
+    },
+    el("p", { className: "eyebrow", text: "What the record says" }),
+    el("h2", {
+      text: "Recorded assertions",
+      attrs: { id: "assertions-heading" },
+    }),
+    el(
+      "div",
+      { className: "assertion-grid" },
+      ...listAssertions(record).map((assertion) =>
+        el(
+          "article",
+          { className: "assertion-card" },
+          el("span", {
+            className: "assertion-card__category",
+            text: assertion.category.replaceAll("_", " "),
+          }),
+          el("h3", { text: assertion.label }),
+          el("p", {
+            className: "assertion-card__value",
+            text: assertion.value,
+          }),
+          el("p", { text: assertion.limitation }),
+          el("code", { text: assertion.source }),
+        ),
+      ),
+    ),
+  );
+  return el("div", {}, summary, checks, filePanel, timeline, assertions);
+}
+
+export function renderApp(
+  root: HTMLElement,
+  controller: AppController,
+  state: Readonly<AppState>,
+): void {
+  const header = el(
+    "header",
+    { className: "site-header" },
+    el("div", {
+      className: "brand-mark",
+      text: "UCE",
+      attrs: { "aria-hidden": "true" },
+    }),
+    el(
+      "div",
+      {},
+      el("p", {
+        className: "eyebrow",
+        text: "5 Race Street LLC · Copyright by UCE",
+      }),
+      el("h1", { text: "UCE Evidence Lens" }),
+      el("p", {
+        className: "lede",
+        text: "Inspect integrity, chronology, signatures, rights assertions, and local file matches—without uploading the underlying work.",
+      }),
+    ),
+    el(
+      "div",
+      {
+        className: `webmcp-badge webmcp-badge--${state.webmcp.status}`,
+        attrs: { role: "status" },
+      },
+      el("span", {
+        className: "webmcp-badge__dot",
+        attrs: { "aria-hidden": "true" },
+      }),
+      el("span", { text: state.webmcp.detail }),
+    ),
+  );
+  const notice = el(
+    "aside",
+    { className: "legal-notice" },
+    el("strong", { text: "Evidence, not a legal verdict. " }),
+    LEGAL_NOTICE,
+  );
+  const error = state.error
+    ? el(
+        "div",
+        { className: "error-banner", attrs: { role: "alert" } },
+        el("strong", { text: "Could not complete that request. " }),
+        state.error,
+      )
+    : null;
+  const main = el(
+    "main",
+    { attrs: { id: "main" } },
+    loader(controller, state.busy),
+    error,
+    recordView(controller, state),
+  );
+  const footer = el(
+    "footer",
+    {},
+    el("p", { text: "Immutable • Identifiable • Verifiable" }),
+    el("p", {
+      text: "Read-only reference verifier · no account · no upload · no legal determination",
+    }),
+  );
+  const live = el("div", {
+    className: "sr-only",
+    text: state.busy
+      ? "Verification work in progress"
+      : (state.error ?? state.verification?.summary ?? "Ready"),
+    attrs: { "aria-live": "polite" },
+  });
+  root.replaceChildren(header, notice, main, footer, live);
+}
