@@ -8,6 +8,7 @@ out-tsc/
 coverage/
 .vite/
 *.tsbuildinfo
+graphify-out/
 
 # Environment files and secrets
 .env
