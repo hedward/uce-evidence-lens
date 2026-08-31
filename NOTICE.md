@@ -1,6 +1,6 @@
 # Notice
 
-UCE Evidence Lens is an independently written, read-only public-record verifier for 5 Race Street LLC d/b/a Copyright by UCE. It is not the Copyright by UCE production application.
+UCE Evidence Lens is an independently written, read-only public-record verifier developed by Copyright by UCE. It is not the Copyright by UCE production application.
 
 The bundled demonstration is a carefully reduced fixture derived from this public verification response and its public Arweave manifest/JWKS references:
 

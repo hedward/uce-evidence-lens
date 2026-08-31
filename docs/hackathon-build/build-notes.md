@@ -2,7 +2,7 @@
 
 ## 2026-08-30 — Baseline
 
-- Confirmed the independent `uce-evidence-lens` repository on `main` with no remote.
+- Confirmed the independent `uce-evidence-lens` repository on `main`; no remote was configured at the baseline stage. A private GitHub remote was added later in the build.
 - Corrected TypeScript 6 `rootDir` validation and committed the five-file baseline as `af9bff1`.
 - Confirmed `.idea/`, `node_modules/`, build output, environments, keys, and private records are ignored and uncommitted.
 
@@ -32,3 +32,12 @@
 - Confirmed zero production dependencies and complete license metadata for installed lockfile entries.
 - `npm audit` reported zero known vulnerabilities.
 - The formal Codex Security workbench scan could not start because its required desktop scan capabilities were unavailable; a local source-backed audit was completed and is not represented as a workbench report.
+
+## 2026-08-30 — Repository and Cloudflare readiness
+
+- Connected `main` to the private GitHub repository at `github.com/hedward/uce-evidence-lens` and pushed the completed milestones.
+- Adopted Copyright by UCE as the project-facing company name while preserving source-record assertions as evidence data.
+- Added the authorized UCE Mark as the favicon and footer identity with a pending verification-record link.
+- Added static Cloudflare Pages configuration, restrictive production response headers, Node.js 24 pinning, and a deployment runbook without a Pages Function, Worker, or proxy.
+- Reframed the bundled demo, Arweave, and pasted-JSON workflows as permanent resilience paths.
+- The current `npm run check` baseline passes 31 tests across six test files, in addition to formatting, lint, strict TypeScript, and the production build.

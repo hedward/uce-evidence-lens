@@ -2,7 +2,7 @@
 
 ## Supported scope
 
-The current local MVP is the only supported version. It is a static, read-only verifier with no account, server, or secret configuration.
+The current private-development MVP is the only supported version. It is a static, read-only verifier with no account, application server, or secret configuration. The repository has a private GitHub remote but no production deployment yet.
 
 ## Reporting
 

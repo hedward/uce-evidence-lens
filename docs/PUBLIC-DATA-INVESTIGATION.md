@@ -23,4 +23,4 @@ The `platformPublicKeyRef` resolves to a public JWKS transaction with `Access-Co
 - Report only as assertions: identity, author, creation date, originality oath, rights, license, and AI-use policy.
 - Unavailable: locally recomputing the canonical manifest hash until the public procedure specifies exact digest inputs.
 
-No server proxy is introduced. The bundled fixture and paste-public-JSON path preserve the demo when CORS blocks CbyUCE retrieval.
+No server proxy is introduced. The bundled fixture, direct Arweave retrieval, and paste-public-JSON path preserve the demo whenever live CbyUCE retrieval is unavailable from the browser origin.

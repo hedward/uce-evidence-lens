@@ -2,7 +2,7 @@
 
 Verify public Universal Creation Evidence records with a person and an AI agent in the same browser view—checking supported structure, record/hash consistency, public ES256 signatures, chronology, rights assertions, and local file matches without uploading the underlying work.
 
-UCE Evidence Lens is a new, independent reference verifier developed for 5 Race Street LLC, operating under the alternate name Copyright by UCE. It is not the Copyright by UCE production application and has no dependency on its source, private APIs, signing infrastructure, accounts, payments, or operational logic.
+UCE Evidence Lens is a new, independent reference verifier developed by Copyright by UCE. It is not the Copyright by UCE production application and has no dependency on its source, private APIs, signing infrastructure, accounts, payments, or operational logic.
 
 ## What it does
 
@@ -34,6 +34,8 @@ npm run build
 ```
 
 `npm run check` runs formatting, lint, strict TypeScript, Vitest, and a production Vite build. The deployable static output is `dist/`.
+
+The current automated baseline is 31 passing tests across six test files.
 
 ## Verification model
 

@@ -9,7 +9,7 @@ Status: **private MVP ready for owner, legal, public-data provenance, and produc
 - Runtime validation, URL allowlist, input/response limits, safe DOM rendering.
 - Browser SHA-256, ES256 compact-JWS verification, chronology/assertion/rights analysis, and local-file comparison.
 - Seven imperative top-level WebMCP tools with exact schemas and read-only annotations.
-- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks.
+- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks; the current baseline is 31 passing tests across six test files.
 - Static Cloudflare Pages configuration with a pinned Node.js runtime, restrictive response headers, and no server function or proxy.
 
 ## File groups requiring final review
@@ -30,7 +30,7 @@ The complete lockfile contained license metadata for every installed package ent
 
 ## Known limitations
 
-- CbyUCE JSON lacked cross-origin permission during inspection; live static-origin retrieval can fail.
+- CbyUCE JSON lacked cross-origin permission during inspection. Until the final production origin receives narrowly scoped authorization, live retrieval may be unavailable; the bundled demo, Arweave, and pasted-JSON paths remain available.
 - Canonical-manifest digest construction is not sufficiently public to reproduce honestly.
 - The bundled Arweave timestamp is a public observed value; live generic Arweave loads may not include a block timestamp.
 - Only schema `uce.evidence.manifest` version `1.0.0`, SHA-256 file digests, and ES256/P-256 compact JWS are supported.
@@ -39,7 +39,7 @@ The complete lockfile contained license metadata for every installed package ent
 
 ## Confirmed exclusions
 
-No production source/history/package/API dependency, private record, private key, credential, environment value, account, upload, payment, authentication, analytics, backend, proxy, remote, deployment, final license, or proprietary asset is included.
+No production source/history/package/API dependency, private record, private key, credential, environment value, account, upload, payment, authentication, analytics, backend, proxy, server runtime, or proprietary asset is included. The private GitHub remote and static Cloudflare Pages configuration contain no production secret. No production deployment or final software license exists yet.
 
 ## Remaining external steps
 

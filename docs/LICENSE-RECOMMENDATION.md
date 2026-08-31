@@ -6,7 +6,7 @@ MPL-2.0 is a plausible candidate because file-level copyleft can keep modificati
 
 ## Required review before adding `LICENSE`
 
-- Confirm 5 Race Street LLC's desired inbound/outbound licensing model.
+- Confirm Copyright by UCE's desired inbound/outbound licensing model.
 - Review MPL-2.0 patent provisions and termination language with qualified counsel.
 - Decide whether challenge rules, deployment platform terms, or third-party public data impose additional notices.
 - Confirm ownership and contributor authorization for every newly written file.
