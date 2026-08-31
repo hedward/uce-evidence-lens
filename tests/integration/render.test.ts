@@ -88,4 +88,23 @@ describe("visible evidence interface", () => {
     expect(root.textContent).toContain("Recorded author assertion");
     expect(root.textContent).toContain("not a legal determination");
   });
+
+  it("never renders verification results bound to a different record", async () => {
+    const controller = new AppController();
+    await controller.load("demo");
+    const state = controller.getState();
+    const root = document.createElement("div");
+    renderApp(root, controller, {
+      ...state,
+      verification: {
+        ...state.verification!,
+        recordBinding: {
+          source: "https://cbyuce.com/verify/a-different-record?format=json",
+          manifestHash: "0".repeat(64),
+        },
+      },
+    });
+    expect(root.querySelectorAll(".check-card")).toHaveLength(0);
+    expect(root.querySelector(".section-summary")).toBeNull();
+  });
 });

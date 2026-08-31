@@ -14,7 +14,7 @@ Creators, reviewers, counsel, journalists, and AI agents can inspect one public 
 - Accept a supported CbyUCE verification URL, 64-character record hash, Arweave manifest URL, or pasted JSON.
 - Validate untrusted JSON into a conservative internal record model.
 - Display record facts, recorded assertions, chronology, source links, and per-check status.
-- Fetch public Arweave manifests and JWKS material where CORS allows.
+- Fetch public Arweave manifests where CORS allows; verify signatures only with public keys admitted through the reviewed application-owned registry.
 - Verify an ES256 compact JWS when its public JWK and signed hash payload are available.
 - Hash a user-selected local file with SHA-256 without retaining or transmitting its contents.
 - Register seven read-only WebMCP tools over the same application functions when supported.

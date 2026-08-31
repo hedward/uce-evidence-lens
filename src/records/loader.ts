@@ -1,16 +1,15 @@
 import { demoRecord, DEMO_RECORD_ID, DEMO_VERIFICATION_URL } from "./demo";
 import { parseUceRecord } from "./parser";
-import type { UcePublicKeySet, UceRecord } from "../types/record";
+import type { UceRecord } from "../types/record";
 import {
   ValidationError,
   isArweaveId,
-  isPlainObject,
   isSha256,
   parseUntrustedJson,
   safeHttpsUrl,
 } from "../security/untrusted";
 
-const MAX_RESPONSE_CHARS = 1_000_000;
+export const MAX_RESPONSE_BYTES = 1_000_000;
 const ALLOWED_HOSTS = ["cbyuce.com", "arweave.net"] as const;
 
 export type FetchLike = (
@@ -34,19 +33,120 @@ export class PublicRecordError extends Error {
   }
 }
 
-async function fetchJson(url: URL, fetcher: FetchLike): Promise<unknown> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
-  let response: Response;
+async function readBoundedText(
+  response: Response,
+  controller: AbortController,
+): Promise<string> {
+  const contentLength = response.headers.get("content-length");
+  if (
+    contentLength &&
+    /^\d+$/.test(contentLength) &&
+    Number(contentLength) > MAX_RESPONSE_BYTES
+  ) {
+    void response.body?.cancel().catch(() => undefined);
+    controller.abort();
+    throw new PublicRecordError(
+      "Public response exceeds the 1 MB safety limit.",
+      "invalid_response",
+    );
+  }
+  if (!response.body) return "";
+
+  const reader = response.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let byteLength = 0;
   try {
-    response = await fetcher(url, {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      byteLength += value.byteLength;
+      if (byteLength > MAX_RESPONSE_BYTES) {
+        void reader
+          .cancel("Response exceeded the safety limit.")
+          .catch(() => undefined);
+        controller.abort();
+        throw new PublicRecordError(
+          "Public response exceeds the 1 MB safety limit.",
+          "invalid_response",
+        );
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  const bytes = new Uint8Array(byteLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
+}
+
+async function fetchJson(
+  url: URL,
+  fetcher: FetchLike,
+  expectedArweaveTxId?: string,
+): Promise<unknown> {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timeout = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, 10_000);
+  try {
+    const response = await fetcher(url, {
       method: "GET",
       headers: { Accept: "application/json" },
       signal: controller.signal,
       credentials: "omit",
       referrerPolicy: "no-referrer",
     });
+    if (!response.ok)
+      throw new PublicRecordError(
+        `Public source returned HTTP ${response.status}.`,
+        "http",
+      );
+    if (response.url) {
+      const finalUrl = safeHttpsUrl(response.url, ALLOWED_HOSTS);
+      if (expectedArweaveTxId) {
+        const finalTxId = finalUrl.pathname.split("/").filter(Boolean)[0];
+        if (finalTxId !== expectedArweaveTxId) {
+          throw new PublicRecordError(
+            "The Arweave response URL does not match the requested transaction.",
+            "invalid_response",
+          );
+        }
+      }
+    }
+    const text = await readBoundedText(response, controller);
+    if (!text.trim()) {
+      throw new PublicRecordError(
+        "Public response has no JSON body.",
+        "invalid_response",
+      );
+    }
+    try {
+      return parseUntrustedJson(text);
+    } catch (error) {
+      throw new PublicRecordError(
+        error instanceof Error
+          ? error.message
+          : "Public response was not valid JSON.",
+        "invalid_response",
+      );
+    }
   } catch (error) {
+    if (error instanceof PublicRecordError) throw error;
+    if (timedOut) {
+      throw new PublicRecordError(
+        "The public source did not finish responding within 10 seconds.",
+        "network",
+      );
+    }
     const message =
       error instanceof Error ? error.message : "Network request failed.";
     const likelyCors = /fetch|cors|network/i.test(message);
@@ -59,35 +159,13 @@ async function fetchJson(url: URL, fetcher: FetchLike): Promise<unknown> {
   } finally {
     clearTimeout(timeout);
   }
-  if (!response.ok)
-    throw new PublicRecordError(
-      `Public source returned HTTP ${response.status}.`,
-      "http",
-    );
-  if (response.url) safeHttpsUrl(response.url, ALLOWED_HOSTS);
-  const text = await response.text();
-  if (text.length > MAX_RESPONSE_CHARS) {
-    throw new PublicRecordError(
-      "Public response exceeds the 1 MB safety limit.",
-      "invalid_response",
-    );
-  }
-  try {
-    return parseUntrustedJson(text);
-  } catch (error) {
-    throw new PublicRecordError(
-      error instanceof Error
-        ? error.message
-        : "Public response was not valid JSON.",
-      "invalid_response",
-    );
-  }
 }
 
 interface ClassifiedInput {
   url: URL;
   loadedFrom: UceRecord["loadedFrom"];
   expectedId?: string;
+  sourceArweaveTxId?: string;
 }
 
 export function classifyPublicInput(
@@ -144,6 +222,7 @@ export function classifyPublicInput(
   return {
     url: new URL(`https://arweave.net/${txId}`),
     loadedFrom: "arweave",
+    sourceArweaveTxId: txId,
   };
 }
 
@@ -153,12 +232,17 @@ export async function loadPublicRecord(
 ): Promise<UceRecord> {
   const classified = classifyPublicInput(input);
   if ("demo" in classified) return structuredClone(demoRecord);
-  const data = await fetchJson(classified.url, fetcher);
+  const data = await fetchJson(
+    classified.url,
+    fetcher,
+    classified.sourceArweaveTxId,
+  );
   try {
     return parseUceRecord(data, {
       source: classified.url.toString(),
       loadedFrom: classified.loadedFrom,
       expectedId: classified.expectedId,
+      sourceArweaveTxId: classified.sourceArweaveTxId,
     });
   } catch (error) {
     throw new PublicRecordError(
@@ -176,35 +260,4 @@ export function loadPastedRecord(text: string): UceRecord {
     source: "Pasted public JSON (not independently retrieved)",
     loadedFrom: "pasted_json",
   });
-}
-
-export async function loadPublicKeys(
-  record: UceRecord,
-  fetcher: FetchLike = fetch,
-): Promise<UcePublicKeySet | undefined> {
-  if (record.publicKeys) return record.publicKeys;
-  if (!record.platformPublicKeyRef || !isArweaveId(record.platformPublicKeyRef))
-    return undefined;
-  const source = new URL(`https://arweave.net/${record.platformPublicKeyRef}`);
-  const data = await fetchJson(source, fetcher);
-  if (
-    !isPlainObject(data) ||
-    !Array.isArray(data.keys) ||
-    data.keys.length > 20
-  ) {
-    throw new PublicRecordError(
-      "Public key response is not a supported JWKS document.",
-      "invalid_response",
-    );
-  }
-  const keys = data.keys.filter(isPlainObject).map((key) => ({
-    kty: typeof key.kty === "string" ? key.kty : undefined,
-    crv: typeof key.crv === "string" ? key.crv : undefined,
-    x: typeof key.x === "string" ? key.x : undefined,
-    y: typeof key.y === "string" ? key.y : undefined,
-    kid: typeof key.kid === "string" ? key.kid : undefined,
-    use: typeof key.use === "string" ? key.use : undefined,
-    alg: typeof key.alg === "string" ? key.alg : undefined,
-  }));
-  return { keys, source: source.toString() };
 }

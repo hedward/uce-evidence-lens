@@ -14,8 +14,10 @@ Before a public repository exists, report suspected vulnerabilities to the proje
 - Agent tools cannot select files or receive file contents.
 - Remote retrieval is restricted to documented HTTPS public hosts.
 - Public records and tool callers are untrusted and runtime-validated.
-- Cryptographic success means only the named operation passed with supplied public material.
-- Browser, dependency, public-gateway, and public-key compromise remain outside the application's guarantees.
+- Platform-signature success requires an exact active entry in the reviewed application-owned key registry; record-selected keys cannot establish trust.
+- Cryptographic success means only that the trusted key validated the record's stated digest. It does not replace canonical-manifest recomputation or make a legal determination.
+- Remote bodies are byte- and time-bounded while streaming, and asynchronous results are generation-bound to the record they verified.
+- Browser, dependency, public-gateway, approved-key, and signing-key compromise remain outside the application's guarantees.
 
 ## Production delivery
 

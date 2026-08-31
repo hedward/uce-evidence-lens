@@ -17,7 +17,6 @@ import {
 } from "../verification/evidence";
 import {
   loadPastedRecord,
-  loadPublicKeys,
   loadPublicRecord,
   type FetchLike,
 } from "../records/loader";
@@ -48,6 +47,10 @@ export class AppController {
 
   private readonly listeners = new Set<Listener>();
 
+  private recordGeneration = 0;
+
+  private fileGeneration = 0;
+
   constructor(private readonly fetcher: FetchLike = fetch) {}
 
   subscribe(listener: Listener): () => void {
@@ -69,50 +72,74 @@ export class AppController {
     this.update({ webmcp: status });
   }
 
-  private async acceptRecord(record: UceRecord): Promise<UceRecord> {
+  private beginRecordOperation(): number {
+    this.fileGeneration += 1;
+    const generation = ++this.recordGeneration;
     this.update({
-      record,
+      record: undefined,
+      verification: undefined,
       localFile: undefined,
       localComparison: undefined,
+      busy: true,
       error: undefined,
     });
-    await this.runVerification();
+    return generation;
+  }
+
+  private async acceptRecord(
+    record: UceRecord,
+    generation: number,
+  ): Promise<UceRecord> {
+    const verification = await verifyRecord(record);
+    if (generation === this.recordGeneration) {
+      this.update({
+        record,
+        verification,
+        localFile: undefined,
+        localComparison: undefined,
+        busy: false,
+        error: undefined,
+      });
+    }
     return record;
   }
 
   async load(source = "demo"): Promise<UceRecord> {
-    this.update({ busy: true, error: undefined });
+    const generation = this.beginRecordOperation();
     try {
       return await this.acceptRecord(
         await loadPublicRecord(source, this.fetcher),
+        generation,
       );
     } catch (error) {
-      this.update({
-        error:
-          error instanceof Error
-            ? error.message
-            : "The record could not be loaded.",
-      });
+      if (generation === this.recordGeneration) {
+        this.update({
+          busy: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "The record could not be loaded.",
+        });
+      }
       throw error;
-    } finally {
-      this.update({ busy: false });
     }
   }
 
   async loadJson(text: string): Promise<UceRecord> {
-    this.update({ busy: true, error: undefined });
+    const generation = this.beginRecordOperation();
     try {
-      return await this.acceptRecord(loadPastedRecord(text));
+      return await this.acceptRecord(loadPastedRecord(text), generation);
     } catch (error) {
-      this.update({
-        error:
-          error instanceof Error
-            ? error.message
-            : "The pasted record could not be loaded.",
-      });
+      if (generation === this.recordGeneration) {
+        this.update({
+          busy: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "The pasted record could not be loaded.",
+        });
+      }
       throw error;
-    } finally {
-      this.update({ busy: false });
     }
   }
 
@@ -120,16 +147,11 @@ export class AppController {
     const record = this.state.record;
     if (!record)
       throw new Error("Load a UCE record before running verification.");
-    let publicKeys = record.publicKeys;
-    if (!publicKeys) {
-      try {
-        publicKeys = await loadPublicKeys(record, this.fetcher);
-      } catch {
-        publicKeys = undefined;
-      }
+    const generation = this.recordGeneration;
+    const verification = await verifyRecord(record);
+    if (generation === this.recordGeneration && this.state.record === record) {
+      this.update({ verification });
     }
-    const verification = await verifyRecord(record, publicKeys);
-    this.update({ verification });
     return verification;
   }
 
@@ -155,28 +177,38 @@ export class AppController {
   }
 
   async selectLocalFile(file: File, fileIndex = 0): Promise<EvidenceCheck> {
-    if (!this.state.record)
+    const record = this.state.record;
+    if (!record)
       throw new Error("Load a UCE record before selecting a local file.");
+    const recordGeneration = this.recordGeneration;
+    const fileGeneration = ++this.fileGeneration;
     this.update({ busy: true, error: undefined });
     try {
       const localFile = await hashLocalFile(file);
-      const localComparison = compareLocalDigest(
-        this.state.record,
-        localFile,
-        fileIndex,
-      );
-      this.update({ localFile, localComparison });
+      const localComparison = compareLocalDigest(record, localFile, fileIndex);
+      if (
+        recordGeneration === this.recordGeneration &&
+        fileGeneration === this.fileGeneration &&
+        this.state.record === record
+      ) {
+        this.update({ localFile, localComparison, busy: false });
+      }
       return localComparison;
     } catch (error) {
-      this.update({
-        error:
-          error instanceof Error
-            ? error.message
-            : "The local file could not be hashed.",
-      });
+      if (
+        recordGeneration === this.recordGeneration &&
+        fileGeneration === this.fileGeneration &&
+        this.state.record === record
+      ) {
+        this.update({
+          busy: false,
+          error:
+            error instanceof Error
+              ? error.message
+              : "The local file could not be hashed.",
+        });
+      }
       throw error;
-    } finally {
-      this.update({ busy: false });
     }
   }
 

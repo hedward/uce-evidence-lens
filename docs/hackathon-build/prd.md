@@ -24,7 +24,7 @@
 
 ## Epic 3 — Chronology and rights
 
-- Claimed dates, system audit dates, and an independently located Arweave block timestamp are separate.
+- Claimed dates, system audit dates, and publisher-reported Arweave timestamps are separate; an independent timestamp pass requires a separate transaction-bound lookup.
 - Every chronology item names its source and evidentiary category.
 - Rights declarations are quoted as record content and accompanied by a no-legal-conclusion warning.
 

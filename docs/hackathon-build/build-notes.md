@@ -40,4 +40,4 @@
 - Added the authorized UCE Mark as the favicon and footer identity with a pending verification-record link.
 - Added static Cloudflare Pages configuration, restrictive production response headers, Node.js 24 pinning, and a deployment runbook without a Pages Function, Worker, or proxy.
 - Reframed the bundled demo, Arweave, and pasted-JSON workflows as permanent resilience paths.
-- The current `npm run check` baseline passes 31 tests across six test files, in addition to formatting, lint, strict TypeScript, and the production build.
+- The current `npm run check` baseline passes 50 tests across seven test files, in addition to formatting, lint, strict TypeScript, and the production build. Security regression coverage now includes trusted-key selection, identifier provenance, conservative chronology, async generation binding, invocation-bound WebMCP output, Arweave redirect binding, and streaming byte/time limits.

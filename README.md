@@ -10,8 +10,8 @@ UCE Evidence Lens is a new, independent reference verifier developed by Copyrigh
 - Accepts a public CbyUCE verification URL/hash, an Arweave manifest URL, or pasted public JSON.
 - Validates untrusted records into a conservative schema and renders values as text.
 - Separates browser-performed checks from server-reported results and recorded assertions.
-- Verifies the public example's ES256 compact JWS against the referenced public Arweave P-256 JWK.
-- Separates claimed dates, system events, and an independently located Arweave block timestamp.
+- Verifies the public example's ES256 compact JWS only against a reviewed P-256 key pinned in the application's trusted platform-key registry; record-selected keys cannot establish trust.
+- Separates claimed dates, system events, and publisher-reported ledger timestamps; no timestamp is called independent unless the browser retrieves and binds it to the transaction.
 - Hashes a user-selected file locally with SHA-256 and compares only its digest.
 - Registers seven page-scoped, read-only WebMCP tools when `document.modelContext.registerTool` is available.
 
@@ -35,17 +35,17 @@ npm run build
 
 `npm run check` runs formatting, lint, strict TypeScript, Vitest, and a production Vite build. The deployable static output is `dist/`.
 
-The current automated baseline is 31 passing tests across six test files.
+The current automated baseline is 50 passing tests across seven test files. The complete release-audit result is recorded in [Publication Readiness](docs/PUBLICATION-READINESS.md).
 
 ## Verification model
 
 The browser can locally pass these checks:
 
 - supported `uce.evidence.manifest` version `1.0.0` parsing;
-- supplied identifier equality with the manifest's recorded `manifestHash`;
-- ES256 signature verification over the recorded 32-byte manifest hash with a matching public P-256 JWK;
+- equality between an independently supplied CbyUCE URL/hash identifier and the manifest's recorded `manifestHash` (unavailable for pasted JSON and direct Arweave input);
+- ES256 signature verification over the recorded 32-byte manifest hash with an exact `kid`, key reference, and reviewed P-256 JWK from the application-owned registry;
 - local SHA-256 file digest equality;
-- location of supported external chronology evidence when its transaction and block timestamp are present.
+- classification of publisher-reported chronology without promoting it to an independent pass.
 
 Canonical-manifest hash recomputation is deliberately **unavailable**. The public record declares SHA-256 and RFC 8785, but the public sources inspected on 2026-08-30 do not define exactly which self-referential and post-anchor fields enter the digest. The app does not reconstruct proprietary record-creation logic or treat the publisher's `hashMatches` flag as a local pass.
 
@@ -56,7 +56,7 @@ See [Verification Model](docs/VERIFICATION-MODEL.md) and [Public Data Investigat
 The verifier treats network alternatives as resilience paths rather than hidden fallbacks:
 
 - the bundled public fixture always works;
-- direct Arweave manifest/JWKS retrieval can work cross-origin;
+- direct Arweave manifest retrieval can work cross-origin and is bound to the transaction identifier in the requested URL;
 - CbyUCE URL/hash retrieval works when its public JSON response authorizes the deployed browser origin;
 - pasted public JSON remains available when a live source cannot be reached;
 - there is no server proxy or production dependency.
@@ -86,6 +86,9 @@ Current syntax was confirmed against [official OpenAI WebMCP documentation](http
 - Local file bytes remain in the file-selection handler and browser Web Crypto call; the app retains only filename, size, digest, and timestamp in memory.
 - Remote hosts are restricted to HTTPS CbyUCE verification routes and Arweave transaction URLs.
 - JSON depth, size, string, object, and array limits reduce denial-of-service risk.
+- Remote bodies retain their timeout and byte limit throughout streaming; oversized streams are canceled before full buffering.
+- Concurrent record and file operations use generation binding so stale results cannot be paired with a newer record.
+- Platform signature trust comes from a reviewed application-owned key registry, never public-key material selected by an untrusted record.
 - Untrusted record values never enter `innerHTML` or code evaluation.
 
 See [Threat Model](docs/THREAT-MODEL.md), [Security Policy](SECURITY.md), and [Public/Private Boundary](docs/PUBLIC-PRIVATE-BOUNDARY.md).

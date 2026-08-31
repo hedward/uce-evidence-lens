@@ -116,7 +116,8 @@ export async function verifyEs256ManifestSignature(
         candidate.kid === header.kid &&
         candidate.kty === "EC" &&
         candidate.crv === "P-256" &&
-        candidate.alg === "ES256",
+        candidate.alg === "ES256" &&
+        candidate.use === "sig",
     );
     if (!jwk) {
       return {
@@ -124,7 +125,7 @@ export async function verifyEs256ManifestSignature(
         label: "Platform ES256 signature",
         status: "unavailable",
         explanation:
-          "No matching public P-256 key was found in the supplied JWKS.",
+          "No matching trusted public P-256 key was found in the platform-key registry.",
       };
     }
     const publicKey = await globalThis.crypto.subtle.importKey(
@@ -149,8 +150,8 @@ export async function verifyEs256ManifestSignature(
       label: "Platform ES256 signature",
       status: valid ? "passed" : "failed",
       explanation: valid
-        ? "The supplied public key validated the ES256 signature over the recorded manifest hash."
-        : "The supplied public key did not validate the ES256 signature.",
+        ? "The trusted public key validated the ES256 signature over the recorded manifest hash."
+        : "The trusted public key did not validate the ES256 signature.",
     };
   } catch {
     return {

@@ -21,6 +21,36 @@ describe("public record parsing", () => {
     expect(record.serverSignatureValid).toBe(true);
   });
 
+  it("leaves pasted records without an independently supplied identifier", () => {
+    const record = loadPastedRecord(JSON.stringify(validPublicResponse));
+    expect(record.id).toBeUndefined();
+    expect(record.manifestHash).toBe("a".repeat(64));
+  });
+
+  it("binds a direct Arweave record to its source transaction", () => {
+    const direct = structuredClone(validPublicResponse);
+    direct.manifest.anchors.arweave.txId = "";
+    const sourceArweaveTxId = "Oagba5o2yoEn-JT1C1RbVr0VVKdcxH797tHk9Xao8kg";
+    const record = parseUceRecord(direct, {
+      source: `https://arweave.net/${sourceArweaveTxId}`,
+      loadedFrom: "arweave",
+      sourceArweaveTxId,
+    });
+    expect(record.arweaveTxId).toBe(sourceArweaveTxId);
+    expect(record.id).toBeUndefined();
+  });
+
+  it("rejects an Arweave record that names a different source transaction", () => {
+    expect(() =>
+      parseUceRecord(validPublicResponse, {
+        source:
+          "https://arweave.net/7agba5o2yoEn-JT1C1RbVr0VVKdcxH797tHk9Xao8kg",
+        loadedFrom: "arweave",
+        sourceArweaveTxId: "7agba5o2yoEn-JT1C1RbVr0VVKdcxH797tHk9Xao8kg",
+      }),
+    ).toThrow(/does not match the loaded source transaction/);
+  });
+
   it("rejects an unsupported or malformed record", () => {
     const malformed = structuredClone(validPublicResponse);
     malformed.manifest.schemaVersion = "99.0.0";

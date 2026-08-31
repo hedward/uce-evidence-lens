@@ -8,9 +8,17 @@ import type {
   DocumentModelContext,
   ModelContextToolDefinition,
 } from "../../src/types/webmcp";
+import { validPublicResponse } from "../fixtures/public-record";
 
 function fakeDocument(modelContext?: DocumentModelContext): Document {
   return { modelContext } as unknown as Document;
+}
+
+function recordResponse(id: string, title: string): Response {
+  const data = structuredClone(validPublicResponse);
+  data.manifest.hashes.manifestHash = id;
+  data.manifest.work.title = title;
+  return new Response(JSON.stringify(data));
 }
 
 describe("WebMCP integration", () => {
@@ -58,5 +66,41 @@ describe("WebMCP integration", () => {
         additionalProperties: false,
       }),
     );
+  });
+
+  it("summarizes the record loaded by that tool invocation during concurrent loads", async () => {
+    let resolveFirst!: (response: Response) => void;
+    let resolveSecond!: (response: Response) => void;
+    const firstResponse = new Promise<Response>((resolve) => {
+      resolveFirst = resolve;
+    });
+    const secondResponse = new Promise<Response>((resolve) => {
+      resolveSecond = resolve;
+    });
+    const fetcher = vi
+      .fn()
+      .mockImplementationOnce(() => firstResponse)
+      .mockImplementationOnce(() => secondResponse);
+    const controller = new AppController(fetcher);
+    const loadTool = createToolDefinitions(controller).find(
+      (tool) => tool.name === "load_uce_public_record",
+    )!;
+
+    const first = Promise.resolve(loadTool.execute({ source: "a".repeat(64) }));
+    const second = Promise.resolve(
+      loadTool.execute({ source: "b".repeat(64) }),
+    );
+    resolveSecond(recordResponse("b".repeat(64), "Second tool record"));
+    const secondOutput = (await second) as {
+      structuredResult: { title: string };
+    };
+    resolveFirst(recordResponse("a".repeat(64), "First tool record"));
+    const firstOutput = (await first) as {
+      structuredResult: { title: string };
+    };
+
+    expect(secondOutput.structuredResult.title).toBe("Second tool record");
+    expect(firstOutput.structuredResult.title).toBe("First tool record");
+    expect(controller.getState().record?.title).toBe("Second tool record");
   });
 });

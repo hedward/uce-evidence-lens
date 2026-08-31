@@ -16,6 +16,7 @@ export interface ParseRecordOptions {
   source: string;
   loadedFrom: UceRecord["loadedFrom"];
   expectedId?: string;
+  sourceArweaveTxId?: string;
 }
 
 function objectAt(
@@ -99,6 +100,14 @@ function arweaveIdFromSource(source: string): string | undefined {
   }
 }
 
+function optionalArweaveId(value: unknown): string | undefined {
+  if (value === undefined || value === "") return undefined;
+  const candidate = requiredString(value, "anchors.arweave.txId", 43);
+  if (!isArweaveId(candidate))
+    throw new ValidationError("Arweave transaction ID is malformed.");
+  return candidate;
+}
+
 export function parseUceRecord(
   input: unknown,
   options: ParseRecordOptions,
@@ -143,14 +152,23 @@ export function parseUceRecord(
     "arweaveConfirmation",
   );
   const manifestConfirmation = optionalObject(arweaveConfirmation, "manifest");
-  const arweaveTxId =
-    optionalString(arweave.txId, "anchors.arweave.txId", 43) ||
-    arweaveIdFromSource(options.source);
-  if (arweaveTxId && !isArweaveId(arweaveTxId))
-    throw new ValidationError("Arweave transaction ID is malformed.");
+  const recordedArweaveTxId = optionalArweaveId(arweave.txId);
+  const sourceArweaveTxId =
+    options.sourceArweaveTxId ?? arweaveIdFromSource(options.source);
+  if (
+    options.loadedFrom === "arweave" &&
+    sourceArweaveTxId &&
+    recordedArweaveTxId &&
+    recordedArweaveTxId !== sourceArweaveTxId
+  ) {
+    throw new ValidationError(
+      "The record's Arweave transaction ID does not match the loaded source transaction.",
+    );
+  }
+  const arweaveTxId = sourceArweaveTxId ?? recordedArweaveTxId;
 
   return {
-    id: options.expectedId?.toLowerCase() ?? manifestHash,
+    id: options.expectedId?.toLowerCase(),
     source: options.source,
     loadedFrom: options.loadedFrom,
     schema,
@@ -213,12 +231,12 @@ export function parseUceRecord(
       150,
     ),
     arweaveTxId,
-    arweaveBlockTimestamp: optionalString(
+    reportedArweaveBlockTimestamp: optionalString(
       manifestConfirmation.blockTimestamp,
       "verification.arweaveConfirmation.manifest.blockTimestamp",
       80,
     ),
-    arweaveBlockHeight: optionalNumber(
+    reportedArweaveBlockHeight: optionalNumber(
       manifestConfirmation.blockHeight,
       "verification.arweaveConfirmation.manifest.blockHeight",
     ),

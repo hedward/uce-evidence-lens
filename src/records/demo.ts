@@ -41,8 +41,8 @@ export const demoRecord: UceRecord = {
   platformPublicKeyRef: "8IQIcijOSMO0dtKrNsVPTFbJBGiIaL6x9EsUW4UdApQ",
   platformKeyKid: "platform-classical-1761279471109",
   arweaveTxId: "Oagba5o2yoEn-JT1C1RbVr0VVKdcxH797tHk9Xao8kg",
-  arweaveBlockTimestamp: "2026-04-26T23:07:55.000Z",
-  arweaveBlockHeight: 1905830,
+  reportedArweaveBlockTimestamp: "2026-04-26T23:07:55.000Z",
+  reportedArweaveBlockHeight: 1905830,
   identityLevel: "IAL1",
   identityMethods: ["email_magic_link"],
   identityVerifiedAt: "2026-04-26T23:05:44.853Z",
@@ -75,18 +75,4 @@ export const demoRecord: UceRecord = {
   rightsConfirmed: true,
   serverHashMatches: true,
   serverSignatureValid: true,
-  publicKeys: {
-    source: "https://arweave.net/8IQIcijOSMO0dtKrNsVPTFbJBGiIaL6x9EsUW4UdApQ",
-    keys: [
-      {
-        kty: "EC",
-        x: "D98fNCOR_D8zItMIBvujLV8tdE6C9FoOlDpX9yGSHOc",
-        y: "7HDup_6Kppy_qluAc5X9NFHpGzotVv1MeydaAc6KqmA",
-        crv: "P-256",
-        kid: "platform-classical-1761279471109",
-        use: "sig",
-        alg: "ES256",
-      },
-    ],
-  },
 };

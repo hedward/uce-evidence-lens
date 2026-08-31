@@ -1,6 +1,7 @@
 import type { AppController } from "../app/controller";
 import type { ModelContextToolDefinition } from "../types/webmcp";
 import { isPlainObject } from "../security/untrusted";
+import { summarizeRecord } from "../verification/evidence";
 
 const registeredDocuments = new WeakSet<Document>();
 
@@ -80,7 +81,7 @@ export function createToolDefinitions(
           stringInput(input, "source", "demo"),
         );
         return output(
-          controller.summary(),
+          summarizeRecord(record),
           `Loaded ${record.title}. Recorded assertions have not been proven.`,
         );
       },
@@ -114,14 +115,14 @@ export function createToolDefinitions(
     {
       name: "inspect_uce_chronology",
       description:
-        "List claimed dates, system timestamps, and independently located anchor time separately, with sources and limitations.",
+        "List claimed dates, system timestamps, and publisher-reported anchor time separately, with sources and limitations.",
       inputSchema: emptySchema,
       annotations: readOnly,
       execute: (input) => {
         noInput(input);
         return output(
           controller.chronology(),
-          "Chronology returned; a ledger timestamp does not prove the claimed creation date.",
+          "Chronology returned; a publisher-reported ledger timestamp is not an independent proof of the claimed creation date.",
         );
       },
     },

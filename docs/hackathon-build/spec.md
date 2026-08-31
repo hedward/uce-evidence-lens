@@ -8,17 +8,18 @@ Static Vite/TypeScript SPA. Pure modules parse and verify data; a small stateful
 
 - CbyUCE verification pages: `https://cbyuce.com/verify/<sha256>`
 - CbyUCE JSON representation: the same URL with `?format=json` (observed without cross-origin permission on 2026-08-30)
-- Arweave manifest and JWKS transactions: `https://arweave.net/<txId>` (observed with `Access-Control-Allow-Origin: *`)
+- Arweave manifest transactions: `https://arweave.net/<txId>` (observed with `Access-Control-Allow-Origin: *`)
+- Reviewed platform public keys: pinned in `src/security/trusted-platform-keys.ts` from documented official CbyUCE/Arweave public sources; never selected at runtime by a record.
 - WebMCP syntax: `document.modelContext.registerTool({...})` from official OpenAI documentation.
 
 ## Data lifecycle
 
 1. Input is classified as demo, approved HTTPS URL/hash, or pasted JSON.
-2. Remote data is fetched only from `cbyuce.com` or `arweave.net`, with size/time/content validation.
+2. Remote data is fetched only from `cbyuce.com` or `arweave.net`, with size/time/content validation retained throughout streaming.
 3. The parser copies allowlisted fields into `UceRecord`; unknown properties never reach rendering logic.
-4. Verification functions produce immutable `EvidenceCheck` objects.
+4. Verification functions resolve only reviewed platform keys and produce source/hash-bound `EvidenceCheck` snapshots.
 5. UI renders with DOM text nodes and safe link construction.
-6. WebMCP returns JSON-serializable snapshots of the same state.
+6. Controller generations prevent stale asynchronous work from mutating newer state; WebMCP load results summarize their own returned record.
 
 ## Components mapped to PRD
 
@@ -44,8 +45,10 @@ URL validation, safe fetch limits, untrusted-string normalization, and redaction
 
 ## Verification contracts
 
-- `verifyRecord(record, publicKeys?)` checks schema support, identifier/hash equality, ES256 JWS validity, and available public anchors.
-- Signature verification requires the JWS payload to decode to the 32-byte manifest hash and the header `alg`/`kid` to match the selected P-256 JWK.
+- `verifyRecord(record)` checks schema support, externally supplied identifier/hash equality, ES256 JWS validity against the trusted key registry, and conservative chronology classification.
+- Signature verification requires the JWS payload to decode to the 32-byte manifest hash and the header `alg`/`kid` plus record key reference to match an active reviewed P-256 registry entry.
+- Pasted and direct-Arweave records have no independent record identifier; direct-Arweave records are bound to the transaction in the requested URL and reject a conflicting embedded transaction ID.
+- Record-supplied block timestamps are recorded assertions until independent block metadata is retrieved and transaction-bound.
 - A server-returned `verification.hashMatches` or `sigValid` is displayed only as a recorded server result, never as a local pass.
 - Canonical manifest re-hashing is unavailable because the public record declares RFC 8785 but does not document which mutable/self-referential fields are in the digest input.
 

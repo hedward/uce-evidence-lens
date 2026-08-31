@@ -30,13 +30,8 @@ export type PublicJwk = JsonWebKey & {
   use?: string;
 };
 
-export interface UcePublicKeySet {
-  keys: PublicJwk[];
-  source: string;
-}
-
 export interface UceRecord {
-  id: string;
+  id?: string;
   source: string;
   loadedFrom: "bundled_demo" | "cbyuce" | "arweave" | "pasted_json";
   schema: string;
@@ -59,8 +54,8 @@ export interface UceRecord {
   platformPublicKeyRef?: string;
   platformKeyKid?: string;
   arweaveTxId?: string;
-  arweaveBlockTimestamp?: string;
-  arweaveBlockHeight?: number;
+  reportedArweaveBlockTimestamp?: string;
+  reportedArweaveBlockHeight?: number;
   identityLevel?: string;
   identityMethods: string[];
   identityVerifiedAt?: string;
@@ -75,7 +70,6 @@ export interface UceRecord {
   rightsConfirmed?: boolean;
   serverHashMatches?: boolean;
   serverSignatureValid?: boolean;
-  publicKeys?: UcePublicKeySet;
 }
 
 export interface ChronologyItem {
@@ -102,7 +96,7 @@ export interface LocalFileDigest {
 }
 
 export interface RecordSummary {
-  id: string;
+  id?: string;
   title: string;
   schema: string;
   schemaVersion: string;
@@ -114,6 +108,10 @@ export interface RecordSummary {
 }
 
 export interface VerificationSnapshot {
+  recordBinding: {
+    source: string;
+    manifestHash: string;
+  };
   checks: EvidenceCheck[];
   summary: string;
   legalNotice: string;

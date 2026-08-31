@@ -75,7 +75,7 @@ Then test in ChatGPT's in-app browser and WebMCP-enabled Chrome:
 
 1. Load the bundled demonstration.
 2. Confirm that all seven read-only WebMCP tools register.
-3. Load an Arweave URL and retrieve its public key material.
+3. Load a supported Arweave manifest URL, confirm its transaction binding, and confirm that any signature check uses only the reviewed platform-key registry.
 4. Validate pasted public JSON.
 5. Select a local file and confirm that only its metadata and digest enter application state.
 6. Check mobile layout and keyboard navigation.

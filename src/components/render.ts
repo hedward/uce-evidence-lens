@@ -197,6 +197,11 @@ function recordView(
 ): HTMLElement | null {
   const record = state.record;
   if (!record) return null;
+  const verification =
+    state.verification?.recordBinding.source === record.source &&
+    state.verification.recordBinding.manifestHash === record.manifestHash
+      ? state.verification
+      : undefined;
   const summary = el(
     "section",
     {
@@ -246,17 +251,17 @@ function recordView(
           attrs: { id: "checks-heading" },
         }),
       ),
-      state.verification
+      verification
         ? el("p", {
             className: "section-summary",
-            text: state.verification.summary,
+            text: verification.summary,
           })
         : null,
     ),
     el(
       "div",
       { className: "check-grid" },
-      ...(state.verification?.checks ?? []).map(checkCard),
+      ...(verification?.checks ?? []).map(checkCard),
     ),
   );
 
@@ -446,6 +451,12 @@ export function renderApp(
   controller: AppController,
   state: Readonly<AppState>,
 ): void {
+  const currentVerification =
+    state.record &&
+    state.verification?.recordBinding.source === state.record.source &&
+    state.verification.recordBinding.manifestHash === state.record.manifestHash
+      ? state.verification
+      : undefined;
   const header = el(
     "header",
     { className: "site-header" },
@@ -528,7 +539,7 @@ export function renderApp(
     className: "sr-only",
     text: state.busy
       ? "Verification work in progress"
-      : (state.error ?? state.verification?.summary ?? "Ready"),
+      : (state.error ?? currentVerification?.summary ?? "Ready"),
     attrs: { "aria-live": "polite" },
   });
   root.replaceChildren(header, notice, main, footer, live);

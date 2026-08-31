@@ -4,10 +4,10 @@ import type {
   LocalFileDigest,
   RecordedAssertion,
   RecordSummary,
-  UcePublicKeySet,
   UceRecord,
   VerificationSnapshot,
 } from "../types/record";
+import { resolveTrustedPlatformKey } from "../security/trusted-platform-keys";
 import { verifyEs256ManifestSignature } from "./crypto";
 
 export const LEGAL_NOTICE =
@@ -29,7 +29,6 @@ export function summarizeRecord(record: UceRecord): RecordSummary {
 
 export async function verifyRecord(
   record: UceRecord,
-  publicKeys?: UcePublicKeySet,
 ): Promise<VerificationSnapshot> {
   const checks: EvidenceCheck[] = [
     {
@@ -41,9 +40,14 @@ export async function verifyRecord(
     {
       id: "identifier",
       label: "Record identifier matches recorded hash",
-      status: record.id === record.manifestHash ? "passed" : "failed",
-      explanation:
-        record.id === record.manifestHash
+      status: record.id
+        ? record.id === record.manifestHash
+          ? "passed"
+          : "failed"
+        : "unavailable",
+      explanation: !record.id
+        ? "No independent manifest identifier was supplied for this record source."
+        : record.id === record.manifestHash
           ? "The supplied record identifier equals the manifestHash value recorded in the manifest."
           : "The supplied record identifier differs from the manifestHash value recorded in the manifest.",
     },
@@ -57,22 +61,32 @@ export async function verifyRecord(
   ];
 
   if (record.platformSignature) {
-    checks.push(
-      publicKeys
-        ? await verifyEs256ManifestSignature(
-            record.platformSignature,
-            record.manifestHash,
-            record.platformKeyKid,
-            publicKeys.keys,
-          )
-        : {
-            id: "platform_signature",
-            label: "Platform ES256 signature",
-            status: "unavailable",
-            explanation:
-              "The record contains a signature, but matching public-key material is unavailable.",
-          },
-    );
+    const resolution = resolveTrustedPlatformKey(record);
+    if (resolution.status === "trusted") {
+      const result = await verifyEs256ManifestSignature(
+        record.platformSignature,
+        record.manifestHash,
+        record.platformKeyKid,
+        [resolution.key.jwk],
+      );
+      checks.push(
+        result.status === "passed"
+          ? {
+              ...result,
+              explanation:
+                "A trusted Copyright by UCE platform public key validated the ES256 signature over the recorded manifest hash.",
+              source: resolution.key.approvalSource,
+            }
+          : result,
+      );
+    } else {
+      checks.push({
+        id: "platform_signature",
+        label: "Platform ES256 signature",
+        status: resolution.status,
+        explanation: resolution.explanation,
+      });
+    }
   } else {
     checks.push({
       id: "platform_signature",
@@ -86,20 +100,24 @@ export async function verifyRecord(
   checks.push({
     id: "independent_anchor",
     label: "Independent chronology anchor",
-    status:
-      record.arweaveTxId && record.arweaveBlockTimestamp
-        ? "passed"
-        : "unavailable",
-    explanation:
-      record.arweaveTxId && record.arweaveBlockTimestamp
-        ? `An Arweave block timestamp was located for transaction ${record.arweaveTxId}.`
-        : record.arweaveTxId
-          ? "An Arweave transaction is recorded, but an independent block timestamp was not loaded."
-          : "No supported public chronology anchor was found.",
+    status: "unavailable",
+    explanation: record.arweaveTxId
+      ? "An Arweave transaction is recorded, but independent block metadata was not retrieved and bound to it."
+      : "No supported public chronology anchor was independently retrieved.",
     source: record.arweaveTxId
       ? `https://arweave.net/${record.arweaveTxId}`
       : undefined,
   });
+
+  if (record.reportedArweaveBlockTimestamp) {
+    checks.push({
+      id: "publisher_anchor_claim",
+      label: "Publisher-reported Arweave timestamp",
+      status: "recorded_assertion",
+      explanation: `The record reports block timestamp ${record.reportedArweaveBlockTimestamp}. This browser did not independently retrieve or bind that value to the transaction.`,
+      source: record.source,
+    });
+  }
 
   if (
     record.serverHashMatches !== undefined ||
@@ -117,6 +135,10 @@ export async function verifyRecord(
   const passed = checks.filter((check) => check.status === "passed").length;
   const failed = checks.filter((check) => check.status === "failed").length;
   return {
+    recordBinding: {
+      source: record.source,
+      manifestHash: record.manifestHash,
+    },
     checks,
     summary: `${passed} locally performed check${passed === 1 ? "" : "s"} passed; ${failed} failed. Unavailable and recorded-assertion items are not counted as passes.`,
     legalNotice: LEGAL_NOTICE,
@@ -151,14 +173,14 @@ export function inspectChronology(record: UceRecord): ChronologyItem[] {
         "This event is recorded within the manifest and is not an independent timestamp.",
     });
   });
-  if (record.arweaveBlockTimestamp && record.arweaveTxId) {
+  if (record.reportedArweaveBlockTimestamp) {
     items.push({
-      label: "Arweave block timestamp",
-      timestamp: record.arweaveBlockTimestamp,
-      kind: "independent_anchor",
-      source: `https://arweave.net/${record.arweaveTxId}`,
+      label: "Publisher-reported Arweave block timestamp",
+      timestamp: record.reportedArweaveBlockTimestamp,
+      kind: "recorded_assertion",
+      source: "verification.arweaveConfirmation.manifest.blockTimestamp",
       limitation:
-        "This locates the transaction in an external public ledger; it does not prove the claimed creation date.",
+        "This value came from the record and was not independently retrieved or bound to the transaction.",
     });
   }
   return items;

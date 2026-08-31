@@ -7,9 +7,9 @@ Status: **private MVP ready for owner, legal, public-data provenance, and produc
 - Static Vite/TypeScript SPA with no runtime npm dependency.
 - Reduced public demo fixture; CbyUCE/Arweave/pasted-JSON loaders.
 - Runtime validation, URL allowlist, input/response limits, safe DOM rendering.
-- Browser SHA-256, ES256 compact-JWS verification, chronology/assertion/rights analysis, and local-file comparison.
+- Browser SHA-256, trusted-registry ES256 compact-JWS verification, conservative chronology/assertion/rights analysis, and local-file comparison.
 - Seven imperative top-level WebMCP tools with exact schemas and read-only annotations.
-- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks; the current baseline is 31 passing tests across six test files.
+- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks; the current automated baseline is 50 passing tests across seven test files.
 - Static Cloudflare Pages configuration with a pinned Node.js runtime, restrictive response headers, and no server function or proxy.
 
 ## File groups requiring final review
@@ -26,13 +26,14 @@ Status: **private MVP ready for owner, legal, public-data provenance, and produc
 
 Production dependencies: none. Development dependencies are locked in `package-lock.json`: Vite, TypeScript, Vitest, jsdom, ESLint, `@eslint/js`, typescript-eslint, and Prettier. Their top-level package metadata reported MIT licenses except TypeScript, which reports Apache-2.0.
 
-The complete lockfile contained license metadata for every installed package entry: MIT (138), MIT-0 (2), Apache-2.0 (16), BSD-2-Clause (8), BSD-3-Clause (3), ISC (8), MPL-2.0 (12), BlueOak-1.0.0 (2), and CC0-1.0 (1). `npm audit` reported zero known vulnerabilities on 2026-08-30. License and advisory results must still be refreshed immediately before public release.
+The complete lockfile contained license metadata for every installed package entry: MIT (138), MIT-0 (2), Apache-2.0 (16), BSD-2-Clause (8), BSD-3-Clause (3), ISC (8), MPL-2.0 (12), BlueOak-1.0.0 (2), and CC0-1.0 (1). `npm audit --audit-level=low` reported zero known vulnerabilities on 2026-08-31. License and advisory results must still be refreshed immediately before public release.
 
 ## Known limitations
 
 - CbyUCE JSON lacked cross-origin permission during inspection. Until the final production origin receives narrowly scoped authorization, live retrieval may be unavailable; the bundled demo, Arweave, and pasted-JSON paths remain available.
 - Canonical-manifest digest construction is not sufficiently public to reproduce honestly.
-- The bundled Arweave timestamp is a public observed value; live generic Arweave loads may not include a block timestamp.
+- The bundled Arweave timestamp is publisher-reported record data and is not counted as an independent pass. Independent chronology remains unavailable until block metadata is retrieved and bound to the exact transaction.
+- The trusted platform-key registry currently contains one reviewed active Copyright by UCE P-256 key. Rotation or revocation requires a reviewed application release; records cannot add trusted keys.
 - Only schema `uce.evidence.manifest` version `1.0.0`, SHA-256 file digests, and ES256/P-256 compact JWS are supported.
 - Local hashing uses browser memory and is capped at 512 MB.
 - WebMCP availability depends on browser/app/model rollout; the normal UI remains available.
