@@ -4,6 +4,18 @@ import { AppController } from "../../src/app/controller";
 import { renderApp } from "../../src/components/render";
 
 describe("visible evidence interface", () => {
+  it("presents network recovery paths as resilience options", () => {
+    const controller = new AppController();
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+    const note = root.querySelector(".load-form .field-note");
+    expect(note?.textContent).toContain("If live retrieval is unavailable");
+    expect(note?.textContent).toContain("reload the bundled demo");
+    expect(note?.textContent).toContain("use an Arweave URL");
+    expect(note?.textContent).toContain("paste public JSON");
+    expect(note?.textContent).not.toContain("blocked by CORS");
+  });
+
   it("uses the official alternate company name for product branding", async () => {
     const controller = new AppController();
     await controller.load("demo");

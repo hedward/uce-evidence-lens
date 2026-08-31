@@ -51,13 +51,15 @@ See [Verification Model](docs/VERIFICATION-MODEL.md) and [Public Data Investigat
 
 ## Public retrieval and CORS
 
-The CbyUCE `?format=json` representation was machine-readable but did not return `Access-Control-Allow-Origin` for a foreign origin during inspection. The Arweave manifest and JWKS transactions did return `Access-Control-Allow-Origin: *`. Therefore:
+The verifier treats network alternatives as resilience paths rather than hidden fallbacks:
 
 - the bundled public fixture always works;
 - direct Arweave manifest/JWKS retrieval can work cross-origin;
-- CbyUCE URL/hash retrieval may fail in a static deployment;
-- pasted public JSON is the recovery path;
+- CbyUCE URL/hash retrieval works when its public JSON response authorizes the deployed browser origin;
+- pasted public JSON remains available when a live source cannot be reached;
 - there is no server proxy or production dependency.
+
+During the original investigation, the CbyUCE `?format=json` response was machine-readable but did not authorize a foreign browser origin. After the final production origin is established, CbyUCE may add a narrowly scoped CORS response header for that exact origin without changing its JSON body or other routes. The bundled demo, Arweave, and pasted-JSON paths remain available regardless.
 
 ## WebMCP tools
 
@@ -92,8 +94,14 @@ Pure TypeScript modules parse, classify, and verify records. A memory-only contr
 
 See [Architecture](docs/ARCHITECTURE.md) and the [technical spec](docs/hackathon-build/spec.md).
 
+## Cloudflare Pages deployment
+
+Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pinned in `.node-version`; Vite builds to `dist`; and `public/_headers` supplies the reviewed production security policy. The project intentionally contains no Pages Function, Worker, proxy, server runtime, or runtime secret.
+
+See the [Cloudflare deployment runbook](docs/CLOUDFLARE-DEPLOYMENT.md) for the exact build settings, security-header review, browser checks, Galaxy CORS sequencing, and rollback procedure.
+
 ## Project status and licensing
 
-This is a local MVP prepared for publication review. No remote, deployment, final license, video, or Devpost submission has been created. MPL-2.0 is documented only as a candidate pending separate legal and patent review; this repository currently provides no final license grant.
+This MVP is under private development and prepared for publication review. Its private GitHub remote exists, but no production deployment, final license, video, or Devpost submission has been completed. MPL-2.0 is documented only as a candidate pending separate legal and patent review; this repository currently provides no final license grant.
 
 See [Publication Readiness](docs/PUBLICATION-READINESS.md), [License Recommendation](docs/LICENSE-RECOMMENDATION.md), [Notice](NOTICE.md), and [Trademarks](TRADEMARKS.md).

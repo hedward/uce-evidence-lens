@@ -52,7 +52,7 @@ async function fetchJson(url: URL, fetcher: FetchLike): Promise<unknown> {
     const likelyCors = /fetch|cors|network/i.test(message);
     throw new PublicRecordError(
       likelyCors
-        ? "The public source could not be read from this browser origin. It may not permit CORS; use the bundled demo, an Arweave URL, or paste public JSON."
+        ? "Live retrieval is unavailable from this browser origin. Use the bundled demo, an Arweave URL, or paste public JSON."
         : "The public source could not be reached.",
       likelyCors ? "cors" : "network",
     );

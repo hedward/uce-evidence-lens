@@ -17,4 +17,10 @@ Before a public repository exists, report suspected vulnerabilities to the proje
 - Cryptographic success means only the named operation passed with supplied public material.
 - Browser, dependency, public-gateway, and public-key compromise remain outside the application's guarantees.
 
+## Production delivery
+
+Cloudflare Pages serves only Vite's static `dist/` output. The repository intentionally excludes Pages Functions, Workers, server-side rendering, and proxies. `public/_headers` restricts scripts and styles to the application origin, network connections to approved public UCE sources, framing and sensitive browser capabilities, and referrer disclosure. The policy contains no `unsafe-inline`, `unsafe-eval`, or credentialed CORS exception.
+
+See `docs/CLOUDFLARE-DEPLOYMENT.md` for deployment and verification procedures.
+
 See `docs/THREAT-MODEL.md` for detailed trust boundaries and residual risks.

@@ -1,6 +1,6 @@
 # Publication Readiness Report
 
-Status: **local MVP ready for owner, legal, and public-data provenance review; not yet approved for publication.**
+Status: **private MVP ready for owner, legal, public-data provenance, and production-deployment review; not yet approved for publication.**
 
 ## Built and verified
 
@@ -10,6 +10,7 @@ Status: **local MVP ready for owner, legal, and public-data provenance review; n
 - Browser SHA-256, ES256 compact-JWS verification, chronology/assertion/rights analysis, and local-file comparison.
 - Seven imperative top-level WebMCP tools with exact schemas and read-only annotations.
 - Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks.
+- Static Cloudflare Pages configuration with a pinned Node.js runtime, restrictive response headers, and no server function or proxy.
 
 ## File groups requiring final review
 
@@ -44,7 +45,7 @@ No production source/history/package/API dependency, private record, private key
 
 1. Owner/legal review the license candidate, patent implications, trademarks, public fixture redistribution, and all evidentiary wording.
 2. Re-run `npm ci`, `npm run check`, dependency audit/license inventory, repository-wide secret scan, staged review, and a clean-clone build.
-3. Create an approved GitHub repository; add the remote; push `main`; configure branch protection and private vulnerability reporting. Do not enable unreviewed third-party actions.
-4. Choose a static host, add reviewed security headers, deploy `dist/`, and retest HTTPS, CORS, WebMCP, mobile, keyboard, and local-file workflows in the deployed origin.
+3. Review the existing private GitHub repository configuration; configure branch protection and private vulnerability reporting. Do not enable unreviewed third-party actions.
+4. Connect the private repository to Cloudflare Pages using `docs/CLOUDFLARE-DEPLOYMENT.md`, deploy `dist/`, and retest HTTPS, headers, CORS, WebMCP, mobile, keyboard, and local-file workflows in the deployed origin.
 5. Record a short video using `docs/DEMO-SCRIPT.md`; avoid showing private files, browser history, credentials, or unrelated tabs.
 6. Prepare final Devpost copy/screenshots/video/repository/deployment links, recheck current rules and deadline, then submit only after explicit approval.

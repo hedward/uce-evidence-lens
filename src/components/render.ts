@@ -134,7 +134,7 @@ function loader(controller: AppController, busy: boolean): HTMLElement {
     el("div", { className: "load-form__row" }, input, submit),
     el("p", {
       className: "field-note",
-      text: "Approved sources only: cbyuce.com and arweave.net. CbyUCE live JSON may be blocked by CORS.",
+      text: "Approved public sources only: cbyuce.com and arweave.net. If live retrieval is unavailable, reload the bundled demo, use an Arweave URL, or paste public JSON.",
     }),
   );
   form.addEventListener("submit", (event) => {
