@@ -528,10 +528,14 @@ export function renderApp(
   const header = el(
     "header",
     { className: "site-header" },
-    el("div", {
+    el("img", {
       className: "brand-mark",
-      text: "UCE",
-      attrs: { "aria-hidden": "true" },
+      attrs: {
+        src: "/uce-mark.svg",
+        alt: "UCE Mark",
+        width: "84",
+        height: "84",
+      },
     }),
     el(
       "div",
@@ -577,7 +581,7 @@ export function renderApp(
       { className: "footer__uce-mark" },
       el("img", {
         attrs: {
-          src: "/favicon.svg",
+          src: "/uce-mark.svg",
           alt: "UCE Mark",
           width: "48",
           height: "48",

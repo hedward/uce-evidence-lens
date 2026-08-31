@@ -2,6 +2,8 @@
 
 UCE Evidence Lens is an independently written, read-only public-record verifier developed by Copyright by UCE. It is not the Copyright by UCE production application.
 
+The header, footer, and browser icon use the authoritative UCE Mark v1.0 SVG from the Universal Creation Evidence mark asset pack. The application does not redraw or approximate that mark.
+
 The bundled demonstration combines a carefully reduced fixture with the exact publicly registered PNG and raw manifest identified by these public verification and Arweave references:
 
 - `https://cbyuce.com/verify/cc94e8d529cfc24f6fe458470b69dca2c3ef53a78b740bb1fea9cc40d09cfd1c`

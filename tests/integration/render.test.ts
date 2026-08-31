@@ -37,6 +37,24 @@ describe("visible evidence interface", () => {
     expect(eyebrow?.textContent).not.toContain("5 Race Street LLC");
   });
 
+  it("uses the official UCE Mark v1.0 asset throughout the site chrome", () => {
+    const controller = testController();
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+
+    const headerMark = root.querySelector<HTMLImageElement>(
+      ".site-header .brand-mark",
+    );
+    const footerMark = root.querySelector<HTMLImageElement>(
+      ".footer__uce-mark img",
+    );
+
+    expect(headerMark?.tagName).toBe("IMG");
+    expect(headerMark?.getAttribute("src")).toBe("/uce-mark.svg");
+    expect(headerMark?.getAttribute("alt")).toBe("UCE Mark");
+    expect(footerMark?.getAttribute("src")).toBe("/uce-mark.svg");
+  });
+
   it("loads the registered Evidence Lens artwork as the bundled demo", async () => {
     const controller = testController();
     await controller.load("demo");
@@ -70,7 +88,7 @@ describe("visible evidence interface", () => {
     const footer = root.querySelector("footer");
     const mark = footer?.querySelector("img");
     const pending = footer?.querySelector('[data-verification-link="pending"]');
-    expect(mark?.getAttribute("src")).toBe("/favicon.svg");
+    expect(mark?.getAttribute("src")).toBe("/uce-mark.svg");
     expect(mark?.getAttribute("alt")).toBe("UCE Mark");
     expect(pending?.textContent).toBe("CbyUCE verification link pending");
     expect(footer?.querySelector('a[href="#"]')).toBeNull();
