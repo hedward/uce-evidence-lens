@@ -2,6 +2,13 @@ import { describe, expect, it, vi } from "vitest";
 import { AppController, type AppState } from "../../src/app/controller";
 import { validPublicResponse } from "../fixtures/public-record";
 
+const chronologyVerifier = vi.fn(async () => ({
+  id: "independent_anchor",
+  label: "Arweave chronology check",
+  status: "retryable" as const,
+  explanation: "Test gateway unavailable.",
+}));
+
 function deferred<T>() {
   let resolve!: (value: T) => void;
   let reject!: (reason?: unknown) => void;
@@ -29,7 +36,7 @@ describe("controller operation generations", () => {
         ? firstResponse.promise
         : secondResponse.promise;
     });
-    const controller = new AppController(fetcher);
+    const controller = new AppController(fetcher, chronologyVerifier);
     const states: AppState[] = [];
     controller.subscribe((state) => states.push(state as AppState));
 
@@ -64,7 +71,7 @@ describe("controller operation generations", () => {
       .fn()
       .mockImplementationOnce(() => firstResponse.promise)
       .mockImplementationOnce(() => secondResponse.promise);
-    const controller = new AppController(fetcher);
+    const controller = new AppController(fetcher, chronologyVerifier);
 
     const first = controller.load("a".repeat(64));
     const firstRejection = expect(first).rejects.toThrow(
@@ -88,7 +95,7 @@ describe("controller operation generations", () => {
       size: 5,
       arrayBuffer: () => bytes.promise,
     } as File;
-    const controller = new AppController();
+    const controller = new AppController(fetch, chronologyVerifier);
     await controller.load("demo");
 
     const selection = controller.selectLocalFile(file);

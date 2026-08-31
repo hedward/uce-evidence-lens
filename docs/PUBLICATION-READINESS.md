@@ -7,9 +7,9 @@ Status: **private MVP ready for owner, legal, public-data provenance, and produc
 - Static Vite/TypeScript SPA with no runtime npm dependency.
 - Reduced public demo fixture; CbyUCE/Arweave/pasted-JSON loaders.
 - Runtime validation, URL allowlist, input/response limits, safe DOM rendering.
-- Browser SHA-256, trusted-registry ES256 compact-JWS verification, conservative chronology/assertion/rights analysis, and local-file comparison.
+- Browser SHA-256, trusted-registry ES256 compact-JWS verification, direct Arweave transaction/block chronology verification, conservative assertion/rights analysis, and local-file comparison.
 - Seven imperative top-level WebMCP tools with exact schemas and read-only annotations.
-- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks; the current automated baseline is 50 passing tests across seven test files.
+- Automated test, lint, type, format, build, responsive, live-browser, and live-WebMCP checks.
 - Static Cloudflare Pages configuration with a pinned Node.js runtime, restrictive response headers, and no server function or proxy.
 
 ## File groups requiring final review
@@ -30,9 +30,9 @@ The complete lockfile contained license metadata for every installed package ent
 
 ## Known limitations
 
-- CbyUCE JSON lacked cross-origin permission during inspection. Until the final production origin receives narrowly scoped authorization, live retrieval may be unavailable; the bundled demo, Arweave, and pasted-JSON paths remain available.
+- Live CbyUCE retrieval depends on the production endpoint continuing to authorize the deployed Evidence Lens origin through CORS; the bundled demo, direct Arweave input, and pasted-JSON paths remain resilience options.
 - Canonical-manifest digest construction is not sufficiently public to reproduce honestly.
-- The bundled Arweave timestamp is publisher-reported record data and is not counted as an independent pass. Independent chronology remains unavailable until block metadata is retrieved and bound to the exact transaction.
+- Direct Arweave chronology uses a public gateway rather than a trustless light client. A pending transaction or temporarily unreachable gateway is retryable and is not presented as a mismatch.
 - The trusted platform-key registry currently contains one reviewed active Copyright by UCE P-256 key. Rotation or revocation requires a reviewed application release; records cannot add trusted keys.
 - Only schema `uce.evidence.manifest` version `1.0.0`, SHA-256 file digests, and ES256/P-256 compact JWS are supported.
 - Local hashing uses browser memory and is capped at 512 MB.

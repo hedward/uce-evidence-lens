@@ -33,7 +33,7 @@ Git cadence: focused local commits after clean milestones
 - [x] **5. Implement evidence verification**
       Spec ref: `spec.md > Verification contracts`
       What to build: Hash, ES256 JWS, checks, chronology, assertions, and rights modules.
-      Acceptance: Success/failure/unavailable results are reproducible and accurately worded.
+      Acceptance: Verified/mismatch/checking/retryable/reported/unsupported results are reproducible and accurately worded.
       Verify: Crypto and tamper tests.
 
 - [x] **6. Build the visible inspector**

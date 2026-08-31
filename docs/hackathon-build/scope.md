@@ -2,7 +2,7 @@
 
 ## Problem
 
-Public UCE records contain technical evidence and human assertions, but a visitor must inspect several sources to understand what is cryptographically supported, independently timestamped, merely recorded, or unavailable.
+Public UCE records contain technical evidence and human assertions, but a visitor must inspect several sources to understand what is verified, independently timestamped, publisher-reported, retryable, or unsupported.
 
 ## Audience and outcome
 

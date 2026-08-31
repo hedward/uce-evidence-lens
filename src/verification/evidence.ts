@@ -29,12 +29,13 @@ export function summarizeRecord(record: UceRecord): RecordSummary {
 
 export async function verifyRecord(
   record: UceRecord,
+  chronologyCheck?: EvidenceCheck,
 ): Promise<VerificationSnapshot> {
   const checks: EvidenceCheck[] = [
     {
       id: "schema",
       label: "Supported manifest schema",
-      status: "passed",
+      status: "verified",
       explanation: `The record was validated as ${record.schema} version ${record.schemaVersion}.`,
     },
     {
@@ -42,9 +43,9 @@ export async function verifyRecord(
       label: "Record identifier matches recorded hash",
       status: record.id
         ? record.id === record.manifestHash
-          ? "passed"
-          : "failed"
-        : "unavailable",
+          ? "verified"
+          : "mismatch"
+        : "unsupported",
       explanation: !record.id
         ? "No independent manifest identifier was supplied for this record source."
         : record.id === record.manifestHash
@@ -53,10 +54,10 @@ export async function verifyRecord(
     },
     {
       id: "canonical_manifest_hash",
-      label: "Canonical manifest integrity",
-      status: "unavailable",
+      label: "Independent manifest recomputation",
+      status: "unsupported",
       explanation:
-        "The public record labels SHA-256 and RFC 8785, but the inspected public sources do not define which self-referential or post-anchor fields enter the digest. No local pass is claimed.",
+        "The current public CbyUCE format does not yet define the exact canonical hash input. This check is not claimed until a versioned, reproducible hash profile is published.",
     },
   ];
 
@@ -70,7 +71,7 @@ export async function verifyRecord(
         [resolution.key.jwk],
       );
       checks.push(
-        result.status === "passed"
+        result.status === "verified"
           ? {
               ...result,
               explanation:
@@ -83,7 +84,7 @@ export async function verifyRecord(
       checks.push({
         id: "platform_signature",
         label: "Platform ES256 signature",
-        status: resolution.status,
+        status: resolution.status === "failed" ? "mismatch" : "unsupported",
         explanation: resolution.explanation,
       });
     }
@@ -91,30 +92,34 @@ export async function verifyRecord(
     checks.push({
       id: "platform_signature",
       label: "Platform ES256 signature",
-      status: "unavailable",
+      status: "unsupported",
       explanation:
         "The loaded record does not include a supported platform signature.",
     });
   }
 
-  checks.push({
-    id: "independent_anchor",
-    label: "Independent chronology anchor",
-    status: "unavailable",
-    explanation: record.arweaveTxId
-      ? "An Arweave transaction is recorded, but independent block metadata was not retrieved and bound to it."
-      : "No supported public chronology anchor was independently retrieved.",
-    source: record.arweaveTxId
-      ? `https://arweave.net/${record.arweaveTxId}`
-      : undefined,
-  });
+  checks.push(
+    chronologyCheck ?? {
+      id: "independent_anchor",
+      label: record.arweaveTxId
+        ? "Checking Arweave chronology"
+        : "Arweave chronology check",
+      status: record.arweaveTxId ? "checking" : "unsupported",
+      explanation: record.arweaveTxId
+        ? "Retrieving public transaction and block metadata directly from Arweave."
+        : "This record does not include an Arweave transaction identifier.",
+      source: record.arweaveTxId
+        ? `https://arweave.net/tx/${record.arweaveTxId}/status`
+        : undefined,
+    },
+  );
 
   if (record.reportedArweaveBlockTimestamp) {
     checks.push({
       id: "publisher_anchor_claim",
       label: "Publisher-reported Arweave timestamp",
-      status: "recorded_assertion",
-      explanation: `The record reports block timestamp ${record.reportedArweaveBlockTimestamp}. This browser did not independently retrieve or bind that value to the transaction.`,
+      status: "reported",
+      explanation: `The publisher reports block timestamp ${record.reportedArweaveBlockTimestamp}. The direct Arweave chronology check above determines whether it agrees with public block metadata.`,
       source: record.source,
     });
   }
@@ -126,21 +131,28 @@ export async function verifyRecord(
     checks.push({
       id: "server_verification_claim",
       label: "Publisher verification response",
-      status: "recorded_assertion",
+      status: "reported",
       explanation: `The public response reported hashMatches=${String(record.serverHashMatches)} and sigValid=${String(record.serverSignatureValid)}. Those server flags are recorded, not substituted for local checks.`,
       source: record.source,
     });
   }
 
-  const passed = checks.filter((check) => check.status === "passed").length;
-  const failed = checks.filter((check) => check.status === "failed").length;
+  const hasMismatch = checks.some((check) => check.status === "mismatch");
+  const isChecking = checks.some((check) => check.status === "checking");
+  const hasRetryable = checks.some((check) => check.status === "retryable");
   return {
     recordBinding: {
       source: record.source,
       manifestHash: record.manifestHash,
     },
     checks,
-    summary: `${passed} locally performed check${passed === 1 ? "" : "s"} passed; ${failed} failed. Unavailable and recorded-assertion items are not counted as passes.`,
+    summary: hasMismatch
+      ? "An integrity problem was found. Review the mismatch below."
+      : isChecking
+        ? "No integrity problems found. One check is still running."
+        : hasRetryable
+          ? "No integrity problems found. One check can be retried."
+          : "No integrity problems found.",
     legalNotice: LEGAL_NOTICE,
   };
 }
@@ -180,7 +192,7 @@ export function inspectChronology(record: UceRecord): ChronologyItem[] {
       kind: "recorded_assertion",
       source: "verification.arweaveConfirmation.manifest.blockTimestamp",
       limitation:
-        "This value came from the record and was not independently retrieved or bound to the transaction.",
+        "This value came from the publisher. The direct Arweave result in Verification checks independently tests whether it agrees with public block metadata.",
     });
   }
   return items;
@@ -268,7 +280,7 @@ export function compareLocalDigest(
     return {
       id: "local_file",
       label: "Selected local file digest",
-      status: "not_performed",
+      status: "unsupported",
       explanation:
         "Select a local file to compute its SHA-256 digest in this browser.",
     };
@@ -278,7 +290,7 @@ export function compareLocalDigest(
     return {
       id: "local_file",
       label: "Selected local file digest",
-      status: "unavailable",
+      status: "unsupported",
       explanation: `The record has no file at index ${fileIndex}.`,
     };
   }
@@ -286,7 +298,7 @@ export function compareLocalDigest(
   return {
     id: "local_file",
     label: "Selected local file digest",
-    status: matched ? "passed" : "failed",
+    status: matched ? "verified" : "mismatch",
     explanation: matched
       ? `The selected local file matches the recorded SHA-256 digest for ${recorded.filename}.`
       : `The selected local file does not match the recorded SHA-256 digest for ${recorded.filename}.`,

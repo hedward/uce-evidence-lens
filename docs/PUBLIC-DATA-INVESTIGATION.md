@@ -21,6 +21,6 @@ The `platformPublicKeyRef` resolves to a public JWKS transaction with `Access-Co
 - Perform: runtime schema checks; CbyUCE URL/hash-to-record equality; ES256 JWS verification against the reviewed registry; local file SHA-256 comparison.
 - Locate/classify: the requested Arweave transaction and publisher-reported chronology. A record-supplied block timestamp is not independently verified.
 - Report only as assertions: identity, author, creation date, originality oath, rights, license, and AI-use policy.
-- Unavailable: locally recomputing the canonical manifest hash until the public procedure specifies exact digest inputs.
+- Unsupported: locally recomputing the canonical manifest hash until the public procedure specifies exact digest inputs and test vectors.
 
 No server proxy is introduced. The bundled fixture, direct Arweave retrieval, and paste-public-JSON path preserve the demo whenever live CbyUCE retrieval is unavailable from the browser origin.

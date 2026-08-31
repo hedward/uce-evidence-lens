@@ -3,9 +3,20 @@ import { describe, expect, it } from "vitest";
 import { AppController } from "../../src/app/controller";
 import { renderApp } from "../../src/components/render";
 
+const chronologyVerifier = async () => ({
+  id: "independent_anchor",
+  label: "Arweave chronology check",
+  status: "retryable" as const,
+  explanation: "Test gateway unavailable.",
+});
+
+function testController(): AppController {
+  return new AppController(fetch, chronologyVerifier);
+}
+
 describe("visible evidence interface", () => {
   it("presents network recovery paths as resilience options", () => {
-    const controller = new AppController();
+    const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
     const note = root.querySelector(".load-form .field-note");
@@ -17,7 +28,7 @@ describe("visible evidence interface", () => {
   });
 
   it("uses the official alternate company name for product branding", async () => {
-    const controller = new AppController();
+    const controller = testController();
     await controller.load("demo");
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
@@ -27,7 +38,7 @@ describe("visible evidence interface", () => {
   });
 
   it("shows the authorized UCE mark with an honest pending evidence link", () => {
-    const controller = new AppController();
+    const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
     const footer = root.querySelector("footer");
@@ -40,7 +51,7 @@ describe("visible evidence interface", () => {
   });
 
   it("shows official setup guidance when AI-agent site tools are unavailable", () => {
-    const controller = new AppController();
+    const controller = testController();
     controller.setWebMcp({
       status: "unavailable",
       detail: "AI-agent site tools are off or unavailable.",
@@ -59,7 +70,7 @@ describe("visible evidence interface", () => {
   });
 
   it("hides setup guidance after site tools register", () => {
-    const controller = new AppController();
+    const controller = testController();
     controller.setWebMcp({
       status: "registered",
       detail: "7 read-only AI-agent tools registered for this page.",
@@ -70,7 +81,7 @@ describe("visible evidence interface", () => {
   });
 
   it("renders hostile record strings as text instead of markup", async () => {
-    const controller = new AppController();
+    const controller = testController();
     await controller.load("demo");
     const record = controller.getState().record!;
     record.title = '<img data-hostile="true" src=x>';
@@ -81,7 +92,7 @@ describe("visible evidence interface", () => {
   });
 
   it("labels author and rights values as assertions", async () => {
-    const controller = new AppController();
+    const controller = testController();
     await controller.load("demo");
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
@@ -90,7 +101,7 @@ describe("visible evidence interface", () => {
   });
 
   it("never renders verification results bound to a different record", async () => {
-    const controller = new AppController();
+    const controller = testController();
     await controller.load("demo");
     const state = controller.getState();
     const root = document.createElement("div");
@@ -105,6 +116,25 @@ describe("visible evidence interface", () => {
       },
     });
     expect(root.querySelectorAll(".check-card")).toHaveLength(0);
-    expect(root.querySelector(".section-summary")).toBeNull();
+    expect(root.querySelector(".verification-summary")).toBeNull();
+  });
+
+  it("uses a consumer summary and collapses non-independent technical items", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+
+    expect(root.querySelector(".verification-summary")?.textContent).toContain(
+      "No integrity problems found.",
+    );
+    expect(root.querySelector(".status--retryable")?.textContent).toBe(
+      "Try again",
+    );
+    const details =
+      root.querySelector<HTMLDetailsElement>(".technical-details");
+    expect(details?.open).toBe(false);
+    expect(details?.textContent).toContain("Publisher reported");
+    expect(details?.textContent).toContain("Not independently checked");
   });
 });

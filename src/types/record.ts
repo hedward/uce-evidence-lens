@@ -1,5 +1,10 @@
 export type EvidenceStatus =
-  "passed" | "failed" | "unavailable" | "not_performed" | "recorded_assertion";
+  | "verified"
+  | "mismatch"
+  | "checking"
+  | "retryable"
+  | "reported"
+  | "unsupported";
 
 export interface EvidenceCheck {
   id: string;

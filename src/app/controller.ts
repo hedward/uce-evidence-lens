@@ -8,6 +8,7 @@ import type {
   VerificationSnapshot,
 } from "../types/record";
 import { hashLocalFile } from "../verification/crypto";
+import { verifyArweaveChronology } from "../verification/arweave";
 import {
   compareLocalDigest,
   inspectChronology,
@@ -35,6 +36,10 @@ export interface AppState {
 }
 
 type Listener = (state: Readonly<AppState>) => void;
+type ChronologyVerifier = (
+  record: UceRecord,
+  fetcher: FetchLike,
+) => Promise<EvidenceCheck>;
 
 export class AppController {
   private state: AppState = {
@@ -51,7 +56,10 @@ export class AppController {
 
   private fileGeneration = 0;
 
-  constructor(private readonly fetcher: FetchLike = fetch) {}
+  constructor(
+    private readonly fetcher: FetchLike = fetch,
+    private readonly chronologyVerifier: ChronologyVerifier = verifyArweaveChronology,
+  ) {}
 
   subscribe(listener: Listener): () => void {
     this.listeners.add(listener);
@@ -101,6 +109,11 @@ export class AppController {
         error: undefined,
       });
     }
+    const chronologyCheck = await this.chronologyVerifier(record, this.fetcher);
+    const completedVerification = await verifyRecord(record, chronologyCheck);
+    if (generation === this.recordGeneration && this.state.record === record) {
+      this.update({ verification: completedVerification });
+    }
     return record;
   }
 
@@ -148,7 +161,12 @@ export class AppController {
     if (!record)
       throw new Error("Load a UCE record before running verification.");
     const generation = this.recordGeneration;
-    const verification = await verifyRecord(record);
+    const checkingVerification = await verifyRecord(record);
+    if (generation === this.recordGeneration && this.state.record === record) {
+      this.update({ verification: checkingVerification });
+    }
+    const chronologyCheck = await this.chronologyVerifier(record, this.fetcher);
+    const verification = await verifyRecord(record, chronologyCheck);
     if (generation === this.recordGeneration && this.state.record === record) {
       this.update({ verification });
     }

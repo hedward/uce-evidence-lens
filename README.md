@@ -35,19 +35,20 @@ npm run build
 
 `npm run check` runs formatting, lint, strict TypeScript, Vitest, and a production Vite build. The deployable static output is `dist/`.
 
-The current automated baseline is 50 passing tests across seven test files. The complete release-audit result is recorded in [Publication Readiness](docs/PUBLICATION-READINESS.md).
+The automated suite covers public loading, cryptography, Arweave chronology states, rendering, controller concurrency, and WebMCP behavior. The complete release-audit result is recorded in [Publication Readiness](docs/PUBLICATION-READINESS.md).
 
 ## Verification model
 
 The browser can locally pass these checks:
 
 - supported `uce.evidence.manifest` version `1.0.0` parsing;
-- equality between an independently supplied CbyUCE URL/hash identifier and the manifest's recorded `manifestHash` (unavailable for pasted JSON and direct Arweave input);
+- equality between an independently supplied CbyUCE URL/hash identifier and the manifest's recorded `manifestHash` (not independently checked for pasted JSON and direct Arweave input);
 - ES256 signature verification over the recorded 32-byte manifest hash with an exact `kid`, key reference, and reviewed P-256 JWK from the application-owned registry;
 - local SHA-256 file digest equality;
-- classification of publisher-reported chronology without promoting it to an independent pass.
+- direct retrieval of Arweave transaction status and block metadata, including transaction membership, block binding, height, and timestamp comparison;
+- classification of publisher-reported chronology without promoting it to an independent result.
 
-Canonical-manifest hash recomputation is deliberately **unavailable**. The public record declares SHA-256 and RFC 8785, but the public sources inspected on 2026-08-30 do not define exactly which self-referential and post-anchor fields enter the digest. The app does not reconstruct proprietary record-creation logic or treat the publisher's `hashMatches` flag as a local pass.
+Canonical-manifest hash recomputation is **not independently checked**. The current public record does not define exactly which self-referential and post-anchor fields enter the digest. The app does not guess proprietary record-creation logic or treat the publisher's `hashMatches` flag as a browser verification. The separate [CbyUCE Manifest Hash Profile](docs/CBYUCE-MANIFEST-HASH-PROFILE.md) defines the specification work required before this check can be added.
 
 See [Verification Model](docs/VERIFICATION-MODEL.md) and [Public Data Investigation](docs/PUBLIC-DATA-INVESTIGATION.md).
 

@@ -10,6 +10,13 @@ import type {
 } from "../../src/types/webmcp";
 import { validPublicResponse } from "../fixtures/public-record";
 
+const chronologyVerifier = vi.fn(async () => ({
+  id: "independent_anchor",
+  label: "Arweave chronology check",
+  status: "retryable" as const,
+  explanation: "Test gateway unavailable.",
+}));
+
 function fakeDocument(modelContext?: DocumentModelContext): Document {
   return { modelContext } as unknown as Document;
 }
@@ -23,7 +30,7 @@ function recordResponse(id: string, title: string): Response {
 
 describe("WebMCP integration", () => {
   it("gracefully reports WebMCP unavailable", async () => {
-    const controller = new AppController();
+    const controller = new AppController(fetch, chronologyVerifier);
     const result = await registerWebMcpTools(controller, fakeDocument());
     expect(result).toBe("unavailable");
     expect(controller.getState().webmcp.status).toBe("unavailable");
@@ -45,7 +52,7 @@ describe("WebMCP integration", () => {
   });
 
   it("rejects unexpected tool properties", async () => {
-    const controller = new AppController();
+    const controller = new AppController(fetch, chronologyVerifier);
     await controller.load("demo");
     const summaryTool = createToolDefinitions(controller).find(
       (tool) => tool.name === "get_uce_record_summary",
@@ -81,7 +88,7 @@ describe("WebMCP integration", () => {
       .fn()
       .mockImplementationOnce(() => firstResponse)
       .mockImplementationOnce(() => secondResponse);
-    const controller = new AppController(fetcher);
+    const controller = new AppController(fetcher, chronologyVerifier);
     const loadTool = createToolDefinitions(controller).find(
       (tool) => tool.name === "load_uce_public_record",
     )!;

@@ -3,8 +3,8 @@
 ## Principles
 
 1. Verified facts and recorded assertions are visually and structurally distinct.
-2. Every passed cryptographic status identifies the operation actually performed.
-3. Unavailable inputs produce an unavailable status, never an inferred success.
+2. Every verified cryptographic status identifies the operation actually performed.
+3. Pending, retryable, reported, and unsupported inputs never produce an inferred success or mismatch.
 4. Local file bytes stay in the browser and are not exposed to WebMCP handlers.
 
 ## Epic 1 — Load and understand a record
@@ -16,11 +16,11 @@
 
 ## Epic 2 — Inspect evidence honestly
 
-- Checks use `passed`, `failed`, `unavailable`, or `not_performed`.
-- Identity, author, creation date, rights, and AI-policy fields use `recorded_assertion`.
+- Checks use `verified`, `mismatch`, `checking`, `retryable`, `reported`, or `unsupported`.
+- Publisher results use `reported`; unsupported checks appear only in collapsed technical details.
 - The app can compare the loaded record identifier with the manifest's recorded hash.
 - The app can validate a compact ES256 signature with a matching public JWK.
-- Canonical-manifest hashing remains unavailable until a public, reproducible construction procedure is documented.
+- Canonical-manifest hashing remains unsupported until a public, reproducible construction profile and test vectors are documented.
 
 ## Epic 3 — Chronology and rights
 

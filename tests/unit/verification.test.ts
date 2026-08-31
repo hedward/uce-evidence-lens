@@ -13,7 +13,7 @@ describe("evidence verification", () => {
     const result = await verifyRecord(demoRecord);
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("passed");
+    ).toBe("verified");
   });
 
   it("keeps the pinned platform key bound to its reviewed RFC 7638 thumbprint", async () => {
@@ -45,10 +45,10 @@ describe("evidence verification", () => {
     const result = await verifyRecord(modified);
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("failed");
+    ).toBe("mismatch");
   });
 
-  it("reports an unknown platform key as unavailable", async () => {
+  it("reports an unknown platform key as unsupported", async () => {
     const unknownKey = {
       ...structuredClone(demoRecord),
       platformKeyKid: "attacker-selected-key",
@@ -71,7 +71,7 @@ describe("evidence verification", () => {
     const result = await verifyRecord(unknownKey);
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("unavailable");
+    ).toBe("unsupported");
   });
 
   it("fails a platform key reference that conflicts with the trusted registry", async () => {
@@ -82,7 +82,7 @@ describe("evidence verification", () => {
     const result = await verifyRecord(conflicting);
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("failed");
+    ).toBe("mismatch");
   });
 
   it("does not trust a known key identifier without its reviewed key reference", async () => {
@@ -93,7 +93,7 @@ describe("evidence verification", () => {
     const result = await verifyRecord(missingReference);
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("unavailable");
+    ).toBe("unsupported");
   });
 
   it("never promotes the server hash flag to a local canonical hash pass", async () => {
@@ -101,11 +101,11 @@ describe("evidence verification", () => {
     expect(
       result.checks.find((check) => check.id === "canonical_manifest_hash")
         ?.status,
-    ).toBe("unavailable");
+    ).toBe("unsupported");
     expect(
       result.checks.find((check) => check.id === "server_verification_claim")
         ?.status,
-    ).toBe("recorded_assertion");
+    ).toBe("reported");
   });
 
   it("fails identifier equality for a tampered manifest hash", async () => {
@@ -114,10 +114,10 @@ describe("evidence verification", () => {
     const result = await verifyRecord(tampered);
     expect(
       result.checks.find((check) => check.id === "identifier")?.status,
-    ).toBe("failed");
+    ).toBe("mismatch");
     expect(
       result.checks.find((check) => check.id === "platform_signature")?.status,
-    ).toBe("failed");
+    ).toBe("mismatch");
   });
 
   it("does not treat a record's own manifest hash as an independent identifier", async () => {
@@ -128,18 +128,18 @@ describe("evidence verification", () => {
     const result = await verifyRecord(withoutIndependentId);
     expect(
       result.checks.find((check) => check.id === "identifier")?.status,
-    ).toBe("unavailable");
+    ).toBe("unsupported");
   });
 
-  it("labels publisher-reported anchor time as an assertion", async () => {
+  it("shows chronology as checking while keeping publisher data reported", async () => {
     const result = await verifyRecord(demoRecord);
     expect(
       result.checks.find((check) => check.id === "independent_anchor")?.status,
-    ).toBe("unavailable");
+    ).toBe("checking");
     expect(
       result.checks.find((check) => check.id === "publisher_anchor_claim")
         ?.status,
-    ).toBe("recorded_assertion");
+    ).toBe("reported");
     expect(
       inspectChronology(demoRecord).find((item) =>
         item.label.includes("Arweave"),
@@ -161,11 +161,11 @@ describe("evidence verification", () => {
       sha256: demoRecord.files[0]!.sha256,
       computedAt: new Date().toISOString(),
     };
-    expect(compareLocalDigest(demoRecord, match).status).toBe("passed");
+    expect(compareLocalDigest(demoRecord, match).status).toBe("verified");
     expect(
       compareLocalDigest(demoRecord, { ...match, sha256: "0".repeat(64) })
         .status,
-    ).toBe("failed");
+    ).toBe("mismatch");
   });
 
   it("hashes a selected File without returning contents", async () => {

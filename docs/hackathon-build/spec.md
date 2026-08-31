@@ -50,7 +50,7 @@ URL validation, safe fetch limits, untrusted-string normalization, and redaction
 - Pasted and direct-Arweave records have no independent record identifier; direct-Arweave records are bound to the transaction in the requested URL and reject a conflicting embedded transaction ID.
 - Record-supplied block timestamps are recorded assertions until independent block metadata is retrieved and transaction-bound.
 - A server-returned `verification.hashMatches` or `sigValid` is displayed only as a recorded server result, never as a local pass.
-- Canonical manifest re-hashing is unavailable because the public record declares RFC 8785 but does not document which mutable/self-referential fields are in the digest input.
+- Canonical manifest re-hashing is marked unsupported because the public record does not document which mutable/self-referential fields are in the digest input.
 
 ## Failure strategy
 

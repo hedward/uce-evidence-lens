@@ -75,7 +75,7 @@ export async function verifyEs256ManifestSignature(
     return {
       id: "platform_signature",
       label: "Platform ES256 signature",
-      status: "failed",
+      status: "mismatch",
       explanation: "The compact JWS is malformed.",
     };
   }
@@ -87,7 +87,7 @@ export async function verifyEs256ManifestSignature(
       return {
         id: "platform_signature",
         label: "Platform ES256 signature",
-        status: "failed",
+        status: "mismatch",
         explanation:
           "The JWS header does not declare a supported ES256 key identifier.",
       };
@@ -96,7 +96,7 @@ export async function verifyEs256ManifestSignature(
       return {
         id: "platform_signature",
         label: "Platform ES256 signature",
-        status: "failed",
+        status: "mismatch",
         explanation:
           "The JWS key identifier does not match the record's public-key identifier.",
       };
@@ -106,7 +106,7 @@ export async function verifyEs256ManifestSignature(
       return {
         id: "platform_signature",
         label: "Platform ES256 signature",
-        status: "failed",
+        status: "mismatch",
         explanation:
           "The signed payload is not the record's 32-byte manifest hash.",
       };
@@ -123,7 +123,7 @@ export async function verifyEs256ManifestSignature(
       return {
         id: "platform_signature",
         label: "Platform ES256 signature",
-        status: "unavailable",
+        status: "unsupported",
         explanation:
           "No matching trusted public P-256 key was found in the platform-key registry.",
       };
@@ -148,7 +148,7 @@ export async function verifyEs256ManifestSignature(
     return {
       id: "platform_signature",
       label: "Platform ES256 signature",
-      status: valid ? "passed" : "failed",
+      status: valid ? "verified" : "mismatch",
       explanation: valid
         ? "The trusted public key validated the ES256 signature over the recorded manifest hash."
         : "The trusted public key did not validate the ES256 signature.",
@@ -157,7 +157,7 @@ export async function verifyEs256ManifestSignature(
     return {
       id: "platform_signature",
       label: "Platform ES256 signature",
-      status: "failed",
+      status: "mismatch",
       explanation:
         "The signature or public-key material could not be decoded or verified.",
     };

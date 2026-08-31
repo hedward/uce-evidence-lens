@@ -56,12 +56,15 @@ function safeLink(url: string, label: string): HTMLElement {
 }
 
 const statusLabels: Record<EvidenceStatus, string> = {
-  passed: "Passed",
-  failed: "Failed",
-  unavailable: "Unavailable",
-  not_performed: "Not performed",
-  recorded_assertion: "Recorded assertion",
+  verified: "Verified",
+  mismatch: "Mismatch",
+  checking: "Checking",
+  retryable: "Try again",
+  reported: "Publisher reported",
+  unsupported: "Not independently checked",
 };
+
+const technicalStatuses = new Set<EvidenceStatus>(["reported", "unsupported"]);
 
 function checkCard(check: EvidenceCheck): HTMLElement {
   const status = el("span", {
@@ -233,6 +236,22 @@ function recordView(
     ),
   );
 
+  const primaryChecks = (verification?.checks ?? []).filter(
+    (check) => !technicalStatuses.has(check.status),
+  );
+  const technicalChecks = (verification?.checks ?? []).filter((check) =>
+    technicalStatuses.has(check.status),
+  );
+  const summaryStatus = verification?.checks.some(
+    (check) => check.status === "mismatch",
+  )
+    ? "mismatch"
+    : verification?.checks.some((check) => check.status === "checking")
+      ? "checking"
+      : verification?.checks.some((check) => check.status === "retryable")
+        ? "retryable"
+        : "verified";
+
   const checks = el(
     "section",
     {
@@ -251,18 +270,43 @@ function recordView(
           attrs: { id: "checks-heading" },
         }),
       ),
-      verification
-        ? el("p", {
-            className: "section-summary",
-            text: verification.summary,
-          })
-        : null,
     ),
-    el(
-      "div",
-      { className: "check-grid" },
-      ...(verification?.checks ?? []).map(checkCard),
-    ),
+    verification
+      ? el(
+          "div",
+          {
+            className: `verification-summary verification-summary--${summaryStatus}`,
+            attrs: {
+              role: summaryStatus === "mismatch" ? "alert" : "status",
+            },
+          },
+          el("strong", { text: verification.summary }),
+          summaryStatus === "retryable"
+            ? el("span", {
+                text: " The record remains usable; retrying may add independent confirmation.",
+              })
+            : null,
+        )
+      : null,
+    el("div", { className: "check-grid" }, ...primaryChecks.map(checkCard)),
+    technicalChecks.length
+      ? el(
+          "details",
+          { className: "technical-details" },
+          el("summary", {
+            text: `Technical details and publisher statements (${technicalChecks.length})`,
+          }),
+          el("p", {
+            className: "technical-details__intro",
+            text: "These items add context but are not counted as independent verification results.",
+          }),
+          el(
+            "div",
+            { className: "check-grid" },
+            ...technicalChecks.map(checkCard),
+          ),
+        )
+      : null,
   );
 
   const firstFile = record.files[0];

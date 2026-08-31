@@ -402,6 +402,30 @@ textarea {
   max-width: 32rem;
   color: var(--muted);
 }
+.verification-summary {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-left-width: 4px;
+  border-radius: 0.65rem;
+  background: rgb(251 252 248 / 75%);
+}
+.verification-summary--verified {
+  border-left-color: var(--forest);
+  background: var(--forest-soft);
+  color: var(--forest);
+}
+.verification-summary--mismatch {
+  border-left-color: var(--red);
+  background: var(--red-soft);
+  color: var(--red);
+}
+.verification-summary--checking,
+.verification-summary--retryable {
+  border-left-color: #8a6731;
+  background: var(--gold-soft);
+  color: #67471d;
+}
 .check-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -431,22 +455,39 @@ textarea {
   letter-spacing: 0.035em;
   text-transform: uppercase;
 }
-.status--passed {
+.status--verified {
   background: var(--forest-soft);
   color: var(--forest);
 }
-.status--failed {
+.status--mismatch {
   background: var(--red-soft);
   color: var(--red);
 }
-.status--unavailable,
-.status--not_performed {
+.status--checking,
+.status--retryable {
+  background: var(--gold-soft);
+  color: #75501f;
+}
+.status--unsupported {
   background: #e7e9e7;
   color: #5c625e;
 }
-.status--recorded_assertion {
+.status--reported {
   background: var(--gold-soft);
   color: #75501f;
+}
+.technical-details {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.technical-details summary {
+  cursor: pointer;
+  font-weight: 750;
+  color: var(--forest);
+}
+.technical-details__intro {
+  color: var(--muted);
 }
 
 .local-file {

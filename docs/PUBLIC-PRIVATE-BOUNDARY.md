@@ -15,5 +15,5 @@ Production source/history, record-creation or signing logic, private keys, priva
 - Runtime hosts are allowlisted to `cbyuce.com` and `arweave.net`.
 - The app has no backend, authentication, storage, analytics, or production package.
 - Unknown input fields are discarded by a newly written validator.
-- Undocumented cryptographic construction is labeled unavailable rather than reconstructed.
+- Undocumented cryptographic construction is labeled unsupported rather than reconstructed.
 - Publication requires a final file, dependency, secret, and provenance review.
