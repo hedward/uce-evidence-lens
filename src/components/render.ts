@@ -380,6 +380,67 @@ function recordView(
   return el("div", {}, summary, checks, filePanel, timeline, assertions);
 }
 
+function webMcpStatus(state: Readonly<AppState>): HTMLElement {
+  const status = el(
+    "div",
+    {
+      className: `webmcp-badge webmcp-badge--${state.webmcp.status}`,
+      attrs: { role: "status" },
+    },
+    el("span", {
+      className: "webmcp-badge__dot",
+      attrs: { "aria-hidden": "true" },
+    }),
+    el("span", { text: state.webmcp.detail }),
+  );
+
+  const container = el("div", { className: "webmcp-status" }, status);
+  if (state.webmcp.status === "registered") return container;
+
+  container.append(
+    el(
+      "details",
+      { className: "webmcp-help" },
+      el("summary", { text: "Enable AI-agent site tools" }),
+      el("p", {
+        text: "Open this page in ChatGPT desktop’s built-in browser using GPT-5.6 Sol or Terra.",
+      }),
+      el(
+        "ol",
+        {},
+        el("li", {
+          text: "Update the ChatGPT desktop app to the latest version.",
+        }),
+        el("li", {
+          text: "Go to Settings → Browser → Permissions and turn on Enable site tools.",
+        }),
+        el("li", {
+          text: "Reload this page, then use Site tools in the address bar to view the available tools.",
+        }),
+      ),
+      el(
+        "p",
+        { className: "webmcp-help__chrome" },
+        el("strong", { text: "Testing in Chrome? " }),
+        "Open ",
+        el("code", { text: "chrome://flags/#enable-webmcp-testing" }),
+        ", set the flag to Enabled, relaunch Chrome, and reload this page.",
+      ),
+      el(
+        "p",
+        { className: "webmcp-help__note" },
+        "Current availability and setup can change. ",
+        safeLink(
+          "https://learn.chatgpt.com/docs/webmcp",
+          "Read the official WebMCP guide",
+        ),
+        ".",
+      ),
+    ),
+  );
+  return container;
+}
+
 export function renderApp(
   root: HTMLElement,
   controller: AppController,
@@ -398,7 +459,7 @@ export function renderApp(
       {},
       el("p", {
         className: "eyebrow",
-        text: "5 Race Street LLC · Copyright by UCE",
+        text: "Copyright by UCE",
       }),
       el("h1", { text: "UCE Evidence Lens" }),
       el("p", {
@@ -406,18 +467,7 @@ export function renderApp(
         text: "Inspect integrity, chronology, signatures, rights assertions, and local file matches—without uploading the underlying work.",
       }),
     ),
-    el(
-      "div",
-      {
-        className: `webmcp-badge webmcp-badge--${state.webmcp.status}`,
-        attrs: { role: "status" },
-      },
-      el("span", {
-        className: "webmcp-badge__dot",
-        attrs: { "aria-hidden": "true" },
-      }),
-      el("span", { text: state.webmcp.detail }),
-    ),
+    webMcpStatus(state),
   );
   const notice = el(
     "aside",
@@ -443,10 +493,36 @@ export function renderApp(
   const footer = el(
     "footer",
     {},
-    el("p", { text: "Immutable • Identifiable • Verifiable" }),
-    el("p", {
-      text: "Read-only reference verifier · no account · no upload · no legal determination",
-    }),
+    el(
+      "div",
+      { className: "footer__uce-mark" },
+      el("img", {
+        attrs: {
+          src: "/favicon.svg",
+          alt: "UCE Mark",
+          width: "48",
+          height: "48",
+        },
+      }),
+      el(
+        "p",
+        { className: "footer__evidence" },
+        el("strong", { text: "UCE Evidence Lens release" }),
+        el("span", {
+          className: "footer__evidence-pending",
+          text: "CbyUCE verification link pending",
+          attrs: { "data-verification-link": "pending" },
+        }),
+      ),
+    ),
+    el(
+      "div",
+      { className: "footer__copy" },
+      el("p", { text: "Immutable • Identifiable • Verifiable" }),
+      el("p", {
+        text: "Read-only reference verifier · no account · no upload · no legal determination",
+      }),
+    ),
   );
   const live = el("div", {
     className: "sr-only",

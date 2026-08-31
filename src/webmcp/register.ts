@@ -182,7 +182,7 @@ export async function registerWebMcpTools(
     controller.setWebMcp({
       status: "unavailable",
       detail:
-        "AI-agent site tools are unavailable in this browser. Interactive verification still works.",
+        "AI-agent site tools are off or unavailable. Manual verification still works.",
     });
     return "unavailable";
   }

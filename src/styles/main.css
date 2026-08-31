@@ -151,8 +151,12 @@ code {
   text-transform: uppercase;
 }
 
-.webmcp-badge {
+.webmcp-status {
   align-self: center;
+  max-width: 25rem;
+}
+
+.webmcp-badge {
   display: flex;
   gap: 0.65rem;
   align-items: flex-start;
@@ -177,6 +181,37 @@ code {
 }
 .webmcp-badge--failed .webmcp-badge__dot {
   background: var(--red);
+}
+
+.webmcp-help {
+  margin-top: 0.7rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: rgb(255 255 255 / 55%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.webmcp-help summary {
+  color: var(--forest);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.webmcp-help p,
+.webmcp-help ol {
+  margin: 0.7rem 0 0;
+}
+
+.webmcp-help ol {
+  padding-left: 1.2rem;
+}
+
+.webmcp-help__note {
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
 }
 
 .legal-notice {
@@ -520,12 +555,48 @@ textarea {
 
 footer {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: 1.5rem 0 3rem;
   border-top: 1px solid #bfc8bf;
   color: var(--muted);
   font-size: 0.8rem;
+}
+
+.footer__uce-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.footer__uce-mark img {
+  width: 3rem;
+  height: 3rem;
+  flex: 0 0 auto;
+}
+
+.footer__evidence,
+.footer__copy p {
+  margin: 0;
+}
+
+.footer__evidence strong,
+.footer__evidence-pending {
+  display: block;
+}
+
+.footer__evidence strong {
+  color: var(--ink);
+}
+
+.footer__evidence-pending {
+  margin-top: 0.2rem;
+  color: #74552e;
+}
+
+.footer__copy {
+  text-align: right;
 }
 
 .sr-only {
@@ -545,7 +616,7 @@ footer {
     grid-template-columns: auto 1fr;
     align-items: start;
   }
-  .webmcp-badge {
+  .webmcp-status {
     grid-column: 1 / -1;
     justify-self: start;
   }
@@ -567,8 +638,9 @@ footer {
     width: 4rem;
     height: 4rem;
   }
-  .webmcp-badge {
+  .webmcp-status {
     grid-column: 1;
+    max-width: none;
   }
   .loader {
     grid-template-columns: 1fr;
@@ -588,6 +660,9 @@ footer {
   footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+  .footer__copy {
+    text-align: left;
   }
   .check-card__heading {
     flex-direction: column;
