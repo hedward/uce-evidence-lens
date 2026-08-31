@@ -106,6 +106,19 @@ Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pin
 
 See the [Cloudflare deployment runbook](docs/CLOUDFLARE-DEPLOYMENT.md) for the exact build settings, security-header review, browser checks, Galaxy CORS sequencing, and rollback procedure.
 
+## Final v1.0.0 release evidence
+
+The footer uses the stable release-evidence route
+`https://uceevidencelens.com/evidence/v1.0.0`. After the final committed build
+is packaged and registered with CbyUCE, Cloudflare binds that exact path to the
+resulting public verification URL outside the compiled site artifact. This
+avoids a self-referential build change.
+
+Run `npm run release:artifact` from a clean committed worktree to verify the
+project and create the deterministic site ZIP for registration. See the
+[release-evidence runbook](docs/RELEASE-EVIDENCE.md) for the registration,
+redirect, deployment, and tagging sequence.
+
 ## Project status and licensing
 
 This MVP is under private development and prepared for publication review. Its private GitHub remote exists, but no production deployment, final license, video, or Devpost submission has been completed. MPL-2.0 is documented only as a candidate pending separate legal and patent review; this repository currently provides no final license grant.

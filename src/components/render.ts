@@ -1,4 +1,5 @@
 import type { AppController, AppState } from "../app/controller";
+import { RELEASE_EVIDENCE_URL, RELEASE_VERSION } from "../config/release";
 import { DEMO_FILE_URL, DEMO_MANIFEST_URL } from "../records/demo";
 import type { EvidenceCheck, EvidenceStatus } from "../types/record";
 import {
@@ -579,23 +580,34 @@ export function renderApp(
     el(
       "div",
       { className: "footer__uce-mark" },
-      el("img", {
-        attrs: {
-          src: "/uce-mark.svg",
-          alt: "UCE Mark",
-          width: "48",
-          height: "48",
-        },
-      }),
       el(
-        "p",
-        { className: "footer__evidence" },
-        el("strong", { text: "UCE Evidence Lens release" }),
-        el("span", {
-          className: "footer__evidence-pending",
-          text: "CbyUCE verification link pending",
-          attrs: { "data-verification-link": "pending" },
+        "a",
+        {
+          className: "footer__evidence-link",
+          attrs: {
+            href: RELEASE_EVIDENCE_URL,
+            "aria-label": `View the UCE evidence record for UCE Evidence Lens release ${RELEASE_VERSION}`,
+          },
+        },
+        el("img", {
+          attrs: {
+            src: "/uce-mark.svg",
+            alt: "",
+            width: "48",
+            height: "48",
+          },
         }),
+        el(
+          "p",
+          { className: "footer__evidence" },
+          el("strong", {
+            text: `UCE Evidence Lens release ${RELEASE_VERSION}`,
+          }),
+          el("span", {
+            className: "footer__evidence-record",
+            text: "View UCE release evidence",
+          }),
+        ),
       ),
     ),
     el(

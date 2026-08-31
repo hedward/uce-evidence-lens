@@ -81,17 +81,25 @@ describe("visible evidence interface", () => {
     ).toBe("View bundled manifest JSON");
   });
 
-  it("shows the authorized UCE mark with an honest pending evidence link", () => {
+  it("links the authorized UCE mark to the stable v1.0.0 release evidence route", () => {
     const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
     const footer = root.querySelector("footer");
     const mark = footer?.querySelector("img");
-    const pending = footer?.querySelector('[data-verification-link="pending"]');
+    const evidenceLink = footer?.querySelector<HTMLAnchorElement>(
+      ".footer__evidence-link",
+    );
     expect(mark?.getAttribute("src")).toBe("/uce-mark.svg");
-    expect(mark?.getAttribute("alt")).toBe("UCE Mark");
-    expect(pending?.textContent).toBe("CbyUCE verification link pending");
-    expect(footer?.querySelector('a[href="#"]')).toBeNull();
+    expect(mark?.getAttribute("alt")).toBe("");
+    expect(evidenceLink?.getAttribute("href")).toBe(
+      "https://uceevidencelens.com/evidence/v1.0.0",
+    );
+    expect(evidenceLink?.getAttribute("aria-label")).toContain("release 1.0.0");
+    expect(evidenceLink?.textContent).toContain(
+      "UCE Evidence Lens release 1.0.0",
+    );
+    expect(evidenceLink?.textContent).toContain("View UCE release evidence");
   });
 
   it("shows official setup guidance when AI-agent site tools are unavailable", () => {
