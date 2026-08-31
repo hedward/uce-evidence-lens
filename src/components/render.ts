@@ -1,4 +1,5 @@
 import type { AppController, AppState } from "../app/controller";
+import { DEMO_FILE_URL, DEMO_MANIFEST_URL } from "../records/demo";
 import type { EvidenceCheck, EvidenceStatus } from "../types/record";
 import {
   inspectChronology,
@@ -334,6 +335,29 @@ function recordView(
           ["Recorded size", `${firstFile.bytes.toLocaleString()} bytes`],
         ])
       : el("p", { text: "This record contains no supported file entry." }),
+    record.loadedFrom === "bundled_demo"
+      ? el(
+          "div",
+          { className: "loader__actions bundled-demo__actions" },
+          el("a", {
+            className: "button button--quiet",
+            text: "Download bundled demo file",
+            attrs: {
+              href: DEMO_FILE_URL,
+              download: "uce-evidence-lens-logo-tagline-v1.0.png",
+            },
+          }),
+          el("a", {
+            className: "button button--quiet",
+            text: "View bundled manifest JSON",
+            attrs: {
+              href: DEMO_MANIFEST_URL,
+              target: "_blank",
+              rel: "noreferrer",
+            },
+          }),
+        )
+      : null,
     el("label", {
       className: "file-label",
       text: "Choose a file to hash",

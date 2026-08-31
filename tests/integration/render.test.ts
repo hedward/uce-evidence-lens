@@ -37,6 +37,32 @@ describe("visible evidence interface", () => {
     expect(eyebrow?.textContent).not.toContain("5 Race Street LLC");
   });
 
+  it("loads the registered Evidence Lens artwork as the bundled demo", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+
+    expect(root.querySelector(".hero-record h2")?.textContent).toBe(
+      "UCE Evidence Lens — Logo and Tagline v1.0",
+    );
+    expect(root.querySelector(".assertion-callout")?.textContent).toContain(
+      "Copyright by UCE/CbyUCE",
+    );
+    expect(
+      root
+        .querySelector<HTMLAnchorElement>(
+          'a[download="uce-evidence-lens-logo-tagline-v1.0.png"]',
+        )
+        ?.getAttribute("href"),
+    ).toBe("/demo/uce-evidence-lens-logo-tagline-v1.0.png");
+    expect(
+      root.querySelector<HTMLAnchorElement>(
+        'a[href="/demo/uce-evidence-lens-logo-tagline-v1.0.uce.json"]',
+      )?.textContent,
+    ).toBe("View bundled manifest JSON");
+  });
+
   it("shows the authorized UCE mark with an honest pending evidence link", () => {
     const controller = testController();
     const root = document.createElement("div");

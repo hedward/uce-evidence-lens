@@ -6,7 +6,7 @@ UCE Evidence Lens is a new, independent reference verifier developed by Copyrigh
 
 ## What it does
 
-- Loads a bundled, reduced fixture of the supplied public example.
+- Loads the registered UCE Evidence Lens logo-and-tagline record as its bundled demonstration, with the exact public PNG and raw manifest available for inspection.
 - Accepts a public CbyUCE verification URL/hash, an Arweave manifest URL, or pasted public JSON.
 - Validates untrusted records into a conservative schema and renders values as text.
 - Separates browser-performed checks from server-reported results and recorded assertions.
@@ -62,7 +62,7 @@ The verifier treats network alternatives as resilience paths rather than hidden 
 - pasted public JSON remains available when a live source cannot be reached;
 - there is no server proxy or production dependency.
 
-During the original investigation, the CbyUCE `?format=json` response was machine-readable but did not authorize a foreign browser origin. After the final production origin is established, CbyUCE may add a narrowly scoped CORS response header for that exact origin without changing its JSON body or other routes. The bundled demo, Arweave, and pasted-JSON paths remain available regardless.
+CbyUCE authorizes the deployed Evidence Lens origin to retrieve its public `?format=json` response without credentials. The bundled demo, direct Arweave, and pasted-JSON paths remain available as independent resilience options.
 
 ## WebMCP tools
 

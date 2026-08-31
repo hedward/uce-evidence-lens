@@ -131,8 +131,13 @@ describe("evidence verification", () => {
     ).toBe("unsupported");
   });
 
-  it("shows chronology as checking while keeping publisher data reported", async () => {
-    const result = await verifyRecord(demoRecord);
+  it("shows chronology as checking while keeping a publisher timestamp reported", async () => {
+    const recordWithPublisherTimestamp = {
+      ...structuredClone(demoRecord),
+      reportedArweaveBlockTimestamp: "2026-08-31T21:30:00.000Z",
+      reportedArweaveBlockHeight: 1_999_999,
+    };
+    const result = await verifyRecord(recordWithPublisherTimestamp);
     expect(
       result.checks.find((check) => check.id === "independent_anchor")?.status,
     ).toBe("checking");
@@ -141,10 +146,20 @@ describe("evidence verification", () => {
         ?.status,
     ).toBe("reported");
     expect(
-      inspectChronology(demoRecord).find((item) =>
+      inspectChronology(recordWithPublisherTimestamp).find((item) =>
         item.label.includes("Arweave"),
       )?.kind,
     ).toBe("recorded_assertion");
+  });
+
+  it("does not invent publisher confirmation while the new demo anchor is pending", async () => {
+    const result = await verifyRecord(demoRecord);
+    expect(
+      result.checks.find((check) => check.id === "independent_anchor")?.status,
+    ).toBe("checking");
+    expect(
+      result.checks.find((check) => check.id === "publisher_anchor_claim"),
+    ).toBeUndefined();
   });
 
   it("computes the expected local SHA-256 digest", async () => {
