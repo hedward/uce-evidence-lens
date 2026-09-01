@@ -52,3 +52,6 @@ temp/
 # Operating-system files
 .DS_Store
 Thumbs.db
+
+# Local Devpost workflow state
+.devpost-hackathon-state.json

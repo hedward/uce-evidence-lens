@@ -123,6 +123,6 @@ redirect, deployment, and tagging sequence.
 
 The UCE Evidence Lens Covered Software is licensed under the [Mozilla Public License 2.0](LICENSE). The authoritative UCE Mark, associated names and marks, and the bundled logo-and-tagline artwork are treated separately and are not licensed under MPL-2.0. Their limited authorized use in this project is documented in [Notice](NOTICE.md) and [Trademarks](TRADEMARKS.md).
 
-Version `1.0.0` is the current release candidate. The repository remains private until final publication approval; the release-evidence record, public repository transition, video, and Devpost submission remain external completion steps.
+Version `1.0.0` is the current release candidate. The repository is public for challenge review; the release-evidence record, demo video, and final Devpost submission remain external completion steps.
 
 See [Publication Readiness](docs/PUBLICATION-READINESS.md), [License Recommendation](docs/LICENSE-RECOMMENDATION.md), [Notice](NOTICE.md), and [Trademarks](TRADEMARKS.md).
