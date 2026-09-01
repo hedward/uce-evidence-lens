@@ -28,7 +28,8 @@ release-artifacts/uce-evidence-lens-site-v1.0.0.zip
 ```
 
 The deterministic archive contains the compiled `dist/` site, release
-provenance, and SHA-256 checksums. The command prints the archive digest, source
+provenance, the MPL-2.0 license, notice, separate trademark/authorized-mark
+terms, and SHA-256 checksums. The command prints the archive digest, source
 commit, byte size, and stable evidence route. Preserve those values with the
 UCE Record.
 

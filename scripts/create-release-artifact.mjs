@@ -66,6 +66,12 @@ function sha256(path) {
 
 try {
   cpSync(join(projectRoot, "dist"), siteDirectory, { recursive: true });
+  for (const releaseDocument of ["LICENSE", "NOTICE.md", "TRADEMARKS.md"]) {
+    cpSync(
+      join(projectRoot, releaseDocument),
+      join(releaseRoot, releaseDocument),
+    );
+  }
   const provenance = {
     name: "UCE Evidence Lens",
     releaseVersion,
@@ -76,7 +82,7 @@ try {
     deploymentTarget: "Static Cloudflare Pages",
     evidenceUrl,
     scope:
-      "Compiled static site files and this release provenance. Cloudflare account configuration and the external evidence-route redirect are outside the archive.",
+      "Compiled static site files, release provenance, MPL-2.0 license, notice, and separate trademark/authorized-mark terms. Cloudflare account configuration and the external evidence-route redirect are outside the archive.",
   };
   writeFileSync(
     join(releaseRoot, "RELEASE-EVIDENCE.json"),

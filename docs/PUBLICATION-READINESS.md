@@ -1,6 +1,6 @@
 # Publication Readiness Report
 
-Status: **private MVP ready for owner, legal, public-data provenance, and production-deployment review; not yet approved for publication.**
+Status: **v1.0.0 release candidate with MPL-2.0 adopted; final public-release approval and submission steps remain.**
 
 ## Built and verified
 
@@ -20,7 +20,7 @@ Status: **private MVP ready for owner, legal, public-data provenance, and produc
 - `src/webmcp/register.ts`: tool names/descriptions/schemas against final WebMCP behavior.
 - `README.md`, `docs/DEMO-SCRIPT.md`: public claims, demo accuracy, and challenge messaging.
 - `.github/workflows/ci.yml`: organization policy and action pinning before enabling GitHub Actions.
-- `docs/LICENSE-RECOMMENDATION.md`: counsel decision before adding a final `LICENSE`.
+- `LICENSE`, `NOTICE.md`, `TRADEMARKS.md`: final license, separate mark treatment, and public-distribution accuracy.
 
 ## Dependency review
 
@@ -40,13 +40,13 @@ The complete lockfile contained license metadata for every installed package ent
 
 ## Confirmed exclusions
 
-No production source/history/package/API dependency, private record, private key, credential, environment value, account, upload, payment, authentication, analytics, backend, proxy, server runtime, or proprietary asset is included. The private GitHub remote and static Cloudflare Pages configuration contain no production secret. No production deployment or final software license exists yet.
+No production source/history/package/API dependency, private record, private key, credential, environment value, account, upload, payment, authentication, analytics, backend, proxy, or server runtime is included. The authorized UCE Mark and bundled logo-and-tagline artwork are included under the separate treatment documented in `NOTICE.md` and `TRADEMARKS.md`; they are excluded from MPL-2.0. The private GitHub remote and static Cloudflare Pages configuration contain no production secret.
 
 ## Remaining external steps
 
-1. Owner/legal review the license candidate, patent implications, trademarks, public fixture redistribution, and all evidentiary wording.
+1. Owner complete final review of the adopted MPL-2.0 license, separate trademark/authorized-mark treatment, public fixture redistribution, and evidentiary wording.
 2. Re-run `npm ci`, `npm run check`, dependency audit/license inventory, repository-wide secret scan, staged review, and a clean-clone build.
 3. Review the existing private GitHub repository configuration; configure branch protection and private vulnerability reporting. Do not enable unreviewed third-party actions.
-4. Connect the private repository to Cloudflare Pages using `docs/CLOUDFLARE-DEPLOYMENT.md`, deploy `dist/`, and retest HTTPS, headers, CORS, WebMCP, mobile, keyboard, and local-file workflows in the deployed origin.
+4. Deploy the exact final release commit through Cloudflare Pages using `docs/CLOUDFLARE-DEPLOYMENT.md`, then retest HTTPS, headers, CORS, WebMCP, mobile, keyboard, and local-file workflows in the deployed origin.
 5. Record a short video using `docs/DEMO-SCRIPT.md`; avoid showing private files, browser history, credentials, or unrelated tabs.
 6. Prepare final Devpost copy/screenshots/video/repository/deployment links, recheck current rules and deadline, then submit only after explicit approval.

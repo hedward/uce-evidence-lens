@@ -2,7 +2,7 @@
 
 ## Supported scope
 
-The current private-development MVP is the only supported version. It is a static, read-only verifier with no account, application server, or secret configuration. The repository has a private GitHub remote but no production deployment yet.
+Version `1.0.0` is the current release candidate. It is a static, read-only verifier with no account, application server, or secret configuration. The repository remains private until final publication approval; the application is deployed through static Cloudflare Pages hosting.
 
 ## Reporting
 
