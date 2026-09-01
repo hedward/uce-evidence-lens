@@ -53,5 +53,6 @@ temp/
 .DS_Store
 Thumbs.db
 
-# Local Devpost workflow state
+# Local Devpost workflow files
 .devpost-hackathon-state.json
+devpost-submission.md
