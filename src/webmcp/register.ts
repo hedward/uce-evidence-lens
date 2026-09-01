@@ -5,6 +5,10 @@ import { summarizeRecord } from "../verification/evidence";
 
 const registeredDocuments = new WeakSet<Document>();
 
+class WebMcpDiscoveryError extends Error {
+  override readonly name = "WebMcpDiscoveryError";
+}
+
 function exactObject(
   input: unknown,
   allowed: readonly string[],
@@ -187,21 +191,40 @@ export async function registerWebMcpTools(
     });
     return "unavailable";
   }
+  const modelContext = currentDocument.modelContext;
   try {
-    for (const tool of createToolDefinitions(controller)) {
-      await currentDocument.modelContext.registerTool(tool);
+    const definitions = createToolDefinitions(controller);
+    for (const tool of definitions) {
+      await modelContext.registerTool(tool);
+    }
+    if (typeof modelContext.getTools === "function") {
+      const discoveredNames = new Set(
+        (await modelContext.getTools()).map((tool) => tool.name),
+      );
+      const missingNames = definitions
+        .map((tool) => tool.name)
+        .filter((name) => !discoveredNames.has(name));
+      if (missingNames.length) {
+        throw new WebMcpDiscoveryError(
+          `Registered tools were not discoverable: ${missingNames.join(", ")}.`,
+        );
+      }
     }
     registeredDocuments.add(currentDocument);
     controller.setWebMcp({
       status: "registered",
-      detail: "7 read-only AI-agent tools registered for this page.",
+      detail:
+        typeof modelContext.getTools === "function"
+          ? "7 read-only AI-agent tools registered and discoverable."
+          : "7 read-only AI-agent tools registered for this page.",
     });
     return "registered";
-  } catch {
+  } catch (error) {
+    const reason =
+      error instanceof Error && error.name ? ` (${error.name})` : "";
     controller.setWebMcp({
       status: "failed",
-      detail:
-        "The browser exposed site tools, but one or more registrations failed. Interactive verification still works.",
+      detail: `The browser exposed site tools, but registration or discovery failed${reason}. Interactive verification still works.`,
     });
     return "failed";
   }

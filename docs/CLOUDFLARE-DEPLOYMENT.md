@@ -53,6 +53,8 @@ Git-connected Pages projects accept private repositories, so the repository may 
 
 - a restrictive Content Security Policy with no inline-script or eval exception;
 - outbound connections limited to the app itself, CbyUCE, and Arweave;
+- `Origin-Agent-Cluster: ?1` so WebMCP registration and discovery run in an origin-keyed document;
+- an explicit same-origin `tools` Permissions Policy;
 - anti-framing, MIME-sniffing, referrer, permissions, and HTTPS protections;
 - removal of Cloudflare Pages' default wildcard CORS header because this site is not a public API;
 - long-lived browser caching only for Vite's fingerprinted `/assets/*` files.
@@ -69,12 +71,12 @@ curl -fsS --max-time 20 -D - -o /dev/null "$UCE_LENS_ORIGIN/"
 curl -fsS --max-time 20 "$UCE_LENS_ORIGIN/" | grep -F "UCE Evidence Lens"
 ```
 
-Confirm that the first response contains the CSP, `Referrer-Policy: no-referrer`, HSTS, `X-Content-Type-Options: nosniff`, and `X-Frame-Options: DENY`. Confirm that it does not expose `Access-Control-Allow-Origin: *`.
+Confirm that the first response contains the CSP, `Origin-Agent-Cluster: ?1`, `Permissions-Policy` with `tools=(self)`, `Referrer-Policy: no-referrer`, HSTS, `X-Content-Type-Options: nosniff`, and `X-Frame-Options: DENY`. Confirm that it does not expose `Access-Control-Allow-Origin: *`.
 
 Then test in ChatGPT's in-app browser and WebMCP-enabled Chrome:
 
 1. Load the bundled demonstration.
-2. Confirm that all seven read-only WebMCP tools register.
+2. Confirm that all seven read-only WebMCP tools register and are returned by `document.modelContext.getTools()`.
 3. Load a supported Arweave manifest URL, confirm its transaction binding, and confirm that any signature check uses only the reviewed platform-key registry.
 4. Validate pasted public JSON.
 5. Select a local file and confirm that only its metadata and digest enter application state.

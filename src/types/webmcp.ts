@@ -6,8 +6,13 @@ export interface ModelContextToolDefinition {
   execute: (input: unknown) => Promise<unknown> | unknown;
 }
 
+export interface RegisteredModelContextTool {
+  name: string;
+}
+
 export interface DocumentModelContext {
   registerTool(definition: ModelContextToolDefinition): Promise<void> | void;
+  getTools?(): Promise<RegisteredModelContextTool[]>;
 }
 
 declare global {

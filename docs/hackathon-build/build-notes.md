@@ -41,3 +41,11 @@
 - Added static Cloudflare Pages configuration, restrictive production response headers, Node.js 24 pinning, and a deployment runbook without a Pages Function, Worker, or proxy.
 - Reframed the bundled demo, Arweave, and pasted-JSON workflows as permanent resilience paths.
 - The current `npm run check` baseline passes 50 tests across seven test files, in addition to formatting, lint, strict TypeScript, and the production build. Security regression coverage now includes trusted-key selection, identifier provenance, conservative chronology, async generation binding, invocation-bound WebMCP output, Arweave redirect binding, and streaming byte/time limits.
+
+## 2026-09-01 — WebMCP judging-readiness repair
+
+- Traced a live zero-tool discovery result to the deployment and startup boundaries rather than the evidence-verification path.
+- Added origin-keyed agent clustering and an explicit same-origin `tools` Permissions Policy to the static Cloudflare response headers.
+- Moved registration and same-origin discovery ahead of asynchronous bundled-record loading.
+- Added visible browser error classes and a `getTools()` self-check so a registration claim cannot silently mask an empty callable-tool surface.
+- Added regression coverage for origin headers, registration rejection, empty discovery, and startup order.

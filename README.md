@@ -13,7 +13,7 @@ UCE Evidence Lens is a new, independent reference verifier developed by Copyrigh
 - Verifies the public example's ES256 compact JWS only against a reviewed P-256 key pinned in the application's trusted platform-key registry; record-selected keys cannot establish trust.
 - Separates claimed dates, system events, and publisher-reported ledger timestamps; no timestamp is called independent unless the browser retrieves and binds it to the transaction.
 - Hashes a user-selected file locally with SHA-256 and compares only its digest.
-- Registers seven page-scoped, read-only WebMCP tools when `document.modelContext.registerTool` is available.
+- Registers seven page-scoped, read-only WebMCP tools before record loading, then confirms their same-origin discoverability when `document.modelContext.getTools` is available.
 
 Every result carries this boundary: evidence integrity is not a legal determination of identity, authorship, ownership, copyright validity, registration, or the truth of a recorded assertion.
 
@@ -76,9 +76,9 @@ The app feature-detects the current imperative API and registers these top-level
 - `inspect_uce_rights_declaration`
 - `compare_local_file_to_uce_record`
 
-Every input schema rejects unexpected properties, every definition uses `readOnlyHint: true`, and the local-file tool can access only the digest already selected by the user—not the picker, path, or contents. The UI remains fully functional when WebMCP is unavailable.
+Every input schema rejects unexpected properties, every definition uses `readOnlyHint: true`, and the local-file tool can access only the digest already selected by the user—not the picker, path, or contents. Registration errors retain their browser error class for diagnosis, and the UI remains fully functional when WebMCP is unavailable.
 
-Current syntax was confirmed against [official OpenAI WebMCP documentation](https://learn.chatgpt.com/docs/webmcp). The challenge page is [webmcp.devpost.com](https://webmcp.devpost.com/).
+Current syntax and discovery behavior were confirmed against the [Chrome WebMCP Imperative API documentation](https://developer.chrome.com/docs/ai/webmcp/imperative-api) and [official OpenAI WebMCP documentation](https://learn.chatgpt.com/docs/webmcp). The challenge page is [webmcp.devpost.com](https://webmcp.devpost.com/).
 
 ## Privacy and security
 
@@ -102,7 +102,7 @@ See [Architecture](docs/ARCHITECTURE.md) and the [technical spec](docs/hackathon
 
 ## Cloudflare Pages deployment
 
-Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pinned in `.node-version`; Vite builds to `dist`; and `public/_headers` supplies the reviewed production security policy. The project intentionally contains no Pages Function, Worker, proxy, server runtime, or runtime secret.
+Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pinned in `.node-version`; Vite builds to `dist`; and `public/_headers` supplies the reviewed production security policy, including origin-keyed agent clustering required by WebMCP. The project intentionally contains no Pages Function, Worker, proxy, server runtime, or runtime secret.
 
 See the [Cloudflare deployment runbook](docs/CLOUDFLARE-DEPLOYMENT.md) for the exact build settings, security-header review, browser checks, Galaxy CORS sequencing, and rollback procedure.
 

@@ -37,11 +37,18 @@ describe("WebMCP integration", () => {
   });
 
   it("registers seven read-only tools once", async () => {
-    const registerTool = vi.fn<(tool: ModelContextToolDefinition) => void>();
-    const doc = fakeDocument({ registerTool });
+    const registeredTools: ModelContextToolDefinition[] = [];
+    const registerTool = vi.fn((tool: ModelContextToolDefinition) => {
+      registeredTools.push(tool);
+    });
+    const getTools = vi.fn(async () =>
+      registeredTools.map(({ name }) => ({ name })),
+    );
+    const doc = fakeDocument({ registerTool, getTools });
     const controller = new AppController();
     expect(await registerWebMcpTools(controller, doc)).toBe("registered");
     expect(registerTool).toHaveBeenCalledTimes(7);
+    expect(getTools).toHaveBeenCalledOnce();
     expect(
       registerTool.mock.calls.every(([tool]) => tool.annotations.readOnlyHint),
     ).toBe(true);
@@ -49,6 +56,38 @@ describe("WebMCP integration", () => {
       "already_registered",
     );
     expect(registerTool).toHaveBeenCalledTimes(7);
+  });
+
+  it("reports registration errors instead of hiding them", async () => {
+    const registerTool = vi.fn(() => {
+      throw new DOMException("Document is not origin keyed.", "SecurityError");
+    });
+    const controller = new AppController();
+
+    expect(
+      await registerWebMcpTools(controller, fakeDocument({ registerTool })),
+    ).toBe("failed");
+    expect(controller.getState().webmcp).toEqual({
+      status: "failed",
+      detail: expect.stringContaining("SecurityError"),
+    });
+  });
+
+  it("fails closed when registered tools are not discoverable", async () => {
+    const registerTool = vi.fn();
+    const getTools = vi.fn(async () => []);
+    const controller = new AppController();
+
+    expect(
+      await registerWebMcpTools(
+        controller,
+        fakeDocument({ registerTool, getTools }),
+      ),
+    ).toBe("failed");
+    expect(registerTool).toHaveBeenCalledTimes(7);
+    expect(controller.getState().webmcp.detail).toContain(
+      "WebMcpDiscoveryError",
+    );
   });
 
   it("rejects unexpected tool properties", async () => {

@@ -17,6 +17,9 @@ describe("Cloudflare Pages configuration", () => {
     );
     expect(headers).toContain("frame-ancestors 'none'");
     expect(headers).toContain("object-src 'none'");
+    expect(headers).toContain("Origin-Agent-Cluster: ?1");
+    expect(headers).toContain("tools=(self)");
+    expect(headers).not.toContain("tools=()");
     expect(headers).toContain("Referrer-Policy: no-referrer");
     expect(headers).toContain("X-Content-Type-Options: nosniff");
     expect(headers).toContain("X-Frame-Options: DENY");
