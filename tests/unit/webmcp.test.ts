@@ -36,7 +36,7 @@ describe("WebMCP integration", () => {
     expect(controller.getState().webmcp.status).toBe("unavailable");
   });
 
-  it("registers seven read-only tools once", async () => {
+  it("registers eight read-only tools once", async () => {
     const registeredTools: ModelContextToolDefinition[] = [];
     const registerTool = vi.fn((tool: ModelContextToolDefinition) => {
       registeredTools.push(tool);
@@ -47,7 +47,7 @@ describe("WebMCP integration", () => {
     const doc = fakeDocument({ registerTool, getTools });
     const controller = new AppController();
     expect(await registerWebMcpTools(controller, doc)).toBe("registered");
-    expect(registerTool).toHaveBeenCalledTimes(7);
+    expect(registerTool).toHaveBeenCalledTimes(8);
     expect(getTools).toHaveBeenCalledOnce();
     expect(
       registerTool.mock.calls.every(([tool]) => tool.annotations.readOnlyHint),
@@ -55,7 +55,7 @@ describe("WebMCP integration", () => {
     expect(await registerWebMcpTools(controller, doc)).toBe(
       "already_registered",
     );
-    expect(registerTool).toHaveBeenCalledTimes(7);
+    expect(registerTool).toHaveBeenCalledTimes(8);
   });
 
   it("reports registration errors instead of hiding them", async () => {
@@ -84,7 +84,7 @@ describe("WebMCP integration", () => {
         fakeDocument({ registerTool, getTools }),
       ),
     ).toBe("failed");
-    expect(registerTool).toHaveBeenCalledTimes(7);
+    expect(registerTool).toHaveBeenCalledTimes(8);
     expect(controller.getState().webmcp.detail).toContain(
       "WebMcpDiscoveryError",
     );
@@ -111,6 +111,35 @@ describe("WebMCP integration", () => {
         properties: { fileIndex: expect.any(Object) },
         additionalProperties: false,
       }),
+    );
+  });
+
+  it("returns the UI snapshot through the report tool without granting local-detail export", async () => {
+    const controller = new AppController(fetch, chronologyVerifier);
+    await controller.load("demo");
+    const tool = createToolDefinitions(controller).find(
+      (definition) => definition.name === "get_uce_verification_report",
+    )!;
+    const response = (await tool.execute({})) as {
+      structuredResult: {
+        checks: unknown;
+        coverage: unknown;
+        checkedAt: string;
+        localFile?: unknown;
+      };
+    };
+    expect(response.structuredResult.checks).toEqual(
+      controller.getState().verification!.checks,
+    );
+    expect(response.structuredResult.coverage).toEqual(
+      controller.getState().verification!.coverage,
+    );
+    expect(response.structuredResult.checkedAt).toBe(
+      controller.getState().verification!.checkedAt,
+    );
+    expect(response.structuredResult.localFile).toBeUndefined();
+    expect(() => tool.execute({ includeLocalFileDetails: true })).toThrow(
+      /Unexpected tool input/,
     );
   });
 

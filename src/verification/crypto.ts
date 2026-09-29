@@ -3,6 +3,8 @@ import type {
   LocalFileDigest,
   PublicJwk,
 } from "../types/record";
+import { parseStrictJson } from "../security/strict-json";
+import { isPlainObject } from "../security/untrusted";
 
 const MAX_LOCAL_FILE_BYTES = 512 * 1024 * 1024;
 
@@ -59,9 +61,32 @@ export async function hashLocalFile(file: File): Promise<LocalFileDigest> {
   };
 }
 
-interface JwsHeader {
-  alg?: unknown;
-  kid?: unknown;
+export function readProtectedHeader(
+  compactJws: string,
+): Record<string, unknown> {
+  const encoded = compactJws.split(".")[0];
+  if (!encoded || encoded.length > 8192) throw new Error("Invalid JWS header.");
+  const header = parseStrictJson(
+    new TextDecoder("utf-8", { fatal: true }).decode(base64UrlToBytes(encoded)),
+    { maxChars: 8192 },
+  );
+  if (!isPlainObject(header)) throw new Error("Invalid JWS header.");
+  return header;
+}
+
+export function isExtendedHeader(header: Record<string, unknown>): boolean {
+  return (
+    header.alg === "ES256" &&
+    typeof header.kid === "string" &&
+    header.typ === "JWS" &&
+    header.uceRecordFormat === "extended-v1" &&
+    Array.isArray(header.crit) &&
+    header.crit.length === 1 &&
+    header.crit[0] === "uceRecordFormat" &&
+    Object.keys(header).every((key) =>
+      ["alg", "kid", "typ", "uceRecordFormat", "crit"].includes(key),
+    )
+  );
 }
 
 export async function verifyEs256ManifestSignature(
@@ -69,6 +94,8 @@ export async function verifyEs256ManifestSignature(
   expectedManifestHash: string,
   expectedKid: string | undefined,
   keys: PublicJwk[],
+  profile: "standard" | "extended-v1" = "standard",
+  allowKidlessStandard = false,
 ): Promise<EvidenceCheck> {
   const parts = compactJws.split(".");
   if (parts.length !== 3 || !parts[0] || !parts[1] || !parts[2]) {
@@ -80,10 +107,34 @@ export async function verifyEs256ManifestSignature(
     };
   }
   try {
-    const header = JSON.parse(
-      new globalThis.TextDecoder().decode(base64UrlToBytes(parts[0])),
-    ) as JwsHeader;
-    if (header.alg !== "ES256" || typeof header.kid !== "string") {
+    const header = readProtectedHeader(compactJws);
+    // Do not downgrade extended records or ignore critical JWS semantics.
+    // A profile must be implemented explicitly before its signature can pass.
+    if (
+      profile === "extended-v1"
+        ? !isExtendedHeader(header)
+        : header.crit !== undefined ||
+          header.uceRecordFormat !== undefined ||
+          header.b64 !== undefined
+    ) {
+      return {
+        id: "platform_signature",
+        label: "Platform ES256 signature",
+        status: "unsupported",
+        explanation:
+          "This signature declares an extension that this Lens build does not verify. Its critical or payload-encoding requirements must not be ignored.",
+      };
+    }
+    const kidless =
+      allowKidlessStandard &&
+      profile === "standard" &&
+      header.kid === undefined &&
+      expectedKid === undefined &&
+      keys.length === 1;
+    if (
+      header.alg !== "ES256" ||
+      (!kidless && typeof header.kid !== "string")
+    ) {
       return {
         id: "platform_signature",
         label: "Platform ES256 signature",
@@ -113,7 +164,7 @@ export async function verifyEs256ManifestSignature(
     }
     const jwk = keys.find(
       (candidate) =>
-        candidate.kid === header.kid &&
+        (kidless || candidate.kid === header.kid) &&
         candidate.kty === "EC" &&
         candidate.crv === "P-256" &&
         candidate.alg === "ES256" &&

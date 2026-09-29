@@ -1,0 +1,2696 @@
+{
+  "format": "cbyuce.hash-profile-vectors.draft-1",
+  "publisherRevision": "81abec2654ebd2f858ae4c6302a058ce7c1bb3de",
+  "status": "DRAFT — synthetic, unsigned; not publisher-issued records or release approval",
+  "records": [
+    {
+      "id": "1.0.0-base",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.0.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-standard-1.0-draft-20260920",
+        "serializer": "standard-ecmascript-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.0.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "anchors": { "arweave": { "txId": "" } },
+          "audit": [],
+          "signatures": {
+            "platformSignature": "",
+            "platformPublicKeyRef": "dev-platform-key"
+          }
+        },
+        "canonical": "{\"anchors\":{\"arweave\":{\"txId\":\"\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"audit\":[],\"files\":[{\"bytes\":5,\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.0.0\",\"signatures\":{\"platformPublicKeyRef\":\"dev-platform-key\",\"platformSignature\":\"\"}}",
+        "sha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546",
+        "canonicalUtf8Hex": "7b22616e63686f7273223a7b2261727765617665223a7b2274784964223a22227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c226175646974223a5b5d2c2266696c6573223a5b7b226279746573223a352c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e302e30222c227369676e617475726573223a7b22706c6174666f726d5075626c69634b6579526566223a226465762d706c6174666f726d2d6b6579222c22706c6174666f726d5369676e6174757265223a22227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "65b022be2c5f59ea7ac92270c2f49acb6386519cfda1a42220062a1cd0093aaa"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "183460fc1dbca852b03a68f8eab62c57f5071ad1401e446b9a0ff2000e825546"
+        }
+      ]
+    },
+    {
+      "id": "2.0.0-base",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "2.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "2.0.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "classical": {
+            "algorithm": "ES256",
+            "jws": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          },
+          "postQuantum": {
+            "algorithm": "ML-DSA-65",
+            "signature": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          }
+        },
+        "metadata": {
+          "createdWith": "Synthetic hybrid fixture",
+          "cryptoLibraries": {
+            "classical": "not-used",
+            "postQuantum": "not-used"
+          }
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-standard-2.0-draft-20260920",
+        "serializer": "standard-ecmascript-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "2.0.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "anchors": { "arweave": { "txId": "" } },
+          "audit": [],
+          "signatures": {
+            "platformSignature": "",
+            "platformPublicKeyRef": "dev-platform-key"
+          }
+        },
+        "canonical": "{\"anchors\":{\"arweave\":{\"txId\":\"\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"audit\":[],\"files\":[{\"bytes\":5,\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"2.0.0\",\"signatures\":{\"platformPublicKeyRef\":\"dev-platform-key\",\"platformSignature\":\"\"}}",
+        "sha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb",
+        "canonicalUtf8Hex": "7b22616e63686f7273223a7b2261727765617665223a7b2274784964223a22227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c226175646974223a5b5d2c2266696c6573223a5b7b226279746573223a352c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22322e302e30222c227369676e617475726573223a7b22706c6174666f726d5075626c69634b6579526566223a226465762d706c6174666f726d2d6b6579222c22706c6174666f726d5369676e6174757265223a22227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "f538abd3b15cd4a8d33efa6dea760f6e1e910418d3a337c093e8af0e36adff33"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        },
+        {
+          "id": "hybrid-metadata",
+          "path": ["metadata", "createdWith"],
+          "value": "Changed metadata",
+          "changesHash": false,
+          "expectedSha256": "8f6105618ce19bff468ccf2fd6bd711d9828226d1c73e692c7e59f52f38c7ccb"
+        }
+      ]
+    },
+    {
+      "id": "1.1.0-base",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "recordDetailsFormat": "extended-v1",
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.1.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "b81302449f885a58f13d07a74a169d7b95418791a899ef3ddba2dfb62c59ce42"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        },
+        "recordDetails": {
+          "format": "extended-v1",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "license": "All Rights Reserved"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-extended-1.1-draft-20260920",
+        "serializer": "extended-lexical-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.1.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "manifestVersion": 1,
+          "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+          "generatedBy": {
+            "application": "Synthetic contract generator",
+            "applicationId": "TEST-ONLY",
+            "version": "0.0.0",
+            "generatedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+              "filename": "synthetic.txt",
+              "mimeType": "text/plain"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "work": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "alternativeTitles": []
+          },
+          "policy": {
+            "aiOptOut": true,
+            "doNotTrain": true,
+            "policyVersion": "1.0.0",
+            "effectiveAt": "2026-01-02T03:04:05.000Z",
+            "license": "All Rights Reserved",
+            "robotsMeta": "noai, noimageai",
+            "rights": "TDM-RESERVED"
+          },
+          "aiProvenance": {
+            "isAIAssisted": false,
+            "humanCreatedPercentage": 100
+          },
+          "recordDetails": {
+            "format": "extended-v1",
+            "copyright": {
+              "title": "Synthetic contract example — not an issued UCE record",
+              "authorName": "Example creator",
+              "creationDate": "2026-01-01",
+              "creationMode": "written",
+              "workCategory": "literary",
+              "rightsDeclaration": "all_rights_reserved",
+              "isWorkMadeForHire": false,
+              "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+            },
+            "license": "All Rights Reserved"
+          },
+          "anchors": {
+            "fileStorage": {
+              "provider": "arweave",
+              "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          }
+        },
+        "canonical": "{\"aiProvenance\":{\"humanCreatedPercentage\":100,\"isAIAssisted\":false},\"anchors\":{\"fileStorage\":{\"contentHash\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\",\"provider\":\"arweave\",\"txId\":\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"files\":[{\"bytes\":5,\"filename\":\"synthetic.txt\",\"mimeType\":\"text/plain\",\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"generatedBy\":{\"application\":\"Synthetic contract generator\",\"applicationId\":\"TEST-ONLY\",\"generatedAt\":\"2026-01-02T03:04:05.000Z\",\"version\":\"0.0.0\"},\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"manifestVersion\":1,\"policy\":{\"aiOptOut\":true,\"doNotTrain\":true,\"effectiveAt\":\"2026-01-02T03:04:05.000Z\",\"license\":\"All Rights Reserved\",\"policyVersion\":\"1.0.0\",\"rights\":\"TDM-RESERVED\",\"robotsMeta\":\"noai, noimageai\"},\"recordDetails\":{\"copyright\":{\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"extendedRecordDetails\":\"Café / Café / 音楽 / 😀\\nLiteral text only.\",\"isWorkMadeForHire\":false,\"rightsDeclaration\":\"all_rights_reserved\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"},\"format\":\"extended-v1\",\"license\":\"All Rights Reserved\"},\"registrationTimestamp\":\"2026-01-02T03:04:05.000Z\",\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.1.0\",\"work\":{\"alternativeTitles\":[],\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"}}",
+        "sha256": "b81302449f885a58f13d07a74a169d7b95418791a899ef3ddba2dfb62c59ce42",
+        "canonicalUtf8Hex": "7b22616950726f76656e616e6365223a7b2268756d616e4372656174656450657263656e74616765223a3130302c22697341494173736973746564223a66616c73657d2c22616e63686f7273223a7b2266696c6553746f72616765223a7b22636f6e74656e7448617368223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234222c2270726f7669646572223a2261727765617665222c2274784964223a2258585858585858585858585858585858585858585858585858585858585858585858585858585858585858227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c2266696c6573223a5b7b226279746573223a352c2266696c656e616d65223a2273796e7468657469632e747874222c226d696d6554797065223a22746578742f706c61696e222c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c2267656e6572617465644279223a7b226170706c69636174696f6e223a2253796e74686574696320636f6e74726163742067656e657261746f72222c226170706c69636174696f6e4964223a22544553542d4f4e4c59222c2267656e6572617465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2276657273696f6e223a22302e302e30227d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c226d616e696665737456657273696f6e223a312c22706f6c696379223a7b2261694f70744f7574223a747275652c22646f4e6f74547261696e223a747275652c226566666563746976654174223a22323032362d30312d30325430333a30343a30352e3030305a222c226c6963656e7365223a22416c6c20526967687473205265736572766564222c22706f6c69637956657273696f6e223a22312e302e30222c22726967687473223a2254444d2d5245534552564544222c22726f626f74734d657461223a226e6f61692c206e6f696d6167656169227d2c227265636f726444657461696c73223a7b22636f70797269676874223a7b22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c22657874656e6465645265636f726444657461696c73223a22436166c3a9202f2043616665cc81202f20e99fb3e6a5bd202f20f09f98805c6e4c69746572616c2074657874206f6e6c792e222c226973576f726b4d616465466f7248697265223a66616c73652c227269676874734465636c61726174696f6e223a22616c6c5f7269676874735f7265736572766564222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d2c22666f726d6174223a22657874656e6465642d7631222c226c6963656e7365223a22416c6c20526967687473205265736572766564227d2c22726567697374726174696f6e54696d657374616d70223a22323032362d30312d30325430333a30343a30352e3030305a222c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e312e30222c22776f726b223a7b22616c7465726e61746976655469746c6573223a5b5d2c22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "a7e05a406e32f64e26a4de28609a0d9eb415bea2601a8fdbfdfaac339eadc23b"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": true,
+          "expectedSha256": "c06e5a44981fb671e4b35be7f37cc3d5d50a273bdffb1da204e78b880b7c5f55"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": true,
+          "expectedSha256": "cd486c1e4ef0d618f9023ecb236675f745c834cb5d42fffdc3be02aef0391651"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": true,
+          "expectedSha256": "2c5b1bbf5d2e801aa15611c58af2b027da3e52cf11bd48b385d4c75a43f009ec"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": true,
+          "expectedSha256": "352aa6fed7428c6b915d5d87243a05f49d54124609e69d7aac30e91ced155ab9"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "b81302449f885a58f13d07a74a169d7b95418791a899ef3ddba2dfb62c59ce42"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "b81302449f885a58f13d07a74a169d7b95418791a899ef3ddba2dfb62c59ce42"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "b81302449f885a58f13d07a74a169d7b95418791a899ef3ddba2dfb62c59ce42"
+        },
+        {
+          "id": "extended-details",
+          "path": ["recordDetails", "copyright", "extendedRecordDetails"],
+          "value": "Changed details",
+          "changesHash": true,
+          "expectedSha256": "5161ba61a589678a5b38b5dc77fb5b2b41414c31c08624f2b778baf2d66b2e5e"
+        }
+      ]
+    },
+    {
+      "id": "2.1.0-base",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "recordDetailsFormat": "extended-v1",
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "2.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "2.1.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "36839e3f49df42b1232451d84e6a802df75248d3113c4da0477997df1054e0e1"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "classical": {
+            "algorithm": "ES256",
+            "jws": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          },
+          "postQuantum": {
+            "algorithm": "ML-DSA-65",
+            "signature": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          }
+        },
+        "metadata": {
+          "createdWith": "Synthetic hybrid fixture",
+          "cryptoLibraries": {
+            "classical": "not-used",
+            "postQuantum": "not-used"
+          }
+        },
+        "recordDetails": {
+          "format": "extended-v1",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "license": "All Rights Reserved"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-extended-2.1-draft-20260920",
+        "serializer": "extended-lexical-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "2.1.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "manifestVersion": 1,
+          "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+          "generatedBy": {
+            "application": "Synthetic contract generator",
+            "applicationId": "TEST-ONLY",
+            "version": "0.0.0",
+            "generatedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+              "filename": "synthetic.txt",
+              "mimeType": "text/plain"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "work": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "alternativeTitles": []
+          },
+          "policy": {
+            "aiOptOut": true,
+            "doNotTrain": true,
+            "policyVersion": "1.0.0",
+            "effectiveAt": "2026-01-02T03:04:05.000Z",
+            "license": "All Rights Reserved",
+            "robotsMeta": "noai, noimageai",
+            "rights": "TDM-RESERVED"
+          },
+          "aiProvenance": {
+            "isAIAssisted": false,
+            "humanCreatedPercentage": 100
+          },
+          "recordDetails": {
+            "format": "extended-v1",
+            "copyright": {
+              "title": "Synthetic contract example — not an issued UCE record",
+              "authorName": "Example creator",
+              "creationDate": "2026-01-01",
+              "creationMode": "written",
+              "workCategory": "literary",
+              "rightsDeclaration": "all_rights_reserved",
+              "isWorkMadeForHire": false,
+              "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+            },
+            "license": "All Rights Reserved"
+          },
+          "metadata": {
+            "createdWith": "Synthetic hybrid fixture",
+            "cryptoLibraries": {
+              "classical": "not-used",
+              "postQuantum": "not-used"
+            }
+          },
+          "anchors": {
+            "fileStorage": {
+              "provider": "arweave",
+              "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          }
+        },
+        "canonical": "{\"aiProvenance\":{\"humanCreatedPercentage\":100,\"isAIAssisted\":false},\"anchors\":{\"fileStorage\":{\"contentHash\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\",\"provider\":\"arweave\",\"txId\":\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"files\":[{\"bytes\":5,\"filename\":\"synthetic.txt\",\"mimeType\":\"text/plain\",\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"generatedBy\":{\"application\":\"Synthetic contract generator\",\"applicationId\":\"TEST-ONLY\",\"generatedAt\":\"2026-01-02T03:04:05.000Z\",\"version\":\"0.0.0\"},\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"manifestVersion\":1,\"metadata\":{\"createdWith\":\"Synthetic hybrid fixture\",\"cryptoLibraries\":{\"classical\":\"not-used\",\"postQuantum\":\"not-used\"}},\"policy\":{\"aiOptOut\":true,\"doNotTrain\":true,\"effectiveAt\":\"2026-01-02T03:04:05.000Z\",\"license\":\"All Rights Reserved\",\"policyVersion\":\"1.0.0\",\"rights\":\"TDM-RESERVED\",\"robotsMeta\":\"noai, noimageai\"},\"recordDetails\":{\"copyright\":{\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"extendedRecordDetails\":\"Café / Café / 音楽 / 😀\\nLiteral text only.\",\"isWorkMadeForHire\":false,\"rightsDeclaration\":\"all_rights_reserved\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"},\"format\":\"extended-v1\",\"license\":\"All Rights Reserved\"},\"registrationTimestamp\":\"2026-01-02T03:04:05.000Z\",\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"2.1.0\",\"work\":{\"alternativeTitles\":[],\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"}}",
+        "sha256": "36839e3f49df42b1232451d84e6a802df75248d3113c4da0477997df1054e0e1",
+        "canonicalUtf8Hex": "7b22616950726f76656e616e6365223a7b2268756d616e4372656174656450657263656e74616765223a3130302c22697341494173736973746564223a66616c73657d2c22616e63686f7273223a7b2266696c6553746f72616765223a7b22636f6e74656e7448617368223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234222c2270726f7669646572223a2261727765617665222c2274784964223a2258585858585858585858585858585858585858585858585858585858585858585858585858585858585858227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c2266696c6573223a5b7b226279746573223a352c2266696c656e616d65223a2273796e7468657469632e747874222c226d696d6554797065223a22746578742f706c61696e222c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c2267656e6572617465644279223a7b226170706c69636174696f6e223a2253796e74686574696320636f6e74726163742067656e657261746f72222c226170706c69636174696f6e4964223a22544553542d4f4e4c59222c2267656e6572617465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2276657273696f6e223a22302e302e30227d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c226d616e696665737456657273696f6e223a312c226d65746164617461223a7b226372656174656457697468223a2253796e746865746963206879627269642066697874757265222c2263727970746f4c6962726172696573223a7b22636c6173736963616c223a226e6f742d75736564222c22706f73745175616e74756d223a226e6f742d75736564227d7d2c22706f6c696379223a7b2261694f70744f7574223a747275652c22646f4e6f74547261696e223a747275652c226566666563746976654174223a22323032362d30312d30325430333a30343a30352e3030305a222c226c6963656e7365223a22416c6c20526967687473205265736572766564222c22706f6c69637956657273696f6e223a22312e302e30222c22726967687473223a2254444d2d5245534552564544222c22726f626f74734d657461223a226e6f61692c206e6f696d6167656169227d2c227265636f726444657461696c73223a7b22636f70797269676874223a7b22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c22657874656e6465645265636f726444657461696c73223a22436166c3a9202f2043616665cc81202f20e99fb3e6a5bd202f20f09f98805c6e4c69746572616c2074657874206f6e6c792e222c226973576f726b4d616465466f7248697265223a66616c73652c227269676874734465636c61726174696f6e223a22616c6c5f7269676874735f7265736572766564222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d2c22666f726d6174223a22657874656e6465642d7631222c226c6963656e7365223a22416c6c20526967687473205265736572766564227d2c22726567697374726174696f6e54696d657374616d70223a22323032362d30312d30325430333a30343a30352e3030305a222c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22322e312e30222c22776f726b223a7b22616c7465726e61746976655469746c6573223a5b5d2c22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "0219ef3e595ab9c39ce69d44e2097712f362b438853be7ef899da858b81af067"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": true,
+          "expectedSha256": "c63b40f29dbf96561b258c6d114493963459980cab3dead813b5d0ec53dac092"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": true,
+          "expectedSha256": "78946a9e22bee0ec23e07097bf10051c08dfc10b3b8344763b76c609133664ca"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": true,
+          "expectedSha256": "1b56d375f82ebb180a67d565c5b1c83012cc026a2b33cfc408405fff9574c713"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": true,
+          "expectedSha256": "7da1d090afddc4742c91da606dd7068701f2545b0e03ca3ccbcdf679e72f8113"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "36839e3f49df42b1232451d84e6a802df75248d3113c4da0477997df1054e0e1"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "36839e3f49df42b1232451d84e6a802df75248d3113c4da0477997df1054e0e1"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "36839e3f49df42b1232451d84e6a802df75248d3113c4da0477997df1054e0e1"
+        },
+        {
+          "id": "extended-details",
+          "path": ["recordDetails", "copyright", "extendedRecordDetails"],
+          "value": "Changed details",
+          "changesHash": true,
+          "expectedSha256": "fd57552fe5991e3e4588058797581923ba1540bd2555df59baa36e62a8ccd7d5"
+        },
+        {
+          "id": "hybrid-metadata",
+          "path": ["metadata", "createdWith"],
+          "value": "Changed metadata",
+          "changesHash": true,
+          "expectedSha256": "41de50fcf3cf2e0dd141f6c58dc932fbeec43f64cd671d600d83b5a47734409c"
+        }
+      ]
+    },
+    {
+      "id": "1.0.0-figma",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false
+          },
+          "source": {
+            "type": "connector",
+            "platform": "figma",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0"
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.0.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        },
+        "source": {
+          "type": "connector",
+          "platform": "figma",
+          "connectorVersion": "1.0.0",
+          "intakeContractVersion": "1.0.0"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-standard-1.0-draft-20260920",
+        "serializer": "standard-ecmascript-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.0.0",
+          "source": {
+            "type": "connector",
+            "platform": "figma",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0"
+          },
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "anchors": { "arweave": { "txId": "" } },
+          "audit": [],
+          "signatures": {
+            "platformSignature": "",
+            "platformPublicKeyRef": "dev-platform-key"
+          }
+        },
+        "canonical": "{\"anchors\":{\"arweave\":{\"txId\":\"\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"audit\":[],\"files\":[{\"bytes\":5,\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.0.0\",\"signatures\":{\"platformPublicKeyRef\":\"dev-platform-key\",\"platformSignature\":\"\"},\"source\":{\"connectorVersion\":\"1.0.0\",\"intakeContractVersion\":\"1.0.0\",\"platform\":\"figma\",\"type\":\"connector\"}}",
+        "sha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9",
+        "canonicalUtf8Hex": "7b22616e63686f7273223a7b2261727765617665223a7b2274784964223a22227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c226175646974223a5b5d2c2266696c6573223a5b7b226279746573223a352c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e302e30222c227369676e617475726573223a7b22706c6174666f726d5075626c69634b6579526566223a226465762d706c6174666f726d2d6b6579222c22706c6174666f726d5369676e6174757265223a22227d2c22736f75726365223a7b22636f6e6e6563746f7256657273696f6e223a22312e302e30222c22696e74616b65436f6e747261637456657273696f6e223a22312e302e30222c22706c6174666f726d223a226669676d61222c2274797065223a22636f6e6e6563746f72227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "1c704eca598ca2750b26e1fc06a33937d940494b5338cea4199782f75eec7b77"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "94021eeca3af292022b9f7bd9c0e3b73f6d9da5b26f92e223311914413a589d9"
+        },
+        {
+          "id": "connector-version",
+          "path": ["source", "connectorVersion"],
+          "value": "9.9.9",
+          "changesHash": true,
+          "expectedSha256": "62d568af6d3477f23f890017ee89b119b375fe3bc010900a955a3032f236765b"
+        }
+      ]
+    },
+    {
+      "id": "2.0.0-pro-tools",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false
+          },
+          "source": {
+            "type": "connector",
+            "platform": "pro-tools",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0",
+            "originAssurance": "self_reported"
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "2.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "2.0.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "classical": {
+            "algorithm": "ES256",
+            "jws": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          },
+          "postQuantum": {
+            "algorithm": "ML-DSA-65",
+            "signature": "NOT-A-SIGNATURE",
+            "publicKeyRef": "SYNTHETIC"
+          }
+        },
+        "source": {
+          "type": "connector",
+          "platform": "pro-tools",
+          "connectorVersion": "1.0.0",
+          "intakeContractVersion": "1.0.0",
+          "originAssurance": "self_reported"
+        },
+        "metadata": {
+          "createdWith": "Synthetic hybrid fixture",
+          "cryptoLibraries": {
+            "classical": "not-used",
+            "postQuantum": "not-used"
+          }
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-standard-2.0-draft-20260920",
+        "serializer": "standard-ecmascript-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "2.0.0",
+          "source": {
+            "type": "connector",
+            "platform": "pro-tools",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0",
+            "originAssurance": "self_reported"
+          },
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "anchors": { "arweave": { "txId": "" } },
+          "audit": [],
+          "signatures": {
+            "platformSignature": "",
+            "platformPublicKeyRef": "dev-platform-key"
+          }
+        },
+        "canonical": "{\"anchors\":{\"arweave\":{\"txId\":\"\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"audit\":[],\"files\":[{\"bytes\":5,\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"2.0.0\",\"signatures\":{\"platformPublicKeyRef\":\"dev-platform-key\",\"platformSignature\":\"\"},\"source\":{\"connectorVersion\":\"1.0.0\",\"intakeContractVersion\":\"1.0.0\",\"originAssurance\":\"self_reported\",\"platform\":\"pro-tools\",\"type\":\"connector\"}}",
+        "sha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0",
+        "canonicalUtf8Hex": "7b22616e63686f7273223a7b2261727765617665223a7b2274784964223a22227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c226175646974223a5b5d2c2266696c6573223a5b7b226279746573223a352c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22322e302e30222c227369676e617475726573223a7b22706c6174666f726d5075626c69634b6579526566223a226465762d706c6174666f726d2d6b6579222c22706c6174666f726d5369676e6174757265223a22227d2c22736f75726365223a7b22636f6e6e6563746f7256657273696f6e223a22312e302e30222c22696e74616b65436f6e747261637456657273696f6e223a22312e302e30222c226f726967696e4173737572616e6365223a2273656c665f7265706f72746564222c22706c6174666f726d223a2270726f2d746f6f6c73222c2274797065223a22636f6e6e6563746f72227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "c9de0ea37a2d10e7a4a72870da88a3e0d8736780e9cc34397b455d916f623569"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        },
+        {
+          "id": "connector-version",
+          "path": ["source", "connectorVersion"],
+          "value": "9.9.9",
+          "changesHash": true,
+          "expectedSha256": "57df0b900dbc18baa08b7176f83ca92af2fd705b107af301b1601bc1217b7bd1"
+        },
+        {
+          "id": "hybrid-metadata",
+          "path": ["metadata", "createdWith"],
+          "value": "Changed metadata",
+          "changesHash": false,
+          "expectedSha256": "f336f35fb72f933b78dc953e689c3549e756fc4e8d0947bcaf205fcf128172d0"
+        }
+      ]
+    },
+    {
+      "id": "1.1.0-ableton",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "recordDetailsFormat": "extended-v1",
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "source": {
+            "type": "connector",
+            "platform": "ableton",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0",
+            "originAssurance": "self_reported"
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.1.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "aa1db0bee964583dff8626639f1b4805424d9414800626ee97672095f2b2a7f4"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        },
+        "source": {
+          "type": "connector",
+          "platform": "ableton",
+          "connectorVersion": "1.0.0",
+          "intakeContractVersion": "1.0.0",
+          "originAssurance": "self_reported"
+        },
+        "recordDetails": {
+          "format": "extended-v1",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "license": "All Rights Reserved"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-extended-1.1-draft-20260920",
+        "serializer": "extended-lexical-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.1.0",
+          "source": {
+            "type": "connector",
+            "platform": "ableton",
+            "connectorVersion": "1.0.0",
+            "intakeContractVersion": "1.0.0",
+            "originAssurance": "self_reported"
+          },
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "manifestVersion": 1,
+          "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+          "generatedBy": {
+            "application": "Synthetic contract generator",
+            "applicationId": "TEST-ONLY",
+            "version": "0.0.0",
+            "generatedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+              "filename": "synthetic.txt",
+              "mimeType": "text/plain"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "work": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "alternativeTitles": []
+          },
+          "policy": {
+            "aiOptOut": true,
+            "doNotTrain": true,
+            "policyVersion": "1.0.0",
+            "effectiveAt": "2026-01-02T03:04:05.000Z",
+            "license": "All Rights Reserved",
+            "robotsMeta": "noai, noimageai",
+            "rights": "TDM-RESERVED"
+          },
+          "aiProvenance": {
+            "isAIAssisted": false,
+            "humanCreatedPercentage": 100
+          },
+          "recordDetails": {
+            "format": "extended-v1",
+            "copyright": {
+              "title": "Synthetic contract example — not an issued UCE record",
+              "authorName": "Example creator",
+              "creationDate": "2026-01-01",
+              "creationMode": "written",
+              "workCategory": "literary",
+              "rightsDeclaration": "all_rights_reserved",
+              "isWorkMadeForHire": false,
+              "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+            },
+            "license": "All Rights Reserved"
+          },
+          "anchors": {
+            "fileStorage": {
+              "provider": "arweave",
+              "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          }
+        },
+        "canonical": "{\"aiProvenance\":{\"humanCreatedPercentage\":100,\"isAIAssisted\":false},\"anchors\":{\"fileStorage\":{\"contentHash\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\",\"provider\":\"arweave\",\"txId\":\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"}},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"files\":[{\"bytes\":5,\"filename\":\"synthetic.txt\",\"mimeType\":\"text/plain\",\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"generatedBy\":{\"application\":\"Synthetic contract generator\",\"applicationId\":\"TEST-ONLY\",\"generatedAt\":\"2026-01-02T03:04:05.000Z\",\"version\":\"0.0.0\"},\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"manifestVersion\":1,\"policy\":{\"aiOptOut\":true,\"doNotTrain\":true,\"effectiveAt\":\"2026-01-02T03:04:05.000Z\",\"license\":\"All Rights Reserved\",\"policyVersion\":\"1.0.0\",\"rights\":\"TDM-RESERVED\",\"robotsMeta\":\"noai, noimageai\"},\"recordDetails\":{\"copyright\":{\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"extendedRecordDetails\":\"Café / Café / 音楽 / 😀\\nLiteral text only.\",\"isWorkMadeForHire\":false,\"rightsDeclaration\":\"all_rights_reserved\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"},\"format\":\"extended-v1\",\"license\":\"All Rights Reserved\"},\"registrationTimestamp\":\"2026-01-02T03:04:05.000Z\",\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.1.0\",\"source\":{\"connectorVersion\":\"1.0.0\",\"intakeContractVersion\":\"1.0.0\",\"originAssurance\":\"self_reported\",\"platform\":\"ableton\",\"type\":\"connector\"},\"work\":{\"alternativeTitles\":[],\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"}}",
+        "sha256": "aa1db0bee964583dff8626639f1b4805424d9414800626ee97672095f2b2a7f4",
+        "canonicalUtf8Hex": "7b22616950726f76656e616e6365223a7b2268756d616e4372656174656450657263656e74616765223a3130302c22697341494173736973746564223a66616c73657d2c22616e63686f7273223a7b2266696c6553746f72616765223a7b22636f6e74656e7448617368223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234222c2270726f7669646572223a2261727765617665222c2274784964223a2258585858585858585858585858585858585858585858585858585858585858585858585858585858585858227d7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c2266696c6573223a5b7b226279746573223a352c2266696c656e616d65223a2273796e7468657469632e747874222c226d696d6554797065223a22746578742f706c61696e222c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c2267656e6572617465644279223a7b226170706c69636174696f6e223a2253796e74686574696320636f6e74726163742067656e657261746f72222c226170706c69636174696f6e4964223a22544553542d4f4e4c59222c2267656e6572617465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2276657273696f6e223a22302e302e30227d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c226d616e696665737456657273696f6e223a312c22706f6c696379223a7b2261694f70744f7574223a747275652c22646f4e6f74547261696e223a747275652c226566666563746976654174223a22323032362d30312d30325430333a30343a30352e3030305a222c226c6963656e7365223a22416c6c20526967687473205265736572766564222c22706f6c69637956657273696f6e223a22312e302e30222c22726967687473223a2254444d2d5245534552564544222c22726f626f74734d657461223a226e6f61692c206e6f696d6167656169227d2c227265636f726444657461696c73223a7b22636f70797269676874223a7b22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c22657874656e6465645265636f726444657461696c73223a22436166c3a9202f2043616665cc81202f20e99fb3e6a5bd202f20f09f98805c6e4c69746572616c2074657874206f6e6c792e222c226973576f726b4d616465466f7248697265223a66616c73652c227269676874734465636c61726174696f6e223a22616c6c5f7269676874735f7265736572766564222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d2c22666f726d6174223a22657874656e6465642d7631222c226c6963656e7365223a22416c6c20526967687473205265736572766564227d2c22726567697374726174696f6e54696d657374616d70223a22323032362d30312d30325430333a30343a30352e3030305a222c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e312e30222c22736f75726365223a7b22636f6e6e6563746f7256657273696f6e223a22312e302e30222c22696e74616b65436f6e747261637456657273696f6e223a22312e302e30222c226f726967696e4173737572616e6365223a2273656c665f7265706f72746564222c22706c6174666f726d223a2261626c65746f6e222c2274797065223a22636f6e6e6563746f72227d2c22776f726b223a7b22616c7465726e61746976655469746c6573223a5b5d2c22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "da59cfd9c22e398b33c2f4f32a1b4dcfbab1b7078b13fc820685073206da3d00"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": true,
+          "expectedSha256": "0231c3854748efa56819c5dcc8b8f5f38ec0e99669d4de0d8a3648132bdb5254"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": true,
+          "expectedSha256": "312a957f9896b9269a24a9a28b59060bade7c8845591e36fbb2fefe4b7e13250"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": true,
+          "expectedSha256": "6ff397fcb7b94ab6f59d7f2140b8b2e995b90826dab7d468ced4405a2af5a73d"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": true,
+          "expectedSha256": "38f3586cfcf17873a6aa9eabca7bfccef7811bad98f6bff0731cb853cfe68a7f"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "aa1db0bee964583dff8626639f1b4805424d9414800626ee97672095f2b2a7f4"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "aa1db0bee964583dff8626639f1b4805424d9414800626ee97672095f2b2a7f4"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "aa1db0bee964583dff8626639f1b4805424d9414800626ee97672095f2b2a7f4"
+        },
+        {
+          "id": "extended-details",
+          "path": ["recordDetails", "copyright", "extendedRecordDetails"],
+          "value": "Changed details",
+          "changesHash": true,
+          "expectedSha256": "98ffd392dab1b39e7e1914715e52319554900cf159ed05bff11ea168c74de849"
+        },
+        {
+          "id": "connector-version",
+          "path": ["source", "connectorVersion"],
+          "value": "9.9.9",
+          "changesHash": true,
+          "expectedSha256": "65308b3d9dd68a883ee5859f9091a58ea6b42d890327d6ce974fb833fcc76437"
+        }
+      ]
+    },
+    {
+      "id": "1.1.0-base-minimal",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "recordDetailsFormat": "extended-v1",
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.1.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "c53282651bc63fd791b4cc8b42416b8f1e225dedb338c811316f477db97befd8"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["authenticated_account"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "originalityOath": {
+            "accepted": true,
+            "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": { "arweave": { "txId": "" } },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        },
+        "recordDetails": {
+          "format": "extended-v1",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "license": "All Rights Reserved"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-extended-1.1-draft-20260920",
+        "serializer": "extended-lexical-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.1.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "originalityOath": {
+              "accepted": true,
+              "textHash": "41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "manifestVersion": 1,
+          "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+          "generatedBy": {
+            "application": "Synthetic contract generator",
+            "applicationId": "TEST-ONLY",
+            "version": "0.0.0",
+            "generatedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+              "filename": "synthetic.txt",
+              "mimeType": "text/plain"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["authenticated_account"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "work": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "alternativeTitles": []
+          },
+          "policy": {
+            "aiOptOut": true,
+            "doNotTrain": true,
+            "policyVersion": "1.0.0",
+            "effectiveAt": "2026-01-02T03:04:05.000Z",
+            "license": "All Rights Reserved",
+            "robotsMeta": "noai, noimageai",
+            "rights": "TDM-RESERVED"
+          },
+          "aiProvenance": {
+            "isAIAssisted": false,
+            "humanCreatedPercentage": 100
+          },
+          "recordDetails": {
+            "format": "extended-v1",
+            "copyright": {
+              "title": "Synthetic contract example — not an issued UCE record",
+              "authorName": "Example creator",
+              "creationDate": "2026-01-01",
+              "creationMode": "written",
+              "workCategory": "literary",
+              "rightsDeclaration": "all_rights_reserved",
+              "isWorkMadeForHire": false,
+              "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+            },
+            "license": "All Rights Reserved"
+          },
+          "anchors": {}
+        },
+        "canonical": "{\"aiProvenance\":{\"humanCreatedPercentage\":100,\"isAIAssisted\":false},\"anchors\":{},\"attestations\":{\"originalityOath\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"textHash\":\"41cbe6c79f3a05e8f2de2d226ed48a5ce72160c14302cdf2d7c2b89f5aaa310d\"}},\"files\":[{\"bytes\":5,\"filename\":\"synthetic.txt\",\"mimeType\":\"text/plain\",\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"generatedBy\":{\"application\":\"Synthetic contract generator\",\"applicationId\":\"TEST-ONLY\",\"generatedAt\":\"2026-01-02T03:04:05.000Z\",\"version\":\"0.0.0\"},\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"authenticated_account\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"manifestVersion\":1,\"policy\":{\"aiOptOut\":true,\"doNotTrain\":true,\"effectiveAt\":\"2026-01-02T03:04:05.000Z\",\"license\":\"All Rights Reserved\",\"policyVersion\":\"1.0.0\",\"rights\":\"TDM-RESERVED\",\"robotsMeta\":\"noai, noimageai\"},\"recordDetails\":{\"copyright\":{\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"extendedRecordDetails\":\"Café / Café / 音楽 / 😀\\nLiteral text only.\",\"isWorkMadeForHire\":false,\"rightsDeclaration\":\"all_rights_reserved\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"},\"format\":\"extended-v1\",\"license\":\"All Rights Reserved\"},\"registrationTimestamp\":\"2026-01-02T03:04:05.000Z\",\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.1.0\",\"work\":{\"alternativeTitles\":[],\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"}}",
+        "sha256": "c53282651bc63fd791b4cc8b42416b8f1e225dedb338c811316f477db97befd8",
+        "canonicalUtf8Hex": "7b22616950726f76656e616e6365223a7b2268756d616e4372656174656450657263656e74616765223a3130302c22697341494173736973746564223a66616c73657d2c22616e63686f7273223a7b7d2c226174746573746174696f6e73223a7b226f726967696e616c6974794f617468223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c227465787448617368223a2234316362653663373966336130356538663264653264323236656434386135636537323136306331343330326364663264376332623839663561616133313064227d7d2c2266696c6573223a5b7b226279746573223a352c2266696c656e616d65223a2273796e7468657469632e747874222c226d696d6554797065223a22746578742f706c61696e222c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c2267656e6572617465644279223a7b226170706c69636174696f6e223a2253796e74686574696320636f6e74726163742067656e657261746f72222c226170706c69636174696f6e4964223a22544553542d4f4e4c59222c2267656e6572617465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2276657273696f6e223a22302e302e30227d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b2261757468656e746963617465645f6163636f756e74225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c226d616e696665737456657273696f6e223a312c22706f6c696379223a7b2261694f70744f7574223a747275652c22646f4e6f74547261696e223a747275652c226566666563746976654174223a22323032362d30312d30325430333a30343a30352e3030305a222c226c6963656e7365223a22416c6c20526967687473205265736572766564222c22706f6c69637956657273696f6e223a22312e302e30222c22726967687473223a2254444d2d5245534552564544222c22726f626f74734d657461223a226e6f61692c206e6f696d6167656169227d2c227265636f726444657461696c73223a7b22636f70797269676874223a7b22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c22657874656e6465645265636f726444657461696c73223a22436166c3a9202f2043616665cc81202f20e99fb3e6a5bd202f20f09f98805c6e4c69746572616c2074657874206f6e6c792e222c226973576f726b4d616465466f7248697265223a66616c73652c227269676874734465636c61726174696f6e223a22616c6c5f7269676874735f7265736572766564222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d2c22666f726d6174223a22657874656e6465642d7631222c226c6963656e7365223a22416c6c20526967687473205265736572766564227d2c22726567697374726174696f6e54696d657374616d70223a22323032362d30312d30325430333a30343a30352e3030305a222c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e312e30222c22776f726b223a7b22616c7465726e61746976655469746c6573223a5b5d2c22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "74ccb03ac847c788a34ab1e63902acfb42c1fd6c87da6644656fdd66eae76770"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": true,
+          "expectedSha256": "23f44253885bcc3ad7151bfe927367193f9d4b9f725a9d49bf41bedaa84d91c5"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": true,
+          "expectedSha256": "3af6e2921b4fa0557c477b7ae91503ea2d953b33c3468ccfca881e67e7db7df0"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": true,
+          "expectedSha256": "4865ec869918df9ca52137fff208a3b9bf374fb54133e75668bd2e240d71a2bd"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": true,
+          "expectedSha256": "cb9acaf57c0f98b36958d3eaf838d65defea5feb75dc1a47829b78bf6e9ae18b"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "c53282651bc63fd791b4cc8b42416b8f1e225dedb338c811316f477db97befd8"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "c53282651bc63fd791b4cc8b42416b8f1e225dedb338c811316f477db97befd8"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "c53282651bc63fd791b4cc8b42416b8f1e225dedb338c811316f477db97befd8"
+        },
+        {
+          "id": "extended-details",
+          "path": ["recordDetails", "copyright", "extendedRecordDetails"],
+          "value": "Changed details",
+          "changesHash": true,
+          "expectedSha256": "c5d2be779c083480c0310c3ec2c7344e9e0b142d5cabb9c726a964b709548937"
+        }
+      ]
+    },
+    {
+      "id": "1.0.0-base-current-attestations",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false
+          },
+          "flowVersion": "1.3.1",
+          "authAssuranceMethod": "google_oauth",
+          "attestation": {
+            "version": "1.3.1",
+            "claimantAdoption": {
+              "accepted": true,
+              "text": "Synthetic claimant adoption statement; not a real attestation.",
+              "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+              "recordedAt": "2026-01-02T03:04:05.000Z"
+            },
+            "publicPermanence": {
+              "accepted": true,
+              "text": "Synthetic permanence statement; nothing has been published.",
+              "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+              "recordedAt": "2026-01-02T03:04:05.000Z"
+            }
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.0.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["google_oauth"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "claimantAdoption": {
+            "accepted": true,
+            "version": "1.3.1",
+            "text": "Synthetic claimant adoption statement; not a real attestation.",
+            "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "publicPermanence": {
+            "accepted": true,
+            "version": "1.3.1",
+            "text": "Synthetic permanence statement; nothing has been published.",
+            "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-standard-1.0-draft-20260920",
+        "serializer": "standard-ecmascript-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.0.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "claimantAdoption": {
+              "accepted": true,
+              "version": "1.3.1",
+              "text": "Synthetic claimant adoption statement; not a real attestation.",
+              "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            },
+            "publicPermanence": {
+              "accepted": true,
+              "version": "1.3.1",
+              "text": "Synthetic permanence statement; nothing has been published.",
+              "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["google_oauth"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "anchors": { "arweave": { "txId": "" } },
+          "audit": [],
+          "signatures": {
+            "platformSignature": "",
+            "platformPublicKeyRef": "dev-platform-key"
+          }
+        },
+        "canonical": "{\"anchors\":{\"arweave\":{\"txId\":\"\"}},\"attestations\":{\"claimantAdoption\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"text\":\"Synthetic claimant adoption statement; not a real attestation.\",\"textHash\":\"34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e\",\"version\":\"1.3.1\"},\"publicPermanence\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"text\":\"Synthetic permanence statement; nothing has been published.\",\"textHash\":\"d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a\",\"version\":\"1.3.1\"}},\"audit\":[],\"files\":[{\"bytes\":5,\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"google_oauth\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.0.0\",\"signatures\":{\"platformPublicKeyRef\":\"dev-platform-key\",\"platformSignature\":\"\"}}",
+        "sha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070",
+        "canonicalUtf8Hex": "7b22616e63686f7273223a7b2261727765617665223a7b2274784964223a22227d7d2c226174746573746174696f6e73223a7b22636c61696d616e7441646f7074696f6e223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2274657874223a2253796e74686574696320636c61696d616e742061646f7074696f6e2073746174656d656e743b206e6f742061207265616c206174746573746174696f6e2e222c227465787448617368223a2233346535323662393366653261666230353631316561383237623836386431373162616136643661663966326563393836343039316631653330613961323165222c2276657273696f6e223a22312e332e31227d2c227075626c69635065726d616e656e6365223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2274657874223a2253796e746865746963207065726d616e656e63652073746174656d656e743b206e6f7468696e6720686173206265656e207075626c69736865642e222c227465787448617368223a2264346466346530383037636134636139653263653338393561343331336634303466333636313631323533336465343538333464626263376664303635633261222c2276657273696f6e223a22312e332e31227d7d2c226175646974223a5b5d2c2266696c6573223a5b7b226279746573223a352c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b22676f6f676c655f6f61757468225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e302e30222c227369676e617475726573223a7b22706c6174666f726d5075626c69634b6579526566223a226465762d706c6174666f726d2d6b6579222c22706c6174666f726d5369676e6174757265223a22227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "1be4ac532331f62d60480447b3e05e0f787e391dd718f6c765ae8940422ee5a1"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "17e8fb1dce0db9658737800b9514a93c4bc0084d9e93c71a7d6aebbc50a0a070"
+        }
+      ]
+    },
+    {
+      "id": "1.1.0-base-current-attestations",
+      "kind": "synthetic-unsigned-hash-only",
+      "publisherInput": {
+        "upload": {
+          "fileName": "synthetic.txt",
+          "fileType": "text/plain",
+          "fileSize": 5,
+          "createdAt": "2026-01-02T03:04:05.000Z",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "recordDetailsFormat": "extended-v1",
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "flowVersion": "1.3.1",
+          "authAssuranceMethod": "google_oauth",
+          "attestation": {
+            "version": "1.3.1",
+            "claimantAdoption": {
+              "accepted": true,
+              "text": "Synthetic claimant adoption statement; not a real attestation.",
+              "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+              "recordedAt": "2026-01-02T03:04:05.000Z"
+            },
+            "publicPermanence": {
+              "accepted": true,
+              "text": "Synthetic permanence statement; nothing has been published.",
+              "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+              "recordedAt": "2026-01-02T03:04:05.000Z"
+            }
+          }
+        },
+        "fileHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "generatedAt": "2026-01-02T03:04:05.000Z",
+        "schemaVersion": "1.0.0"
+      },
+      "manifest": {
+        "schema": "uce.evidence.manifest",
+        "schemaVersion": "1.1.0",
+        "manifestVersion": 1,
+        "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+        "generatedBy": {
+          "application": "Synthetic contract generator",
+          "applicationId": "TEST-ONLY",
+          "version": "0.0.0",
+          "generatedAt": "2026-01-02T03:04:05.000Z"
+        },
+        "work": {
+          "title": "Synthetic contract example — not an issued UCE record",
+          "authorName": "Example creator",
+          "creationDate": "2026-01-01",
+          "creationMode": "written",
+          "workCategory": "literary",
+          "alternativeTitles": []
+        },
+        "files": [
+          {
+            "bytes": 5,
+            "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "filename": "synthetic.txt",
+            "mimeType": "text/plain"
+          }
+        ],
+        "hashes": {
+          "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "algorithm": "sha256",
+          "canonicalization": "RFC8785",
+          "manifestHash": "8607f1e5cc9de55a44d94217599e95a837b42d11436e9aed639484132d46cc15"
+        },
+        "identity": {
+          "assurance": {
+            "level": "IAL1",
+            "methods": ["google_oauth"],
+            "verifiedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "attestations": {
+          "claimantAdoption": {
+            "accepted": true,
+            "version": "1.3.1",
+            "text": "Synthetic claimant adoption statement; not a real attestation.",
+            "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "publicPermanence": {
+            "accepted": true,
+            "version": "1.3.1",
+            "text": "Synthetic permanence statement; nothing has been published.",
+            "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+            "acceptedAt": "2026-01-02T03:04:05.000Z"
+          }
+        },
+        "aiProvenance": {
+          "isAIAssisted": false,
+          "humanCreatedPercentage": 100
+        },
+        "policy": {
+          "aiOptOut": true,
+          "doNotTrain": true,
+          "policyVersion": "1.0.0",
+          "effectiveAt": "2026-01-02T03:04:05.000Z",
+          "license": "All Rights Reserved",
+          "robotsMeta": "noai, noimageai",
+          "rights": "TDM-RESERVED"
+        },
+        "anchors": {
+          "arweave": { "txId": "" },
+          "fileStorage": {
+            "provider": "arweave",
+            "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+            "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+          }
+        },
+        "audit": [
+          { "event": "synthetic.fixture", "at": "2026-01-02T03:04:05.000Z" }
+        ],
+        "signatures": {
+          "platformSignature": "NOT-A-SIGNATURE",
+          "platformPublicKeyRef": "SYNTHETIC"
+        },
+        "recordDetails": {
+          "format": "extended-v1",
+          "copyright": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "rightsDeclaration": "all_rights_reserved",
+            "isWorkMadeForHire": false,
+            "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+          },
+          "license": "All Rights Reserved"
+        }
+      },
+      "expected": {
+        "profile": "cbyuce-extended-1.1-draft-20260920",
+        "serializer": "extended-lexical-v1",
+        "preimage": {
+          "schema": "uce.evidence.manifest",
+          "schemaVersion": "1.1.0",
+          "hashes": {
+            "merkleRoot": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "algorithm": "sha256",
+            "canonicalization": "RFC8785"
+          },
+          "attestations": {
+            "claimantAdoption": {
+              "accepted": true,
+              "version": "1.3.1",
+              "text": "Synthetic claimant adoption statement; not a real attestation.",
+              "textHash": "34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            },
+            "publicPermanence": {
+              "accepted": true,
+              "version": "1.3.1",
+              "text": "Synthetic permanence statement; nothing has been published.",
+              "textHash": "d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a",
+              "acceptedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "manifestVersion": 1,
+          "registrationTimestamp": "2026-01-02T03:04:05.000Z",
+          "generatedBy": {
+            "application": "Synthetic contract generator",
+            "applicationId": "TEST-ONLY",
+            "version": "0.0.0",
+            "generatedAt": "2026-01-02T03:04:05.000Z"
+          },
+          "files": [
+            {
+              "bytes": 5,
+              "sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+              "filename": "synthetic.txt",
+              "mimeType": "text/plain"
+            }
+          ],
+          "identity": {
+            "assurance": {
+              "level": "IAL1",
+              "methods": ["google_oauth"],
+              "verifiedAt": "2026-01-02T03:04:05.000Z"
+            }
+          },
+          "work": {
+            "title": "Synthetic contract example — not an issued UCE record",
+            "authorName": "Example creator",
+            "creationDate": "2026-01-01",
+            "creationMode": "written",
+            "workCategory": "literary",
+            "alternativeTitles": []
+          },
+          "policy": {
+            "aiOptOut": true,
+            "doNotTrain": true,
+            "policyVersion": "1.0.0",
+            "effectiveAt": "2026-01-02T03:04:05.000Z",
+            "license": "All Rights Reserved",
+            "robotsMeta": "noai, noimageai",
+            "rights": "TDM-RESERVED"
+          },
+          "aiProvenance": {
+            "isAIAssisted": false,
+            "humanCreatedPercentage": 100
+          },
+          "recordDetails": {
+            "format": "extended-v1",
+            "copyright": {
+              "title": "Synthetic contract example — not an issued UCE record",
+              "authorName": "Example creator",
+              "creationDate": "2026-01-01",
+              "creationMode": "written",
+              "workCategory": "literary",
+              "rightsDeclaration": "all_rights_reserved",
+              "isWorkMadeForHire": false,
+              "extendedRecordDetails": "Café / Café / 音楽 / 😀\nLiteral text only."
+            },
+            "license": "All Rights Reserved"
+          },
+          "anchors": {
+            "fileStorage": {
+              "provider": "arweave",
+              "txId": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "contentHash": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+            }
+          }
+        },
+        "canonical": "{\"aiProvenance\":{\"humanCreatedPercentage\":100,\"isAIAssisted\":false},\"anchors\":{\"fileStorage\":{\"contentHash\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\",\"provider\":\"arweave\",\"txId\":\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\"}},\"attestations\":{\"claimantAdoption\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"text\":\"Synthetic claimant adoption statement; not a real attestation.\",\"textHash\":\"34e526b93fe2afb05611ea827b868d171baa6d6af9f2ec9864091f1e30a9a21e\",\"version\":\"1.3.1\"},\"publicPermanence\":{\"accepted\":true,\"acceptedAt\":\"2026-01-02T03:04:05.000Z\",\"text\":\"Synthetic permanence statement; nothing has been published.\",\"textHash\":\"d4df4e0807ca4ca9e2ce3895a4313f404f3661612533de45834dbbc7fd065c2a\",\"version\":\"1.3.1\"}},\"files\":[{\"bytes\":5,\"filename\":\"synthetic.txt\",\"mimeType\":\"text/plain\",\"sha256\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"}],\"generatedBy\":{\"application\":\"Synthetic contract generator\",\"applicationId\":\"TEST-ONLY\",\"generatedAt\":\"2026-01-02T03:04:05.000Z\",\"version\":\"0.0.0\"},\"hashes\":{\"algorithm\":\"sha256\",\"canonicalization\":\"RFC8785\",\"merkleRoot\":\"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824\"},\"identity\":{\"assurance\":{\"level\":\"IAL1\",\"methods\":[\"google_oauth\"],\"verifiedAt\":\"2026-01-02T03:04:05.000Z\"}},\"manifestVersion\":1,\"policy\":{\"aiOptOut\":true,\"doNotTrain\":true,\"effectiveAt\":\"2026-01-02T03:04:05.000Z\",\"license\":\"All Rights Reserved\",\"policyVersion\":\"1.0.0\",\"rights\":\"TDM-RESERVED\",\"robotsMeta\":\"noai, noimageai\"},\"recordDetails\":{\"copyright\":{\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"extendedRecordDetails\":\"Café / Café / 音楽 / 😀\\nLiteral text only.\",\"isWorkMadeForHire\":false,\"rightsDeclaration\":\"all_rights_reserved\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"},\"format\":\"extended-v1\",\"license\":\"All Rights Reserved\"},\"registrationTimestamp\":\"2026-01-02T03:04:05.000Z\",\"schema\":\"uce.evidence.manifest\",\"schemaVersion\":\"1.1.0\",\"work\":{\"alternativeTitles\":[],\"authorName\":\"Example creator\",\"creationDate\":\"2026-01-01\",\"creationMode\":\"written\",\"title\":\"Synthetic contract example — not an issued UCE record\",\"workCategory\":\"literary\"}}",
+        "sha256": "8607f1e5cc9de55a44d94217599e95a837b42d11436e9aed639484132d46cc15",
+        "canonicalUtf8Hex": "7b22616950726f76656e616e6365223a7b2268756d616e4372656174656450657263656e74616765223a3130302c22697341494173736973746564223a66616c73657d2c22616e63686f7273223a7b2266696c6553746f72616765223a7b22636f6e74656e7448617368223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234222c2270726f7669646572223a2261727765617665222c2274784964223a2258585858585858585858585858585858585858585858585858585858585858585858585858585858585858227d7d2c226174746573746174696f6e73223a7b22636c61696d616e7441646f7074696f6e223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2274657874223a2253796e74686574696320636c61696d616e742061646f7074696f6e2073746174656d656e743b206e6f742061207265616c206174746573746174696f6e2e222c227465787448617368223a2233346535323662393366653261666230353631316561383237623836386431373162616136643661663966326563393836343039316631653330613961323165222c2276657273696f6e223a22312e332e31227d2c227075626c69635065726d616e656e6365223a7b226163636570746564223a747275652c2261636365707465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2274657874223a2253796e746865746963207065726d616e656e63652073746174656d656e743b206e6f7468696e6720686173206265656e207075626c69736865642e222c227465787448617368223a2264346466346530383037636134636139653263653338393561343331336634303466333636313631323533336465343538333464626263376664303635633261222c2276657273696f6e223a22312e332e31227d7d2c2266696c6573223a5b7b226279746573223a352c2266696c656e616d65223a2273796e7468657469632e747874222c226d696d6554797065223a22746578742f706c61696e222c22736861323536223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d5d2c2267656e6572617465644279223a7b226170706c69636174696f6e223a2253796e74686574696320636f6e74726163742067656e657261746f72222c226170706c69636174696f6e4964223a22544553542d4f4e4c59222c2267656e6572617465644174223a22323032362d30312d30325430333a30343a30352e3030305a222c2276657273696f6e223a22302e302e30227d2c22686173686573223a7b22616c676f726974686d223a22736861323536222c2263616e6f6e6963616c697a6174696f6e223a2252464338373835222c226d65726b6c65526f6f74223a2232636632346462613566623061333065323665383362326163356239653239653162313631653563316661373432356537333034333336323933386239383234227d2c226964656e74697479223a7b226173737572616e6365223a7b226c6576656c223a2249414c31222c226d6574686f6473223a5b22676f6f676c655f6f61757468225d2c2276657269666965644174223a22323032362d30312d30325430333a30343a30352e3030305a227d7d2c226d616e696665737456657273696f6e223a312c22706f6c696379223a7b2261694f70744f7574223a747275652c22646f4e6f74547261696e223a747275652c226566666563746976654174223a22323032362d30312d30325430333a30343a30352e3030305a222c226c6963656e7365223a22416c6c20526967687473205265736572766564222c22706f6c69637956657273696f6e223a22312e302e30222c22726967687473223a2254444d2d5245534552564544222c22726f626f74734d657461223a226e6f61692c206e6f696d6167656169227d2c227265636f726444657461696c73223a7b22636f70797269676874223a7b22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c22657874656e6465645265636f726444657461696c73223a22436166c3a9202f2043616665cc81202f20e99fb3e6a5bd202f20f09f98805c6e4c69746572616c2074657874206f6e6c792e222c226973576f726b4d616465466f7248697265223a66616c73652c227269676874734465636c61726174696f6e223a22616c6c5f7269676874735f7265736572766564222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d2c22666f726d6174223a22657874656e6465642d7631222c226c6963656e7365223a22416c6c20526967687473205265736572766564227d2c22726567697374726174696f6e54696d657374616d70223a22323032362d30312d30325430333a30343a30352e3030305a222c22736368656d61223a227563652e65766964656e63652e6d616e6966657374222c22736368656d6156657273696f6e223a22312e312e30222c22776f726b223a7b22616c7465726e61746976655469746c6573223a5b5d2c22617574686f724e616d65223a224578616d706c652063726561746f72222c226372656174696f6e44617465223a22323032362d30312d3031222c226372656174696f6e4d6f6465223a227772697474656e222c227469746c65223a2253796e74686574696320636f6e7472616374206578616d706c6520e28094206e6f7420616e2069737375656420554345207265636f7264222c22776f726b43617465676f7279223a226c69746572617279227d7d"
+      },
+      "mutations": [
+        {
+          "id": "file-digest",
+          "path": ["files", "0", "sha256"],
+          "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "changesHash": true,
+          "expectedSha256": "fdf9823cdb43c41b631dbee082a362a66033c750ab6111ab905918cacd70037e"
+        },
+        {
+          "id": "work-author",
+          "path": ["work", "authorName"],
+          "value": "Changed claim",
+          "changesHash": true,
+          "expectedSha256": "29c704356c5901d54e74d5892fe98c2e372cea22a1f815ae7a76fb9fd86e4707"
+        },
+        {
+          "id": "license",
+          "path": ["policy", "license"],
+          "value": "Changed declaration",
+          "changesHash": true,
+          "expectedSha256": "e18e260662f6739451edfbbaeb95e00134210ac2bc45d2b742085f2473fc07ea"
+        },
+        {
+          "id": "filename",
+          "path": ["files", "0", "filename"],
+          "value": "changed.txt",
+          "changesHash": true,
+          "expectedSha256": "7dfa5a6e74fb83d815e705f87f33651185f998ebcfd222d5d11d9c0a14161270"
+        },
+        {
+          "id": "registration",
+          "path": ["registrationTimestamp"],
+          "value": "2000-01-01T00:00:00.000Z",
+          "changesHash": true,
+          "expectedSha256": "45c570bd985b75ec0f65d061f21867acd645d4af8a326b811d2e9c1818e0123f"
+        },
+        {
+          "id": "self-hash",
+          "path": ["hashes", "manifestHash"],
+          "value": "0000000000000000000000000000000000000000000000000000000000000000",
+          "changesHash": false,
+          "expectedSha256": "8607f1e5cc9de55a44d94217599e95a837b42d11436e9aed639484132d46cc15"
+        },
+        {
+          "id": "own-anchor",
+          "path": ["anchors", "arweave", "txId"],
+          "value": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+          "changesHash": false,
+          "expectedSha256": "8607f1e5cc9de55a44d94217599e95a837b42d11436e9aed639484132d46cc15"
+        },
+        {
+          "id": "audit",
+          "path": ["audit"],
+          "value": [],
+          "changesHash": false,
+          "expectedSha256": "8607f1e5cc9de55a44d94217599e95a837b42d11436e9aed639484132d46cc15"
+        },
+        {
+          "id": "extended-details",
+          "path": ["recordDetails", "copyright", "extendedRecordDetails"],
+          "value": "Changed details",
+          "changesHash": true,
+          "expectedSha256": "7220e8e2da2204b226de0f095a291b73b1de4bded7bacb1cd4efb5347a7426b4"
+        }
+      ]
+    }
+  ],
+  "serialization": [
+    {
+      "id": "integer-looking-keys",
+      "input": { "2": "two", "10": "ten", "a": true },
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "{\"2\":\"two\",\"10\":\"ten\",\"a\":true}",
+          "canonicalUtf8Hex": "7b2232223a2274776f222c223130223a2274656e222c2261223a747275657d",
+          "sha256": "f51d935e09c494bf9494c641849f21e7e01cc3eec50c9f73fa5c9165e0402fa5"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "{\"10\":\"ten\",\"2\":\"two\",\"a\":true}",
+          "canonicalUtf8Hex": "7b223130223a2274656e222c2232223a2274776f222c2261223a747275657d",
+          "sha256": "edbc6c32ae77c7c965aa2f198c4ad32f706f867b1a47a1c0c203f0e36f6f89ff"
+        }
+      ]
+    },
+    {
+      "id": "nested-indices",
+      "input": { "outer": [{ "2": null, "10": [] }, {}, ""] },
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "{\"outer\":[{\"2\":null,\"10\":[]},{},\"\"]}",
+          "canonicalUtf8Hex": "7b226f75746572223a5b7b2232223a6e756c6c2c223130223a5b5d7d2c7b7d2c22225d7d",
+          "sha256": "c9aedf54b49f29f2b4dfe04375eaa632955a5f5c611288e556d499295fc23e3d"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "{\"outer\":[{\"10\":[],\"2\":null},{},\"\"]}",
+          "canonicalUtf8Hex": "7b226f75746572223a5b7b223130223a5b5d2c2232223a6e756c6c7d2c7b7d2c22225d7d",
+          "sha256": "f38870a9a9b9f018ccc31122774701e32f0aa6e6c097aba13b9fc6675c36bac2"
+        }
+      ]
+    },
+    {
+      "id": "unicode-not-normalized",
+      "input": {
+        "composed": "é",
+        "decomposed": "é",
+        "emoji": "😀",
+        "cjk": "音楽"
+      },
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "{\"cjk\":\"音楽\",\"composed\":\"é\",\"decomposed\":\"é\",\"emoji\":\"😀\"}",
+          "canonicalUtf8Hex": "7b22636a6b223a22e99fb3e6a5bd222c22636f6d706f736564223a22c3a9222c226465636f6d706f736564223a2265cc81222c22656d6f6a69223a22f09f9880227d",
+          "sha256": "e83f0a47d1d728dfd2f56c652551cd2dc6a88be31bdc2e49b2f3dfaab5ce22a0"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "{\"cjk\":\"音楽\",\"composed\":\"é\",\"decomposed\":\"é\",\"emoji\":\"😀\"}",
+          "canonicalUtf8Hex": "7b22636a6b223a22e99fb3e6a5bd222c22636f6d706f736564223a22c3a9222c226465636f6d706f736564223a2265cc81222c22656d6f6a69223a22f09f9880227d",
+          "sha256": "e83f0a47d1d728dfd2f56c652551cd2dc6a88be31bdc2e49b2f3dfaab5ce22a0"
+        }
+      ]
+    },
+    {
+      "id": "json-primitives",
+      "input": {
+        "z": null,
+        "empty": [],
+        "flag": false,
+        "zero": 0,
+        "negative": 0,
+        "fraction": 0.002,
+        "exponent": 1e-7
+      },
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "{\"empty\":[],\"exponent\":1e-7,\"flag\":false,\"fraction\":0.002,\"negative\":0,\"z\":null,\"zero\":0}",
+          "canonicalUtf8Hex": "7b22656d707479223a5b5d2c226578706f6e656e74223a31652d372c22666c6167223a66616c73652c226672616374696f6e223a302e3030322c226e65676174697665223a302c227a223a6e756c6c2c227a65726f223a307d",
+          "sha256": "7798e4cb1463c56b140e38016bdca7a79cb320fdb54c9e52f2056e89005c88fd"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "{\"empty\":[],\"exponent\":1e-7,\"flag\":false,\"fraction\":0.002,\"negative\":0,\"z\":null,\"zero\":0}",
+          "canonicalUtf8Hex": "7b22656d707479223a5b5d2c226578706f6e656e74223a31652d372c22666c6167223a66616c73652c226672616374696f6e223a302e3030322c226e65676174697665223a302c227a223a6e756c6c2c227a65726f223a307d",
+          "sha256": "7798e4cb1463c56b140e38016bdca7a79cb320fdb54c9e52f2056e89005c88fd"
+        }
+      ]
+    },
+    {
+      "id": "escape-control",
+      "input": { "text": "quote: \" backslash: \\ newline:\n tab:\t" },
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "{\"text\":\"quote: \\\" backslash: \\\\ newline:\\n tab:\\t\"}",
+          "canonicalUtf8Hex": "7b2274657874223a2271756f74653a205c22206261636b736c6173683a205c5c206e65776c696e653a5c6e207461623a5c74227d",
+          "sha256": "367690d76be4f7b05782be27abb497b378f0eb04a0f62fa88f8d6b9c6b563dea"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "{\"text\":\"quote: \\\" backslash: \\\\ newline:\\n tab:\\t\"}",
+          "canonicalUtf8Hex": "7b2274657874223a2271756f74653a205c22206261636b736c6173683a205c5c206e65776c696e653a5c6e207461623a5c74227d",
+          "sha256": "367690d76be4f7b05782be27abb497b378f0eb04a0f62fa88f8d6b9c6b563dea"
+        }
+      ]
+    },
+    {
+      "id": "array-order",
+      "input": ["second", "first", null],
+      "results": [
+        {
+          "serializer": "standard-ecmascript-v1",
+          "canonical": "[\"second\",\"first\",null]",
+          "canonicalUtf8Hex": "5b227365636f6e64222c226669727374222c6e756c6c5d",
+          "sha256": "f1b22c297e6b04d43a10df36b9d78384633b0cc59ac1b1e13eb5433eac38b340"
+        },
+        {
+          "serializer": "extended-lexical-v1",
+          "canonical": "[\"second\",\"first\",null]",
+          "canonicalUtf8Hex": "5b227365636f6e64222c226669727374222c6e756c6c5d",
+          "sha256": "f1b22c297e6b04d43a10df36b9d78384633b0cc59ac1b1e13eb5433eac38b340"
+        }
+      ]
+    }
+  ]
+}

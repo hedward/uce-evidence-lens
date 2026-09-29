@@ -1,6 +1,6 @@
 {
   "name": "uce-evidence-lens",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Client-side public Universal Creation Evidence record inspector",
   "license": "MPL-2.0",
   "type": "module",
@@ -9,14 +9,19 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "contract:hash:check": "node scripts/generate-hash-profile-vectors.ts",
+    "contract:hash:publisher": "node scripts/check-publisher-hash-contract.mjs",
+    "contract:hybrid:check": "node scripts/generate-hybrid-interop-fixtures.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run contract:hash:check && npm run contract:hybrid:check && npm run test && npm run build",
     "release:artifact": "node scripts/create-release-artifact.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/node": "^24.13.6",
+    "axe-core": "4.13.0",
     "eslint": "^10.9.1",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
@@ -25,5 +30,8 @@
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@noble/post-quantum": "0.7.1"
+  }
 }

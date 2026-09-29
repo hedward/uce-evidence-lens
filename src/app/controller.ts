@@ -80,6 +80,11 @@ export class AppController {
     this.update({ webmcp: status });
   }
 
+  rejectRecipientLink(message: string): void {
+    this.beginRecordOperation();
+    this.update({ busy: false, error: message });
+  }
+
   private beginRecordOperation(): number {
     this.fileGeneration += 1;
     const generation = ++this.recordGeneration;

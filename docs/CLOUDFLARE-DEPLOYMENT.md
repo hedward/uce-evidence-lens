@@ -76,7 +76,7 @@ Confirm that the first response contains the CSP, `Origin-Agent-Cluster: ?1`, `P
 Then test in ChatGPT's in-app browser and WebMCP-enabled Chrome:
 
 1. Load the bundled demonstration.
-2. Confirm that all seven read-only WebMCP tools register and are returned by `document.modelContext.getTools()`.
+2. Confirm that all eight read-only WebMCP tools register, are discoverable by the browser host, and can actually be called. Compare the report tool's record binding and checks with the visible result.
 3. Load a supported Arweave manifest URL, confirm its transaction binding, and confirm that any signature check uses only the reviewed platform-key registry.
 4. Validate pasted public JSON.
 5. Select a local file and confirm that only its metadata and digest enter application state.

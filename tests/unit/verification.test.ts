@@ -97,7 +97,10 @@ describe("evidence verification", () => {
   });
 
   it("never promotes the server hash flag to a local canonical hash pass", async () => {
-    const result = await verifyRecord(demoRecord);
+    const result = await verifyRecord({
+      ...demoRecord,
+      publicManifest: undefined,
+    });
     expect(
       result.checks.find((check) => check.id === "canonical_manifest_hash")
         ?.status,

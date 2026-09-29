@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { TRUSTED_PLATFORM_KEYS } from "../../src/security/trusted-platform-keys";
 import { AppController } from "../../src/app/controller";
 import { renderApp } from "../../src/components/render";
+import { MANIFEST_COMPATIBILITY } from "../../src/records/manifest-compatibility";
 
 const chronologyVerifier = async () => ({
   id: "independent_anchor",
@@ -15,6 +17,100 @@ function testController(): AppController {
 }
 
 describe("visible evidence interface", () => {
+  it("renders both hybrid component outcomes and key provenance without hiding a failed component", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const state = controller.getState();
+    const root = document.createElement("div");
+    // Presentation fixture only: does not enable the runtime hybrid gate.
+    renderApp(root, controller, {
+      ...state,
+      verification: {
+        ...state.verification!,
+        checks: [
+          {
+            id: "platform_signature",
+            label: "Hybrid presentation test",
+            status: "mismatch",
+            explanation: "Both components are required.",
+            signatureComponents: [
+              {
+                algorithm: "ES256",
+                status: "verified",
+                explanation: "Classical test pass.",
+                keyId: "test-ec",
+                publicKeySource: "https://example.invalid/public-key",
+              },
+              {
+                algorithm: "ML-DSA-65",
+                status: "mismatch",
+                explanation: "Synthetic failing component <script>",
+              },
+            ],
+          },
+        ],
+      },
+    });
+    const details =
+      root.querySelector<HTMLDetailsElement>(".hybrid-provenance")!;
+    expect(details.open).toBe(false);
+    expect(details.textContent).toContain("ES256: Verified");
+    expect(details.textContent).toContain("ML-DSA-65: Mismatch");
+    expect(details.textContent).toContain("test-ec");
+    expect(details.textContent).toContain(
+      "Synthetic failing component <script>",
+    );
+    expect(details.querySelector("script")).toBeNull();
+  });
+  it("lists readable versions from the registry separately from verification coverage", () => {
+    const controller = testController();
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+    const compatibility = root.querySelector(".manifest-compatibility");
+    expect(compatibility?.querySelector("p")?.textContent).toBe(
+      `Readable manifest versions: ${new Intl.ListFormat("en", { type: "conjunction" }).format(Object.keys(MANIFEST_COMPATIBILITY))}.`,
+    );
+    expect(compatibility?.textContent).toContain(
+      "Verification coverage varies by format",
+    );
+    const details = compatibility?.querySelector("details");
+    expect(details?.open).toBe(false);
+    expect(details?.textContent).toContain(
+      "reviewed standard 1.0.0 ES256 profile",
+    );
+    expect(details?.textContent).toContain(
+      "Hybrid 2.0.0 and 2.1.0 signatures remain readable but are not independently verified",
+    );
+    expect(details?.textContent).toContain(
+      "Independent manifest-hash recomputation is supported for the reviewed Extended 1.1.0 profile",
+    );
+  });
+
+  it.each(["1.0.0", "1.1.0", "2.0.0", "2.1.0"] as const)(
+    "labels a displayed %s record with its own schema version, not the app version",
+    async (schemaVersion) => {
+      const controller = testController();
+      await controller.load("demo");
+      const state = controller.getState();
+      const root = document.createElement("div");
+      // Display-only projection: do not attach the demo's verification to a changed record.
+      renderApp(root, controller, {
+        ...state,
+        record: { ...state.record!, schemaVersion },
+        verification: undefined,
+      });
+      expect(root.querySelector(".hero-record .eyebrow")?.textContent).toBe(
+        `Record schema: uce.evidence.manifest · v${schemaVersion}`,
+      );
+      expect(root.querySelector(".record-version-note")?.textContent).toContain(
+        "describes this record, not the Lens application",
+      );
+      expect(root.querySelector(".hero-record h2")?.textContent).toBe(
+        "UCE Evidence Lens — Logo and Tagline v1.0",
+      );
+    },
+  );
+
   it("presents network recovery paths as resilience options", () => {
     const controller = testController();
     const root = document.createElement("div");
@@ -81,7 +177,7 @@ describe("visible evidence interface", () => {
     ).toBe("View bundled manifest JSON");
   });
 
-  it("links the authorized UCE mark to the stable v1.0.0 release evidence route", () => {
+  it("labels v1.1.0 while linking only to the historical v1.0.0 evidence", () => {
     const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
@@ -95,11 +191,16 @@ describe("visible evidence interface", () => {
     expect(evidenceLink?.getAttribute("href")).toBe(
       "https://uceevidencelens.com/evidence/v1.0.0",
     );
-    expect(evidenceLink?.getAttribute("aria-label")).toContain("release 1.0.0");
-    expect(evidenceLink?.textContent).toContain(
-      "UCE Evidence Lens release 1.0.0",
+    expect(evidenceLink?.getAttribute("href")).not.toContain("v1.1.0");
+    expect(evidenceLink?.getAttribute("aria-label")).toBe(
+      "View historical UCE evidence for submitted release 1.0.0; it does not cover UCE Evidence Lens release 1.1.0",
     );
-    expect(evidenceLink?.textContent).toContain("View UCE release evidence");
+    expect(evidenceLink?.textContent).toContain(
+      "UCE Evidence Lens release 1.1.0",
+    );
+    expect(evidenceLink?.textContent).toContain(
+      "Historical v1.0.0 evidence — does not cover this release",
+    );
   });
 
   it("shows official setup guidance when AI-agent site tools are unavailable", () => {
@@ -178,7 +279,7 @@ describe("visible evidence interface", () => {
     renderApp(root, controller, controller.getState());
 
     expect(root.querySelector(".verification-summary")?.textContent).toContain(
-      "No integrity problems found.",
+      "No problems found in completed checks.",
     );
     expect(root.querySelector(".status--retryable")?.textContent).toBe(
       "Try again",
@@ -187,6 +288,66 @@ describe("visible evidence interface", () => {
       root.querySelector<HTMLDetailsElement>(".technical-details");
     expect(details?.open).toBe(false);
     expect(details?.textContent).toContain("Publisher reported");
-    expect(details?.textContent).toContain("Not independently checked");
+    expect(details?.textContent).not.toContain(
+      "Independent manifest recomputation",
+    );
+    expect(root.textContent).toContain("Independent manifest recomputation");
+  });
+
+  it("shows the standard hash coverage exclusions outside collapsed details", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+    const coverage = root.querySelector(".verification-coverage");
+    expect(coverage?.closest("details")).toBeNull();
+    expect(coverage?.textContent).toContain(
+      "excludes work, policy, AI disclosures, file names",
+    );
+    const signature = Array.from(root.querySelectorAll(".check-card")).find(
+      (card) => card.textContent?.includes("Platform ES256 signature"),
+    )!;
+    expect(
+      signature.querySelector(".source-line a")?.getAttribute("href"),
+    ).toBe(controller.getState().record!.source);
+    const keyDetails =
+      signature.querySelector<HTMLDetailsElement>(".key-provenance");
+    expect(keyDetails?.open).toBe(false);
+    expect(keyDetails?.textContent).toContain(
+      "Historical key review reference (not the inspected record)",
+    );
+    expect(keyDetails?.textContent).toContain(
+      TRUSTED_PLATFORM_KEYS[0]!.approvalSource,
+    );
+  });
+
+  it("prints a dated snapshot with all checks and no default local-file details", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const root = document.createElement("div");
+    renderApp(root, controller, controller.getState());
+    const print = vi.spyOn(window, "print").mockImplementation(() => undefined);
+    const button = Array.from(root.querySelectorAll("button")).find(
+      (item) => item.textContent === "Print / Save report as PDF",
+    )!;
+    button.click();
+    expect(print).toHaveBeenCalledOnce();
+    const report = document.querySelector("#uce-print-report")!;
+    expect(report.querySelectorAll(".check-card")).toHaveLength(
+      controller.getState().verification!.checks.length,
+    );
+    expect(report.textContent).toContain(
+      controller.getState().verification!.checkedAt,
+    );
+    expect(report.textContent).toContain("unsigned");
+    expect(report.textContent).toContain("Independent manifest recomputation");
+    expect(report.textContent).toContain("excludes work, policy");
+    expect(
+      report.querySelector<HTMLDetailsElement>(".key-provenance")?.open,
+    ).toBe(true);
+    expect(report.textContent).not.toContain("Selected local filename");
+    window.dispatchEvent(new Event("afterprint"));
+    expect(document.querySelector("#uce-print-report")).toBeNull();
+    print.mockRestore();
   });
 });

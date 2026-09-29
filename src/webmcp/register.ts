@@ -2,6 +2,7 @@ import type { AppController } from "../app/controller";
 import type { ModelContextToolDefinition } from "../types/webmcp";
 import { isPlainObject } from "../security/untrusted";
 import { summarizeRecord } from "../verification/evidence";
+import { createVerificationReport } from "../reports/verification-report";
 
 const registeredDocuments = new WeakSet<Document>();
 
@@ -64,6 +65,18 @@ export function createToolDefinitions(
   } as const;
   const readOnly = { readOnlyHint: true } as const;
   return [
+    {
+      name: "get_uce_verification_report",
+      description:
+        "Return an unsigned, dated snapshot of completed checks for the loaded record, including verification limits and key provenance. Does not include the user's local filename, file digest, or file contents. This is not a UCE certificate or legal determination.",
+      inputSchema: emptySchema,
+      annotations: readOnly,
+      execute: (input) => {
+        noInput(input);
+        const report = createVerificationReport(controller.getState());
+        return output(report, report.datedSnapshotDisclaimer);
+      },
+    },
     {
       name: "load_uce_public_record",
       description:
@@ -215,8 +228,8 @@ export async function registerWebMcpTools(
       status: "registered",
       detail:
         typeof modelContext.getTools === "function"
-          ? "7 read-only AI-agent tools registered and discoverable."
-          : "7 read-only AI-agent tools registered for this page.",
+          ? `${definitions.length} read-only AI-agent tools registered and discoverable.`
+          : `${definitions.length} read-only AI-agent tools registered for this page.`,
     });
     return "registered";
   } catch (error) {

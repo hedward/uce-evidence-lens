@@ -1,4 +1,5 @@
 import type { UceRecord } from "../types/record";
+import publicManifest from "../../public/demo/uce-evidence-lens-logo-tagline-v1.0.uce.json";
 
 export const DEMO_RECORD_ID =
   "cc94e8d529cfc24f6fe458470b69dca2c3ef53a78b740bb1fea9cc40d09cfd1c";
@@ -9,6 +10,7 @@ export const DEMO_MANIFEST_URL =
   "/demo/uce-evidence-lens-logo-tagline-v1.0.uce.json";
 
 export const demoRecord: UceRecord = {
+  publicManifest,
   id: DEMO_RECORD_ID,
   source: DEMO_VERIFICATION_URL,
   loadedFrom: "bundled_demo",
