@@ -1,7 +1,9 @@
 # UCE Evidence Lens release evidence
 
-The final public application release remains `1.0.0`. Its footer links the UCE
-Mark and release label to this stable, versioned route:
+The registered historical site evidence covers release `1.0.0`. The `1.1.0`
+application keeps its footer linked to that historical record, explicitly
+stating that the record does not cover the newer release. No `1.1.0` UCE Record
+or evidence route is inferred from the application version.
 
 ```text
 https://uceevidencelens.com/evidence/v1.0.0
@@ -13,6 +15,12 @@ compiled site. Keeping the pointer outside the archive prevents the final
 content-addressed CbyUCE URL from changing the site artifact it describes.
 
 ## Create the exact release artifact
+
+The following is the record-creation runbook for the historical `1.0.0` release.
+For a future record, substitute the intended release version and obtain separate
+approval before uploading, paying, or creating permanent evidence. Publishing
+the app does not itself authorize a new permanent UCE Record. Never overwrite
+the historical `/evidence/v1.0.0` pointer with a different release's record.
 
 Only package a clean committed worktree:
 

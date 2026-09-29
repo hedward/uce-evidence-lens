@@ -12,6 +12,29 @@ export interface EvidenceCheck {
   status: EvidenceStatus;
   explanation: string;
   source?: string;
+  signatureComponents?: {
+    algorithm: "ES256" | "ML-DSA-65";
+    status: EvidenceStatus;
+    explanation: string;
+    keyId?: string;
+    keyFingerprint?: string;
+    publicKeySource?: string;
+    reviewedAt?: string;
+  }[];
+  hashProvenance?: {
+    profile: string;
+    publisherRevision: string;
+    computedHash: string;
+    canonicalBytes: number;
+    coverage: string;
+  };
+  signatureProvenance?: {
+    keyId: string;
+    keyThumbprint: string;
+    publicKeySource: string;
+    keyReviewSource: string;
+    reviewedAt: string;
+  };
 }
 
 export interface UceFileRecord {
@@ -36,12 +59,16 @@ export type PublicJwk = JsonWebKey & {
 };
 
 export interface UceRecord {
+  publicManifest?: Record<string, unknown>;
+  recordDetails?: Record<string, unknown>;
+  connectorSource?: Record<string, unknown>;
+  compatibilityNotes?: string[];
   id?: string;
   source: string;
   loadedFrom: "bundled_demo" | "cbyuce" | "arweave" | "pasted_json";
   schema: string;
   schemaVersion: string;
-  manifestVersion: number;
+  manifestVersion?: number;
   registrationTimestamp: string;
   generatedAt?: string;
   title: string;
@@ -101,6 +128,7 @@ export interface LocalFileDigest {
 }
 
 export interface RecordSummary {
+  compatibilityNotes: string[];
   id?: string;
   title: string;
   schema: string;
@@ -113,6 +141,11 @@ export interface RecordSummary {
 }
 
 export interface VerificationSnapshot {
+  checkedAt: string;
+  coverage: {
+    manifestContents: "not_recomputed" | "recomputed" | "mismatch";
+    limitations: string[];
+  };
   recordBinding: {
     source: string;
     manifestHash: string;

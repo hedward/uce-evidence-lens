@@ -1,15 +1,6 @@
-const MAX_JSON_CHARS = 1_000_000;
-const MAX_STRING_CHARS = 20_000;
-const MAX_DEPTH = 12;
-const MAX_ARRAY_LENGTH = 100;
-const MAX_OBJECT_KEYS = 100;
+import { parseStrictJson, ValidationError } from "./strict-json";
 
-export class ValidationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "ValidationError";
-  }
-}
+export { ValidationError };
 
 export function isPlainObject(
   value: unknown,
@@ -20,35 +11,8 @@ export function isPlainObject(
   return prototype === Object.prototype || prototype === null;
 }
 
-function inspect(value: unknown, depth: number): void {
-  if (depth > MAX_DEPTH) throw new ValidationError("JSON nesting is too deep.");
-  if (typeof value === "string" && value.length > MAX_STRING_CHARS) {
-    throw new ValidationError("A JSON string exceeds the safe display limit.");
-  }
-  if (Array.isArray(value)) {
-    if (value.length > MAX_ARRAY_LENGTH)
-      throw new ValidationError("A JSON array is too large.");
-    value.forEach((item) => inspect(item, depth + 1));
-  } else if (isPlainObject(value)) {
-    const keys = Object.keys(value);
-    if (keys.length > MAX_OBJECT_KEYS)
-      throw new ValidationError("A JSON object has too many fields.");
-    keys.forEach((key) => inspect(value[key], depth + 1));
-  }
-}
-
 export function parseUntrustedJson(text: string): unknown {
-  if (!text.trim()) throw new ValidationError("Paste a JSON record first.");
-  if (text.length > MAX_JSON_CHARS)
-    throw new ValidationError("JSON input exceeds 1 MB.");
-  let value: unknown;
-  try {
-    value = JSON.parse(text) as unknown;
-  } catch {
-    throw new ValidationError("The supplied text is not valid JSON.");
-  }
-  inspect(value, 0);
-  return value;
+  return parseStrictJson(text);
 }
 
 export function requiredObject(

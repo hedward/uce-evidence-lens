@@ -9,6 +9,16 @@ import type {
 } from "../types/record";
 import { resolveTrustedPlatformKey } from "../security/trusted-platform-keys";
 import { verifyEs256ManifestSignature } from "./crypto";
+import { verifyManifestHash } from "./manifest-hash";
+import {
+  HYBRID_QUALIFICATION_LIMIT,
+  QUALIFIED_HYBRID_VERSIONS,
+  verifyHybridManifestSignatures,
+} from "./hybrid-signature";
+import {
+  MANIFEST_COMPATIBILITY,
+  recognizedManifestVersion,
+} from "../records/manifest-compatibility";
 
 export const LEGAL_NOTICE =
   "This result verifies evidence integrity where stated; it is not a legal determination of identity, authorship, ownership, copyright validity, registration, or the truth of a recorded assertion.";
@@ -24,6 +34,7 @@ export function summarizeRecord(record: UceRecord): RecordSummary {
     recordedManifestHash: record.manifestHash,
     arweaveTxId: record.arweaveTxId,
     legalNotice: LEGAL_NOTICE,
+    compatibilityNotes: record.compatibilityNotes ?? [],
   };
 }
 
@@ -31,12 +42,15 @@ export async function verifyRecord(
   record: UceRecord,
   chronologyCheck?: EvidenceCheck,
 ): Promise<VerificationSnapshot> {
+  const version = recognizedManifestVersion(record.schemaVersion);
+  const capability = version ? MANIFEST_COMPATIBILITY[version] : undefined;
+  const hashCheck = await verifyManifestHash(record);
   const checks: EvidenceCheck[] = [
     {
       id: "schema",
-      label: "Supported manifest schema",
-      status: "verified",
-      explanation: `The record was validated as ${record.schema} version ${record.schemaVersion}.`,
+      label: "Recognized manifest format",
+      status: capability ? "verified" : "unsupported",
+      explanation: `Lens ${capability ? "can read" : "does not recognize"} ${record.schema} version ${record.schemaVersion}. This is a format check, not cryptographic validation of its contents.`,
     },
     {
       id: "identifier",
@@ -52,16 +66,38 @@ export async function verifyRecord(
           ? "The supplied record identifier equals the manifestHash value recorded in the manifest."
           : "The supplied record identifier differs from the manifestHash value recorded in the manifest.",
     },
-    {
-      id: "canonical_manifest_hash",
-      label: "Independent manifest recomputation",
-      status: "unsupported",
-      explanation:
-        "The current public CbyUCE format does not yet define the exact canonical hash input. This check is not claimed until a versioned, reproducible hash profile is published.",
-    },
+    hashCheck,
   ];
 
-  if (record.platformSignature) {
+  if (capability?.signatureShape === "hybrid-es256-ml-dsa-65") {
+    checks.push(
+      QUALIFIED_HYBRID_VERSIONS.includes(record.schemaVersion)
+        ? await verifyHybridManifestSignatures(record)
+        : {
+            id: "platform_signature",
+            label: "Platform hybrid signatures",
+            status: "unsupported",
+            explanation: HYBRID_QUALIFICATION_LIMIT,
+            source: record.source,
+          },
+    );
+  } else if (
+    capability?.localSignatureVerification !== "supported_flat_es256_only" &&
+    (capability?.localSignatureVerification !== "supported_extended_es256" ||
+      hashCheck.status === "unsupported")
+  ) {
+    checks.push({
+      id: "platform_signature",
+      label: "Platform signature",
+      status: "unsupported",
+      explanation:
+        (record.schemaVersion === "1.1.0"
+          ? hashCheck.explanation
+          : capability?.displayNote) ??
+        "This manifest version has no reviewed signature verifier in this Lens build.",
+      source: record.source,
+    });
+  } else if (record.platformSignature) {
     const resolution = resolveTrustedPlatformKey(record);
     if (resolution.status === "trusted") {
       const result = await verifyEs256ManifestSignature(
@@ -69,17 +105,23 @@ export async function verifyRecord(
         record.manifestHash,
         record.platformKeyKid,
         [resolution.key.jwk],
+        capability.profile,
       );
-      checks.push(
-        result.status === "verified"
-          ? {
-              ...result,
-              explanation:
-                "A trusted Copyright by UCE platform public key validated the ES256 signature over the recorded manifest hash.",
-              source: resolution.key.approvalSource,
-            }
-          : result,
-      );
+      checks.push({
+        ...result,
+        explanation:
+          result.status === "verified"
+            ? "A reviewed Copyright by UCE platform public key validated this record's ES256 signature over its recorded manifest hash. The separate recomputation result determines whether the covered manifest contents reproduce that hash."
+            : result.explanation,
+        source: record.source,
+        signatureProvenance: {
+          keyId: resolution.key.kid,
+          keyThumbprint: resolution.key.jwkThumbprint,
+          publicKeySource: resolution.key.publicKeySource,
+          keyReviewSource: resolution.key.approvalSource,
+          reviewedAt: resolution.key.verifiedAt,
+        },
+      });
     } else {
       checks.push({
         id: "platform_signature",
@@ -141,6 +183,29 @@ export async function verifyRecord(
   const isChecking = checks.some((check) => check.status === "checking");
   const hasRetryable = checks.some((check) => check.status === "retryable");
   return {
+    checkedAt: new Date().toISOString(),
+    coverage: {
+      manifestContents:
+        hashCheck.status === "verified"
+          ? "recomputed"
+          : hashCheck.status === "mismatch"
+            ? "mismatch"
+            : "not_recomputed",
+      limitations: [
+        hashCheck.status === "verified"
+          ? hashCheck.hashProvenance!.coverage
+          : hashCheck.status === "mismatch"
+            ? "Manifest contents do not reproduce the recorded hash. A valid signature over that recorded hash does not resolve this mismatch; do not rely on the altered contents."
+            : "Manifest contents have not been independently recomputed. A valid platform signature authenticates the recorded hash, not the displayed metadata or file digests.",
+        ...checks
+          .filter(
+            (check) =>
+              check.id !== "canonical_manifest_hash" &&
+              ["unsupported", "checking", "retryable"].includes(check.status),
+          )
+          .map((check) => `${check.label}: ${check.explanation}`),
+      ],
+    },
     recordBinding: {
       source: record.source,
       manifestHash: record.manifestHash,
@@ -148,11 +213,18 @@ export async function verifyRecord(
     checks,
     summary: hasMismatch
       ? "An integrity problem was found. Review the mismatch below."
-      : isChecking
-        ? "No integrity problems found. One check is still running."
-        : hasRetryable
-          ? "No integrity problems found. One check can be retried."
-          : "No integrity problems found.",
+      : capability?.signatureShape === "hybrid-es256-ml-dsa-65" &&
+          checks.some(
+            (check) =>
+              check.id === "platform_signature" &&
+              check.status === "unsupported",
+          )
+        ? "Cryptographic verification is not yet complete for this hybrid format. See verification limits."
+        : isChecking
+          ? "No problems found in completed checks. A check is still running."
+          : hasRetryable
+            ? "No problems found in completed checks. A check can be retried."
+            : "No problems found in completed checks.",
     legalNotice: LEGAL_NOTICE,
   };
 }

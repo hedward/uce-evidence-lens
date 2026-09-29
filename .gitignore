@@ -29,6 +29,7 @@ private/
 *.private.json
 
 # Test and browser artifacts
+output/
 test-results/
 playwright-report/
 blob-report/
