@@ -31,17 +31,18 @@ limit and hold the affected release claim; do not claim automatic future
 compatibility. A publisher change needs its own authorized task, not a covert
 server change made to satisfy a Lens test.
 
-## Current local-only stable release preparation
+## Release boundaries
 
-This clone is the post-contest development copy based on submitted main commit
-`ffc720c1001ca6f123066cb456e507d2389cd1e1`. It has no remote. On September 29,
-2026, after Devpost showed the contest closed and winners announced, the user
-approved the post-contest v1.1.0 release. This worktree is the local stable
-release preparation and has not been deployed. Work here, not in the submitted
-checkout. This task does not authorize pushing, merging to the submitted
-repository, changing production, creating a permanent v1.1.0 UCE record or
-redirect, or modifying CbyUCE. Preserve submitted v1.0.0 and its published
-evidence link; that historical record does not cover v1.1.0.
+The submitted v1.0.0 baseline is commit
+`ffc720c1001ca6f123066cb456e507d2389cd1e1`. On September 29, 2026, after Devpost
+showed the contest closed and winners announced, the user authorized the
+post-contest v1.1.0 app rollout, including the normal feature-branch preview,
+testing, merge and production deployment workflow. Future releases still need
+their own user authorization. Do not modify the submitted contest entry.
+
+App release authorization does not authorize a permanent UCE Record, payment,
+new evidence redirect, publisher modification or PQ activation. Preserve the
+historical v1.0.0 evidence link and artifact; that record does not cover v1.1.0.
 
 Run `npm run check` and focused real-browser/WebMCP checks before handoff. Keep
 MPL-2.0, trademark and authorized-mark treatments intact. Do not copy proprietary

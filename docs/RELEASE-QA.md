@@ -303,6 +303,46 @@ remain separate evidence; this pass exercised native print cancellation.
 Localhost tests are not evidence of production CORS or production headers.
 The feature-branch packaged preview and final actual-origin smoke checks remain
 required before the rollout is called complete.
+
+### Packaged Cloudflare preview qualification
+
+Commit `6d6eba1536e5fb59db570074a94063e3b142fd8e` passed GitHub CI and deployed to
+`https://730310dc.uce-evidence-lens.pages.dev/` through the existing Git-connected
+Pages project. The preview HTML, JavaScript and CSS are byte-identical to the
+tested stable build. All configured CSP, OAC, Permissions-Policy, no-referrer,
+HSTS, MIME-sniffing, framing and cross-domain-policy headers are present; no
+wildcard allow-origin header or injected analytics script was observed.
+
+- Eight WebMCP tools were actually discovered in the in-app browser.
+- Tool calls verified the bundled Standard record and live Extended Arweave
+  record `d16afb…`; both reproduced their reviewed digests and passed ES256
+  and direct chronology checks. Extended bound block 2,005,758 with 5,408
+  confirmations at observation. The Arweave-only load correctly did not claim
+  an independently supplied manifest identifier.
+- The dated report identified verifier 1.1.0, exactly matched the verification
+  check array, retained coverage limits and omitted local-file metadata.
+- Chrome detected a deliberately modified Extended title as a mismatch while
+  distinguishing the still-valid signature over the recorded hash. Reloading
+  the bundled demo recovered normally. The altered object existed only in the
+  test browser, not in any public UCE record.
+- The in-app preview console had no warnings or errors; the footer correctly
+  distinguished app 1.1.0 from historical v1.0.0 evidence.
+
+The temporary Pages origin is intentionally not in CbyUCE's exact-origin
+allowlist. No publisher or CORS changes were made. An HTTP probe confirms the
+real production origin remains authorized; this is not claimed as browser
+retrieval. The rollout requires an immediate actual-origin browser check on
+`https://uceevidencelens.com/` after promotion. The earlier custom development
+preview was not reused as production-equivalent evidence.
+
+Tested asset SHA-256 values:
+
+```text
+4c5a3a378764de45aae9663f58e9079137b9dc0efc8ddacecc2e6c078348233b  index.html
+29a2a234ccd041f8324f9f6cedfa0a8b7a9fbf0fb008f82f66f21c5f695dd93a  assets/index-MdW6D1b9.js
+a748e24df69bed4507722b9b215673b00d1818e09939763170d6be47998403a4  assets/index-EyOrT83y.css
+```
+
 Merely serving the `_headers` file through Vite does not enforce it. Do not weaken
 the intended CSP to accommodate the development server or beacon. Human
 screen-reader listening sign-off remains open; this network retry did not repeat

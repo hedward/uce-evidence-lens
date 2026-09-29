@@ -1,9 +1,8 @@
 # UCE Evidence Lens
 
-**Stable post-contest release preparation: `1.1.0`. Not deployed.** The user
-approved the post-contest release on September 29, 2026, after the Devpost event
-closed and winners were announced. The submitted v1.0.0 repository/site and its
-published evidence remain unchanged. See
+**Version `1.1.0`: classical verification and recipient workflows.** The
+post-contest rollout was authorized September 29, 2026. The historical submitted
+v1.0.0 source commit, artifact and published evidence remain preserved. See
 [candidate readiness](docs/POST-CONTEST-CANDIDATE.md) and the mandatory
 [publisher compatibility contract](docs/MANIFEST-COMPATIBILITY.md).
 
@@ -143,8 +142,8 @@ the application does not infer an evidence URL from its package version. The
 footer identifies the application as release 1.1.0 and states that the linked
 v1.0.0 evidence does not cover this release.
 
-Creating a v1.1.0 record or redirect and deploying the release remain separate
-release operations; neither has occurred in this local preparation. Run
+Creating a v1.1.0 record or redirect requires separate approval and is not
+implied by publishing the application. Run
 `npm run release:artifact` from a clean committed worktree to verify the project
 and create the deterministic site ZIP for registration. See the
 [release-evidence runbook](docs/RELEASE-EVIDENCE.md) for the later registration,
@@ -154,8 +153,7 @@ redirect, deployment, and tagging sequence.
 
 The UCE Evidence Lens Covered Software is licensed under the [Mozilla Public License 2.0](LICENSE). The authoritative UCE Mark, associated names and marks, and the bundled logo-and-tagline artwork are treated separately and are not licensed under MPL-2.0. Their limited authorized use in this project is documented in [Notice](NOTICE.md) and [Trademarks](TRADEMARKS.md).
 
-The submitted v1.0.0 and its evidence remain separate from this local stable
-`1.1.0` release preparation. Version 1.1.0 is approved for post-contest release
-but has not been deployed from this clone.
+The submitted v1.0.0 and its evidence remain separate from release `1.1.0`.
+Deployment-specific verification is recorded in [release QA](docs/RELEASE-QA.md).
 
 See [Publication Readiness](docs/PUBLICATION-READINESS.md), [License Recommendation](docs/LICENSE-RECOMMENDATION.md), [Notice](NOTICE.md), and [Trademarks](TRADEMARKS.md).
