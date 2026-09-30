@@ -62,6 +62,13 @@ production deployment, all four URLs, page-specific content, support contact,
 and security headers. Hosting the listing pages does not complete the MCP
 host's OpenAI domain-verification challenge.
 
+Production verification found Cloudflare's email obfuscation rewriting the
+support address and injecting its decode script. The support contact is wrapped
+in Cloudflare's documented `email_off` comments so it remains readable and
+clickable without JavaScript. This is scoped to the public contact; no zone-wide
+setting or security header is changed. The Cloudflare preview did not perform
+this production-only rewrite, so verify the raw live HTML after deployment.
+
 ## References
 
 - [OpenAI listing fields and domain verification](https://developers.openai.com/plugins/deploy/submission)
