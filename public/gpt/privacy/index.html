@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How the Lens ChatGPT integration handles public references, inspection results, hosting metadata, and support requests."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/gpt/privacy/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/gpt/site.css" />
+    <title>ChatGPT integration privacy | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="ChatGPT integration">
+        <a href="/gpt/">Overview</a>
+        <a href="/gpt/privacy/" aria-current="page">Privacy</a>
+        <a href="/gpt/terms/">Terms</a>
+        <a href="/gpt/support/">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <article class="prose">
+        <p class="eyebrow">ChatGPT integration</p>
+        <h1>Privacy policy</h1>
+        <p class="lede">
+          Public references go to the Lens service. Inspection results return to
+          ChatGPT. Original files stay outside this integration.
+        </p>
+        <p class="meta">Last updated: September 30, 2026</p>
+        <section>
+          <h2>Scope and operator</h2>
+          <p>
+            This policy describes the UCE Evidence Lens ChatGPT integration and
+            its information pages under <code>uceevidencelens.com/gpt/</code>,
+            operated by Copyright by UCE. It does not replace OpenAI’s policies,
+            a public record publisher’s policies, or the separate browser Lens
+            workflow’s disclosures.
+          </p>
+          <p>
+            For privacy questions or requests, use the contact on our
+            <a href="/gpt/support/#contact">support page</a>.
+          </p>
+        </section>
+        <section>
+          <h2>Information processed</h2>
+          <dl>
+            <dt>Public reference and evidence</dt>
+            <dd>
+              When ChatGPT calls a Lens tool, our service receives the supplied
+              public record reference. It retrieves the corresponding public
+              manifest and available transaction metadata. Public evidence can
+              include names, titles, rights declarations, ownership or consent
+              assertions, hashes, identifiers, and timestamps.
+            </dd>
+            <dt>Inspection results</dt>
+            <dd>
+              We return the reference, public record information, separate check
+              results, limitations, source links, and inspection time to
+              ChatGPT. Requested reports include the same kinds of information
+              and are unsigned.
+            </dd>
+            <dt>Connection information</dt>
+            <dd>
+              Hosting providers process network requests and associated metadata
+              to deliver and protect the service. This can include IP addresses,
+              request times, URLs, status codes, and browser or client
+              information. A server-to-server call may expose the ChatGPT host’s
+              network address rather than your own.
+            </dd>
+            <dt>Support correspondence</dt>
+            <dd>
+              If you contact us, we receive your email address and the
+              information you choose to include. Send only what is needed to
+              understand your request.
+            </dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Purpose and recipients</h2>
+          <p>
+            We use public references and evidence to perform the requested
+            inspection or generate its report. We use operational information to
+            run, secure, and troubleshoot the service, and support
+            correspondence to respond to your request.
+          </p>
+          <ul>
+            <li>
+              <strong>OpenAI / ChatGPT</strong> handles your conversation, tool
+              input, and returned results under the policies and controls
+              applicable to your account. The integration does not call the
+              OpenAI API independently.
+            </li>
+            <li>
+              <strong>Google Cloud</strong> hosts the Lens backend in the United
+              States (<code>us-central1</code>) and processes service requests
+              and operational information.
+            </li>
+            <li>
+              <strong>Cloudflare</strong> serves these public website pages and
+              processes website requests.
+            </li>
+            <li>
+              <strong>CbyUCE and Arweave</strong> receive requests for the
+              selected public identifiers from our server. We do not forward
+              caller cookies or credentials. Those services may maintain their
+              own request records.
+            </li>
+            <li>
+              <strong>Our email provider</strong> processes correspondence you
+              send to the published support address.
+            </li>
+          </ul>
+          <p>
+            These integration pages and the embedded ChatGPT component contain
+            no advertising or analytics code, and the integration does not sell
+            personal information or use inspection data for advertising.
+            Provider handling is governed by their applicable terms and
+            policies, including
+            <a href="https://openai.com/policies/privacy-policy/"
+              >OpenAI’s privacy policy</a
+            >,
+            <a href="https://cloud.google.com/terms/cloud-privacy-notice"
+              >Google Cloud’s privacy notice</a
+            >, and
+            <a href="https://www.cloudflare.com/privacypolicy/"
+              >Cloudflare’s privacy policy</a
+            >.
+          </p>
+        </section>
+        <section>
+          <h2>Storage and retention</h2>
+          <p>
+            The Lens application processes inspections in memory. It has no
+            database of inspections, user-account store, persistent report
+            store, or application cookies. It does not intentionally log request
+            bodies, public references, or inspection results.
+          </p>
+          <p>
+            For the current backend deployment, Cloud Run request logs are
+            excluded from our project’s default log sink. Ordinary application
+            and build logs in that project have a seven-day retention setting.
+            Required audit logs and provider operational records follow their
+            applicable retention rules. This is not a promise that Google or
+            other providers retain no connection metadata.
+          </p>
+          <p>
+            ChatGPT conversations, public source records, and any report you
+            save follow their own retention arrangements; the seven-day setting
+            does not apply to them. We keep support correspondence as needed to
+            handle the request and any related security or legal obligations.
+            You can ask us about or request deletion of correspondence through
+            support.
+          </p>
+        </section>
+        <section>
+          <h2>Your choices and requests</h2>
+          <ul>
+            <li>
+              Use only public references you intend to disclose to ChatGPT and
+              the service. Public records can still contain personal
+              information.
+            </li>
+            <li>
+              Do not send original works, private files, credentials, payment
+              information, or sensitive personal information. Lens does not need
+              them.
+            </li>
+            <li>
+              Disable or remove the Lens connection to stop future tool calls.
+              Use ChatGPT’s account controls for conversation and account data.
+            </li>
+            <li>
+              Manage saved reports on your device. Following an “Open in
+              Evidence Lens” link starts the separate browser workflow.
+            </li>
+            <li>
+              Contact us for access, correction, deletion, or other privacy
+              requests relating to information we control. Available rights
+              depend on applicable law, and we may need enough information to
+              verify and handle your request.
+            </li>
+          </ul>
+          <p>
+            We cannot alter or erase public records held by CbyUCE, Arweave, or
+            other parties, or delete data held in your ChatGPT account. Contact
+            the relevant service for those requests.
+          </p>
+        </section>
+        <section>
+          <h2>Changes and questions</h2>
+          <p>
+            We will update this page when the integration’s data practices
+            change and revise the date above. Contact us through
+            <a href="/gpt/support/#contact">Lens support</a> with questions
+            about this policy.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/gpt/">Overview</a>
+        <a href="/gpt/privacy/" aria-current="page">Privacy</a>
+        <a href="/gpt/terms/">Terms</a>
+        <a href="/gpt/support/">Support</a>
+      </nav>
+      <p>UCE Evidence Lens for ChatGPT · Operated by Copyright by UCE.</p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>

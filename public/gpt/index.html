@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Inspect public UCE records in ChatGPT with separate integrity checks, clear limitations, and unsigned dated reports."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/gpt/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/gpt/site.css" />
+    <title>Lens for ChatGPT | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="ChatGPT integration">
+        <a href="/gpt/" aria-current="page">Overview</a>
+        <a href="/gpt/privacy/">Privacy</a>
+        <a href="/gpt/terms/">Terms</a>
+        <a href="/gpt/support/">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <div class="hero">
+        <p class="eyebrow">ChatGPT integration · Preview</p>
+        <h1>UCE Evidence Lens for ChatGPT</h1>
+        <p class="lede">
+          Inspect a public Universal Creation Evidence record and understand
+          what its evidence supports. Ask for the checks, their limits, or an
+          unsigned dated report.
+        </p>
+        <div class="actions">
+          <a class="button" href="#getting-started">How to use it</a
+          ><a href="/">Open browser Lens</a>
+        </div>
+      </div>
+      <aside class="notice" aria-label="Availability">
+        <p>
+          <strong>Preparing for public release.</strong> The integration is
+          available for developer testing. It has not been approved or published
+          in the ChatGPT directory, and there is no public installation link
+          yet.
+        </p>
+      </aside>
+      <div class="grid">
+        <section class="card">
+          <h2>What Lens can check</h2>
+          <ul>
+            <li>
+              Accept a supported CbyUCE or Arweave public record reference.
+            </li>
+            <li>
+              Separate format, covered manifest-hash, signature, and
+              transaction-chronology checks.
+            </li>
+            <li>
+              Explain recorded assertions and show checks that remain incomplete
+              or unsupported.
+            </li>
+            <li>
+              Produce an unsigned report tied to the record and the time of
+              inspection.
+            </li>
+          </ul>
+        </section>
+        <section class="card">
+          <h2>What a result means</h2>
+          <p>
+            A valid signature or matching hash addresses a specific integrity
+            check. It does not establish authorship, ownership, consent, rights,
+            or the truth of a claimed creation date.
+          </p>
+          <p>
+            Lens does not create evidence, issue UCE Certificates, register
+            copyright, enforce DRM, prevent infringement, or guarantee legal
+            protection.
+          </p>
+        </section>
+      </div>
+      <article>
+        <section id="getting-started">
+          <h2>Start with a public record</h2>
+          <ol>
+            <li>
+              Enable the Lens connection in ChatGPT. During this preview,
+              developer testers can follow the setup below.
+            </li>
+            <li>
+              Provide one public CbyUCE verification link or record hash, or an
+              Arweave manifest transaction link or ID.
+            </li>
+            <li>
+              Ask what was verified, what remains unverified, and which results
+              are publisher-reported.
+            </li>
+            <li>
+              Ask for an inspection report for the same record. Review the
+              included reference, check time, and limitations.
+            </li>
+          </ol>
+          <p>For example, using this public demonstration record:</p>
+          <code class="sample"
+            >Inspect
+            https://cbyuce.com/verify/d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5
+            and explain what was and was not verified.</code
+          >
+          <p class="meta">
+            Only share public record references. Do not send unpublished works,
+            private files, account credentials, or sensitive information.
+          </p>
+        </section>
+        <section>
+          <h2>Developer preview setup</h2>
+          <p>
+            If developer mode is available for your ChatGPT account or
+            workspace, enable it and add a connection using this MCP server
+            address:
+          </p>
+          <code class="sample"
+            >https://uce-evidence-lens-zptt2ggs7a-uc.a.run.app/mcp</code
+          >
+          <p>
+            Select no authentication for the Lens connection, then enable it in
+            a new conversation. Follow the
+            <a
+              href="https://developers.openai.com/plugins/deploy/connect-chatgpt"
+              >official ChatGPT connection instructions</a
+            >
+            for the current interface and account requirements.
+          </p>
+          <p>
+            The Lens integration requires no separate Lens account and accepts
+            no payment. ChatGPT access is governed by your OpenAI plan and
+            workspace settings.
+          </p>
+        </section>
+        <section>
+          <h2>Current coverage and limitations</h2>
+          <p>
+            The reviewed verifier supports specified classical 1.0.0 and 1.1.0
+            checks. Coverage depends on the record profile; historical Standard
+            hash nonmatches can remain unresolved. Hybrid 2.x verification and
+            unknown formats are not claimed as supported.
+          </p>
+          <p>
+            Arweave rate limiting observed on September 30, 2026 affects direct
+            Arweave retrieval and transaction-chronology checks from this
+            preview service. Lens reports unavailable or retryable results
+            instead of claiming a pass. A successful CbyUCE manifest check can
+            coexist with incomplete chronology.
+          </p>
+          <p>
+            Checks run on the Lens server. For private local-file comparison,
+            use the separate <a href="/">browser-based Lens workflow</a>. The
+            ChatGPT integration does not receive or compare original files.
+          </p>
+          <p>
+            Report downloads depend on the ChatGPT host. Where saving is
+            unavailable, the widget provides the report as JSON text. A report
+            is an unsigned dated snapshot, not a UCE Certificate or a new
+            permanent record.
+          </p>
+        </section>
+        <section>
+          <h2>Know how your information is used</h2>
+          <p>
+            The integration receives the public reference in the tool call,
+            retrieves approved public evidence, and returns its findings to
+            ChatGPT. Read the <a href="/gpt/privacy/">privacy policy</a>,
+            <a href="/gpt/terms/">terms of use</a>, and
+            <a href="/gpt/support/">support information</a> before using it.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/gpt/" aria-current="page">Overview</a>
+        <a href="/gpt/privacy/">Privacy</a>
+        <a href="/gpt/terms/">Terms</a>
+        <a href="/gpt/support/">Support</a>
+      </nav>
+      <p>UCE Evidence Lens for ChatGPT · Operated by Copyright by UCE.</p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>

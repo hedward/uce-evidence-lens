@@ -134,6 +134,20 @@ Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pin
 
 See the [Cloudflare deployment runbook](docs/CLOUDFLARE-DEPLOYMENT.md) for the exact build settings, security-header review, browser checks, Galaxy CORS sequencing, and rollback procedure.
 
+## ChatGPT integration information
+
+The static `/gpt/` section explains the separate Lens ChatGPT integration and
+contains its privacy, terms, and support pages. Its public contact is
+`support@universalcreationevidence.com`. These pages add no server runtime or
+new hosting service; the ChatGPT MCP service runs separately on Cloud Run.
+The main Lens verification workflow remains browser-based. See
+[public-page validation](docs/CHATGPT-PUBLIC-PAGES.md).
+
+To preview these directory-index pages locally, run `npm run build`, then
+`npx vite preview`. Vite's development server can fall back to the root app
+for directory URLs under `public/`; the built preview and Cloudflare Pages
+serve the dedicated HTML pages at their intended paths.
+
 ## Historical v1.0.0 release evidence
 
 The footer continues to use the published historical evidence route
