@@ -10,9 +10,13 @@ on the existing website:
 - `/gpt/support/`: troubleshooting and the user-approved public contact,
   `support@universalcreationevidence.com`.
 
-The pages retain the website's existing public-facing name, Copyright by UCE.
-The exact verified OpenAI publisher identity remains a separate submission
-gate. The user has no physical address to publish; none is invented here.
+On September 30, 2026, the user confirmed that 5 Race Street LLC operates Lens
+and that Copyright by UCE and CbyUCE are its legally registered alternate names.
+The pages retain Copyright by UCE as the public-facing name and identify the
+LLC and both alternate names in the privacy, terms, and support disclosures.
+This records the user's confirmation; OpenAI business verification and its
+accepted directory publisher name remain separate submission gates.
+The user has no physical address to publish; none is invented here.
 OpenAI's documented listing fields do not specify a public street address.
 Any jurisdiction-specific operator disclosures remain part of publisher review.
 
