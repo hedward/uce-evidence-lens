@@ -1223,6 +1223,10 @@ export function renderApp(
       el("p", {
         text: "Read-only reference verifier · no account · no upload · no legal determination",
       }),
+      el("a", {
+        text: "Lens for ChatGPT — preview, privacy, and support",
+        attrs: { href: "/gpt/" },
+      }),
     ),
   );
   memory.content.replaceChildren(header, notice, main, footer);
