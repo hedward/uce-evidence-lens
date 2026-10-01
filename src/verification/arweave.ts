@@ -3,6 +3,7 @@ import type { FetchLike } from "../records/loader";
 import { isArweaveId, isPlainObject } from "../security/untrusted";
 
 const ARWEAVE_GATEWAY = "https://arweave.net";
+const TURBO_GATEWAY = "https://turbo-gateway.com";
 const MAX_STATUS_BYTES = 16 * 1024;
 const MAX_BLOCK_BYTES = 2 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 10_000;
@@ -28,9 +29,17 @@ class AnchorResponseError extends Error {
   constructor(
     message: string,
     readonly status: "retryable" | "unsupported" | "mismatch" = "unsupported",
+    readonly source?: string,
+    readonly httpStatus?: number,
   ) {
     super(message);
   }
+}
+
+interface GatewayJsonResult {
+  response: Response;
+  data?: unknown;
+  url: URL;
 }
 
 /** Fixed metadata query; neither manifests nor index responses select URLs. */
@@ -168,18 +177,19 @@ async function readBoundedJson(
   }
 }
 
-async function fetchGatewayJson(
+async function fetchGatewayJsonAttempt(
   url: URL,
   fetcher: FetchLike,
   byteLimit: number,
   headers: Record<string, string> = {},
   deadline = Date.now() + TOTAL_TIMEOUT_MS,
-): Promise<{ response: Response; data?: unknown }> {
+): Promise<GatewayJsonResult> {
   const remaining = deadline - Date.now();
   if (remaining <= 0)
     throw new AnchorResponseError(
       "The chronology check reached its time limit. Try again later.",
       "retryable",
+      url.toString(),
     );
   const controller = new AbortController();
   const timeout = setTimeout(
@@ -187,39 +197,106 @@ async function fetchGatewayJson(
     Math.min(REQUEST_TIMEOUT_MS, remaining),
   );
   try {
-    const response = await fetcher(url, {
-      method: "GET",
-      headers: { Accept: "application/json", ...headers },
-      signal: controller.signal,
-      credentials: "omit",
-      referrerPolicy: "no-referrer",
-      redirect: "error",
-    });
+    let response: Response;
+    try {
+      response = await fetcher(url, {
+        method: "GET",
+        headers: { Accept: "application/json", ...headers },
+        signal: controller.signal,
+        credentials: "omit",
+        referrerPolicy: "no-referrer",
+        redirect: "error",
+      });
+    } catch {
+      throw new AnchorResponseError(
+        "The public metadata request timed out or could not complete. The date remains unresolved; no mismatch was established.",
+        "retryable",
+        url.toString(),
+      );
+    }
     if (response.url) {
       if (response.url !== url.toString()) {
         throw new AnchorResponseError(
           "The gateway redirected to an unapproved host.",
+          "unsupported",
+          url.toString(),
         );
       }
     }
     if (response.status === 202 || response.status === 404) {
       await response.body?.cancel();
-      return { response };
+      return { response, url };
     }
     if (!response.ok) {
+      await response.body?.cancel();
       throw new AnchorResponseError(
-        `The Arweave gateway returned HTTP ${response.status}.`,
+        `The public metadata gateway returned HTTP ${response.status}.`,
         response.status === 429 || response.status >= 500
           ? "retryable"
           : "unsupported",
+        url.toString(),
+        response.status,
       );
     }
-    return {
-      response,
-      data: await readBoundedJson(response, byteLimit, controller),
-    };
+    try {
+      return {
+        response,
+        data: await readBoundedJson(response, byteLimit, controller),
+        url,
+      };
+    } catch (error) {
+      if (error instanceof AnchorResponseError && !error.source) {
+        throw new AnchorResponseError(
+          error.message,
+          error.status,
+          url.toString(),
+          error.httpStatus,
+        );
+      }
+      if (error instanceof AnchorResponseError) throw error;
+      throw new AnchorResponseError(
+        "The public metadata request timed out or could not complete. The date remains unresolved; no mismatch was established.",
+        "retryable",
+        url.toString(),
+      );
+    }
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+async function fetchGatewayJson(
+  url: URL,
+  fetcher: FetchLike,
+  byteLimit: number,
+  headers: Record<string, string> = {},
+  deadline = Date.now() + TOTAL_TIMEOUT_MS,
+  fallbackUrl?: URL,
+): Promise<GatewayJsonResult> {
+  try {
+    return await fetchGatewayJsonAttempt(
+      url,
+      fetcher,
+      byteLimit,
+      headers,
+      deadline,
+    );
+  } catch (error) {
+    if (
+      !fallbackUrl ||
+      !(error instanceof AnchorResponseError) ||
+      error.httpStatus === undefined ||
+      (error.httpStatus !== 429 && error.httpStatus < 500)
+    ) {
+      throw error;
+    }
+    return fetchGatewayJsonAttempt(
+      fallbackUrl,
+      fetcher,
+      byteLimit,
+      headers,
+      deadline,
+    );
   }
 }
 
@@ -271,14 +348,18 @@ function parseBlock(value: unknown): ArweaveBlock {
   };
 }
 
-function retryableCheck(txId: string, explanation: string): EvidenceCheck {
+function retryableCheck(source: string, explanation: string): EvidenceCheck {
   return {
     id: "independent_anchor",
     label: "Arweave chronology check",
     status: "retryable",
     explanation,
-    source: `${ARWEAVE_GATEWAY}/tx/${txId}/status`,
+    source,
   };
+}
+
+function metadataUrl(base: string, path: string): URL {
+  return new URL(path, `${base}/`);
 }
 
 export async function verifyArweaveChronology(
@@ -308,14 +389,17 @@ export async function verifyArweaveChronology(
     let statusResult;
     for (;;) {
       const current = path[path.length - 1]!;
-      source = `${ARWEAVE_GATEWAY}/tx/${current}/status`;
+      const statusPath = `tx/${current}/status`;
+      source = metadataUrl(ARWEAVE_GATEWAY, statusPath).toString();
       statusResult = await fetchGatewayJson(
         new URL(source),
         fetcher,
         MAX_STATUS_BYTES,
         {},
         deadline,
+        metadataUrl(TURBO_GATEWAY, statusPath),
       );
+      source = statusResult.url.toString();
       if (statusResult.response.status !== 404) break;
       source = arweaveIndexUrl(current).toString();
       const indexResult = await fetchGatewayJson(
@@ -349,20 +433,23 @@ export async function verifyArweaveChronology(
     }
     if (statusResult.response.status === 202) {
       return retryableCheck(
-        txId,
+        source,
         "The Arweave transaction is pending confirmation. Try this check again later.",
       );
     }
     const status = parseStatus(statusResult.data);
     const rootId = path[path.length - 1]!;
-    source = `${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`;
+    const blockPath = `block/hash/${status.blockHash}`;
+    source = metadataUrl(ARWEAVE_GATEWAY, blockPath).toString();
     const blockResult = await fetchGatewayJson(
-      new URL(`${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`),
+      new URL(source),
       fetcher,
       MAX_BLOCK_BYTES,
       { "X-Block-Format": "2" },
       deadline,
+      metadataUrl(TURBO_GATEWAY, blockPath),
     );
+    source = blockResult.url.toString();
     if (blockResult.response.status !== 200)
       throw new AnchorResponseError(
         "The confirmed transaction's block metadata is not currently available.",
@@ -381,7 +468,7 @@ export async function verifyArweaveChronology(
         status: "mismatch",
         explanation:
           "The retrieved transaction status and block metadata do not bind this transaction to the same Arweave block.",
-        source: `${ARWEAVE_GATEWAY}/tx/${txId}/status`,
+        source,
       };
     }
 
@@ -416,7 +503,7 @@ export async function verifyArweaveChronology(
         status: "mismatch",
         explanation:
           "Arweave confirmed the transaction, but its public block height or timestamp differs from the value reported by the publisher.",
-        source: `${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`,
+        source,
       };
     }
 
@@ -438,6 +525,8 @@ export async function verifyArweaveChronology(
         rootTransactionId: rootId,
         parentPath: path,
         block: { height: block.height, hash: block.blockHash, timestamp: iso },
+        statusSource: statusResult.url.toString(),
+        blockSource: blockResult.url.toString(),
         relationship: bundled ? "gateway_index" : "direct_block_membership",
         ...(bundled ? { indexSource: arweaveIndexUrl(txId).toString() } : {}),
       },
@@ -446,7 +535,10 @@ export async function verifyArweaveChronology(
     return {
       id: "independent_anchor",
       label: "Arweave chronology check",
-      source,
+      source:
+        error instanceof AnchorResponseError && error.source
+          ? error.source
+          : source,
       status: error instanceof AnchorResponseError ? error.status : "retryable",
       explanation:
         error instanceof AnchorResponseError

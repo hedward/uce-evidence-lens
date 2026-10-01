@@ -153,11 +153,11 @@
             unknown formats are not claimed as supported.
           </p>
           <p>
-            Arweave rate limiting observed on September 30, 2026 affects direct
-            Arweave retrieval and transaction-chronology checks from this
-            preview service. Lens reports unavailable or retryable results
-            instead of claiming a pass. A successful CbyUCE manifest check can
-            coexist with incomplete chronology.
+            Public gateways may rate limit direct Arweave retrieval. Chronology
+            status and block checks try a bounded fallback for rate limits or
+            server errors. Lens reports unresolved checks as unavailable or
+            retryable instead of claiming a pass. A successful CbyUCE manifest
+            check can coexist with incomplete chronology.
           </p>
           <p>
             Manifest and explicit file-storage chronology are shown separately.

@@ -5,3 +5,8 @@ UCE Evidence Lens is a static, client-side application. Inputs flow through URL 
 Production delivery uses Cloudflare Pages only as a static asset host. `public/_headers` becomes `dist/_headers` during the Vite build and supplies the browser security policy, origin-keyed agent clustering, and same-origin WebMCP permission. WebMCP tools register and self-check discovery before the asynchronous bundled-record load begins. There is no Pages Function, Worker, proxy, server-side rendering path, database, or runtime secret. Browser retrieval remains limited to validated public CbyUCE and Arweave URLs plus a fixed Turbo Gateway GraphQL endpoint used only for bundled-item parent discovery, with bounded requests and timeouts; the bundled demonstration and pasted JSON remain independent recovery paths. Original file bytes never go to the parent-discovery query.
 
 See `docs/hackathon-build/spec.md` for component contracts and `docs/VERIFICATION-MODEL.md` for the evidentiary semantics.
+
+Chronology status and block metadata may also use fixed Turbo Gateway paths when
+Arweave returns HTTP 429 or 5xx. Each request has at most one fallback, retains
+the same size/deadline limits, and records the actual source. This does not fetch
+original work or change the gateway-reported scope of bundle relationships.

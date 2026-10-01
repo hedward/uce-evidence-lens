@@ -20,6 +20,8 @@ export interface EvidenceCheck {
     block: { height: number; hash: string; timestamp: string };
     relationship: "direct_block_membership" | "gateway_index";
     indexSource?: string;
+    statusSource?: string;
+    blockSource?: string;
   };
   signatureComponents?: {
     algorithm: "ES256" | "ML-DSA-65";

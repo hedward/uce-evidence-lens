@@ -205,3 +205,12 @@ This update does not change any hash profile, signature rule, key, parser or
 hybrid qualification. Versions 2.0.0 and 2.1.0 remain readable with their
 cryptographic verification gates intact. The submitted historical v1.0.0
 artifact and evidence record remain unchanged.
+
+### October 1 gateway follow-up (1.1.2)
+
+Publisher revision and contract remain unchanged. The 1.1.1 Cloud Run check
+encountered HTTP 429 at arweave.net while browser checks succeeded. The 1.1.2
+shared verifier permits one fixed Turbo Gateway status/block fallback only for
+HTTP 429 or 5xx, with the existing bounds and identical metadata validation.
+This changes availability, not hash/signature coverage or bundle proof strength.
+Actual metadata sources are retained; invalid evidence is never bypassed.
