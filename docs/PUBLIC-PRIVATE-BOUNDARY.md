@@ -12,7 +12,7 @@ Production source/history, record-creation or signing logic, private keys, priva
 
 ## Enforcement
 
-- Runtime hosts are allowlisted to `cbyuce.com` and `arweave.net`.
+- Runtime retrieval is allowlisted to `cbyuce.com`, `arweave.net`, and the fixed `https://turbo-gateway.com/graphql` endpoint. The Turbo query receives only a public item identifier and is used to discover bundled-item parent transactions; it never receives original file bytes.
 - The app has no backend, authentication, storage, analytics, or production package.
 - Unknown input fields are discarded by a newly written validator.
 - Undocumented cryptographic construction is labeled unsupported rather than reconstructed.

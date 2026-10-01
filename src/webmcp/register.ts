@@ -120,7 +120,7 @@ export function createToolDefinitions(
     {
       name: "verify_uce_record",
       description:
-        "Run browser-based integrity, signature, and direct Arweave chronology checks. Retryable, reported, and unsupported items are not counted as verified.",
+        "Run browser-based integrity, signature, and Arweave chronology checks for the manifest and its explicit file-storage anchor. Direct Layer 1 membership may be verified; bundled-item parent relationships remain gateway-reported. Retryable, reported, and unsupported items are not counted as verified.",
       inputSchema: emptySchema,
       annotations: readOnly,
       execute: async (input) => {

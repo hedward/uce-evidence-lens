@@ -12,6 +12,15 @@ export interface EvidenceCheck {
   status: EvidenceStatus;
   explanation: string;
   source?: string;
+  chronologyProvenance?: {
+    referenceType: "transaction" | "bundled_item";
+    transactionId: string;
+    rootTransactionId: string;
+    parentPath: string[];
+    block: { height: number; hash: string; timestamp: string };
+    relationship: "direct_block_membership" | "gateway_index";
+    indexSource?: string;
+  };
   signatureComponents?: {
     algorithm: "ES256" | "ML-DSA-65";
     status: EvidenceStatus;

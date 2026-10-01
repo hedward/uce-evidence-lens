@@ -6,6 +6,10 @@ const ARWEAVE_GATEWAY = "https://arweave.net";
 const MAX_STATUS_BYTES = 16 * 1024;
 const MAX_BLOCK_BYTES = 2 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 10_000;
+const INDEX_URL = "https://turbo-gateway.com/graphql";
+const MAX_INDEX_BYTES = 64 * 1024;
+const MAX_BUNDLE_DEPTH = 4;
+const TOTAL_TIMEOUT_MS = 25_000;
 
 interface ArweaveStatus {
   blockHeight: number;
@@ -20,7 +24,89 @@ interface ArweaveBlock {
   transactionIds: string[];
 }
 
-class AnchorResponseError extends Error {}
+class AnchorResponseError extends Error {
+  constructor(
+    message: string,
+    readonly status: "retryable" | "unsupported" | "mismatch" = "unsupported",
+  ) {
+    super(message);
+  }
+}
+
+/** Fixed metadata query; neither manifests nor index responses select URLs. */
+export function arweaveIndexUrl(id: string): URL {
+  if (!isArweaveId(id))
+    throw new AnchorResponseError("Invalid Arweave identifier.");
+  const url = new URL(INDEX_URL);
+  url.searchParams.set(
+    "query",
+    `query{transaction(id:"${id}"){id bundledIn{id} block{id height timestamp}}}`,
+  );
+  return url;
+}
+
+function nonnegativeInteger(value: unknown): value is number {
+  return Number.isSafeInteger(value) && (value as number) >= 0;
+}
+
+function validTimestamp(value: unknown): value is number {
+  return nonnegativeInteger(value) && value <= 8_640_000_000_000;
+}
+
+function parseIndexedItem(
+  value: unknown,
+  requestedId: string,
+): {
+  parent: string | null;
+  block: { height: number; blockHash: string; timestamp: number } | null;
+} | null {
+  if (!isPlainObject(value))
+    throw new AnchorResponseError("The bundle index response was malformed.");
+  if (
+    value.errors !== undefined &&
+    (!Array.isArray(value.errors) || value.errors.length > 0)
+  ) {
+    throw new AnchorResponseError(
+      "The bundle index query could not complete.",
+      "retryable",
+    );
+  }
+  if (!isPlainObject(value.data))
+    throw new AnchorResponseError("The bundle index response was malformed.");
+  const item = value.data.transaction;
+  if (item === null) return null;
+  if (!isPlainObject(item) || item.id !== requestedId)
+    throw new AnchorResponseError(
+      "The bundle index did not return the requested item.",
+    );
+  let parent: string | null = null;
+  if (item.bundledIn !== null) {
+    if (
+      !isPlainObject(item.bundledIn) ||
+      typeof item.bundledIn.id !== "string" ||
+      !isArweaveId(item.bundledIn.id)
+    )
+      throw new AnchorResponseError(
+        "The bundle index returned an unsupported or malformed parent identifier.",
+      );
+    parent = item.bundledIn.id;
+  }
+  const b = item.block;
+  let block = null;
+  if (b !== null) {
+    if (
+      !isPlainObject(b) ||
+      !nonnegativeInteger(b.height) ||
+      !isBlockHash(b.id) ||
+      !validTimestamp(b.timestamp)
+    )
+      throw new AnchorResponseError(
+        "The bundle index returned malformed block metadata.",
+      );
+    block = { height: b.height, blockHash: b.id, timestamp: b.timestamp };
+  }
+  return { parent, block };
+}
 
 function isBlockHash(value: unknown): value is string {
   return typeof value === "string" && /^[A-Za-z0-9_-]{43,128}$/.test(value);
@@ -74,7 +160,9 @@ async function readBoundedJson(
     offset += chunk.byteLength;
   }
   try {
-    return JSON.parse(new TextDecoder().decode(bytes)) as unknown;
+    return JSON.parse(
+      new TextDecoder("utf-8", { fatal: true }).decode(bytes),
+    ) as unknown;
   } catch {
     throw new AnchorResponseError("The gateway returned invalid JSON.");
   }
@@ -85,9 +173,19 @@ async function fetchGatewayJson(
   fetcher: FetchLike,
   byteLimit: number,
   headers: Record<string, string> = {},
+  deadline = Date.now() + TOTAL_TIMEOUT_MS,
 ): Promise<{ response: Response; data?: unknown }> {
+  const remaining = deadline - Date.now();
+  if (remaining <= 0)
+    throw new AnchorResponseError(
+      "The chronology check reached its time limit. Try again later.",
+      "retryable",
+    );
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timeout = setTimeout(
+    () => controller.abort(),
+    Math.min(REQUEST_TIMEOUT_MS, remaining),
+  );
   try {
     const response = await fetcher(url, {
       method: "GET",
@@ -95,23 +193,25 @@ async function fetchGatewayJson(
       signal: controller.signal,
       credentials: "omit",
       referrerPolicy: "no-referrer",
+      redirect: "error",
     });
     if (response.url) {
-      const finalUrl = new URL(response.url);
-      if (
-        finalUrl.protocol !== "https:" ||
-        (finalUrl.hostname !== "arweave.net" &&
-          !finalUrl.hostname.endsWith(".arweave.net"))
-      ) {
+      if (response.url !== url.toString()) {
         throw new AnchorResponseError(
           "The gateway redirected to an unapproved host.",
         );
       }
     }
-    if (response.status === 202) return { response };
+    if (response.status === 202 || response.status === 404) {
+      await response.body?.cancel();
+      return { response };
+    }
     if (!response.ok) {
       throw new AnchorResponseError(
         `The Arweave gateway returned HTTP ${response.status}.`,
+        response.status === 429 || response.status >= 500
+          ? "retryable"
+          : "unsupported",
       );
     }
     return {
@@ -156,8 +256,7 @@ function parseBlock(value: unknown): ArweaveBlock {
     !Number.isSafeInteger(height) ||
     (height as number) < 0 ||
     !isBlockHash(hash) ||
-    !Number.isSafeInteger(timestamp) ||
-    (timestamp as number) < 0 ||
+    !validTimestamp(timestamp) ||
     !Array.isArray(transactions) ||
     transactions.length > 100_000 ||
     !transactions.every(isArweaveId)
@@ -187,7 +286,7 @@ export async function verifyArweaveChronology(
   fetcher: FetchLike = fetch,
 ): Promise<EvidenceCheck> {
   const txId = record.arweaveTxId;
-  if (!txId) {
+  if (!txId || !isArweaveId(txId)) {
     return {
       id: "independent_anchor",
       label: "Arweave chronology check",
@@ -197,12 +296,57 @@ export async function verifyArweaveChronology(
     };
   }
 
+  const path = [txId];
+  const indexedBlocks: {
+    height: number;
+    blockHash: string;
+    timestamp: number;
+  }[] = [];
+  const deadline = Date.now() + TOTAL_TIMEOUT_MS;
+  let source = `${ARWEAVE_GATEWAY}/tx/${txId}/status`;
   try {
-    const statusResult = await fetchGatewayJson(
-      new URL(`${ARWEAVE_GATEWAY}/tx/${txId}/status`),
-      fetcher,
-      MAX_STATUS_BYTES,
-    );
+    let statusResult;
+    for (;;) {
+      const current = path[path.length - 1]!;
+      source = `${ARWEAVE_GATEWAY}/tx/${current}/status`;
+      statusResult = await fetchGatewayJson(
+        new URL(source),
+        fetcher,
+        MAX_STATUS_BYTES,
+        {},
+        deadline,
+      );
+      if (statusResult.response.status !== 404) break;
+      source = arweaveIndexUrl(current).toString();
+      const indexResult = await fetchGatewayJson(
+        new URL(source),
+        fetcher,
+        MAX_INDEX_BYTES,
+        {},
+        deadline,
+      );
+      if (indexResult.response.status !== 200)
+        throw new AnchorResponseError(
+          "The public bundle index could not complete this lookup.",
+          "retryable",
+        );
+      const item = parseIndexedItem(indexResult.data, current);
+      if (!item?.parent)
+        throw new AnchorResponseError(
+          "The transaction status was not found, and the public index did not identify a parent bundle. Its date remains unresolved; this does not establish that the file is missing.",
+          "retryable",
+        );
+      if (path.includes(item.parent))
+        throw new AnchorResponseError(
+          "The bundle index returned a cyclic parent relationship.",
+        );
+      if (path.length > MAX_BUNDLE_DEPTH)
+        throw new AnchorResponseError(
+          "The bundled item exceeds the supported parent-depth limit.",
+        );
+      if (item.block) indexedBlocks.push(item.block);
+      path.push(item.parent);
+    }
     if (statusResult.response.status === 202) {
       return retryableCheck(
         txId,
@@ -210,18 +354,26 @@ export async function verifyArweaveChronology(
       );
     }
     const status = parseStatus(statusResult.data);
+    const rootId = path[path.length - 1]!;
+    source = `${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`;
     const blockResult = await fetchGatewayJson(
       new URL(`${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`),
       fetcher,
       MAX_BLOCK_BYTES,
       { "X-Block-Format": "2" },
+      deadline,
     );
+    if (blockResult.response.status !== 200)
+      throw new AnchorResponseError(
+        "The confirmed transaction's block metadata is not currently available.",
+        "retryable",
+      );
     const block = parseBlock(blockResult.data);
 
     if (
       block.height !== status.blockHeight ||
       block.blockHash !== status.blockHash ||
-      !block.transactionIds.includes(txId)
+      !block.transactionIds.includes(rootId)
     ) {
       return {
         id: "independent_anchor",
@@ -231,6 +383,20 @@ export async function verifyArweaveChronology(
           "The retrieved transaction status and block metadata do not bind this transaction to the same Arweave block.",
         source: `${ARWEAVE_GATEWAY}/tx/${txId}/status`,
       };
+    }
+
+    if (
+      indexedBlocks.some(
+        (b) =>
+          b.height !== block.height ||
+          b.blockHash !== block.blockHash ||
+          b.timestamp !== block.timestamp,
+      )
+    ) {
+      throw new AnchorResponseError(
+        "The gateway's indexed item date or block conflicts with the parent transaction's retrieved block metadata.",
+        "mismatch",
+      );
     }
 
     const reportedTimestamp = record.reportedArweaveBlockTimestamp
@@ -254,17 +420,70 @@ export async function verifyArweaveChronology(
       };
     }
 
+    const bundled = path.length > 1;
+    const iso = new Date(block.timestamp * 1000).toISOString();
     return {
       id: "independent_anchor",
-      label: "Arweave transaction confirmed",
-      status: "verified",
-      explanation: `A public Arweave gateway bound this transaction to block ${block.height.toLocaleString()} at ${new Date(block.timestamp * 1000).toISOString()} (${status.confirmations.toLocaleString()} confirmation${status.confirmations === 1 ? "" : "s"}).`,
-      source: `${ARWEAVE_GATEWAY}/block/hash/${status.blockHash}`,
+      label: bundled
+        ? "Bundled item date reported"
+        : "Arweave transaction confirmed",
+      status: bundled ? "reported" : "verified",
+      explanation: bundled
+        ? `The public gateway index reports this item inside a parent bundle anchored in block ${block.height.toLocaleString()} at ${iso}. The root transaction's status and block membership were checked. The item-to-bundle relationship is gateway-reported; cryptographic bundle inclusion and original file bytes were not checked. This is a block timestamp, not a proven creation date or exact upload time.`
+        : `A public Arweave gateway bound this transaction to block ${block.height.toLocaleString()} at ${iso} (${status.confirmations.toLocaleString()} confirmation${status.confirmations === 1 ? "" : "s"}).`,
+      source,
+      chronologyProvenance: {
+        referenceType: bundled ? "bundled_item" : "transaction",
+        transactionId: txId,
+        rootTransactionId: rootId,
+        parentPath: path,
+        block: { height: block.height, hash: block.blockHash, timestamp: iso },
+        relationship: bundled ? "gateway_index" : "direct_block_membership",
+        ...(bundled ? { indexSource: arweaveIndexUrl(txId).toString() } : {}),
+      },
     };
-  } catch {
-    return retryableCheck(
-      txId,
-      "The public Arweave gateway could not complete this check. No mismatch was found; try again when the gateway or network is available.",
-    );
+  } catch (error) {
+    return {
+      id: "independent_anchor",
+      label: "Arweave chronology check",
+      source,
+      status: error instanceof AnchorResponseError ? error.status : "retryable",
+      explanation:
+        error instanceof AnchorResponseError
+          ? error.message
+          : "The public metadata request timed out or could not complete. The date remains unresolved; no mismatch was established.",
+    };
   }
+}
+
+/** File dates use only the explicit file anchor and never inherit manifest dates. */
+export async function verifyFileArweaveChronology(
+  record: UceRecord,
+  fetcher: FetchLike = fetch,
+  verifier: (
+    record: UceRecord,
+    fetcher: FetchLike,
+  ) => Promise<EvidenceCheck> = verifyArweaveChronology,
+): Promise<EvidenceCheck> {
+  const anchors = record.publicManifest?.anchors;
+  const file = isPlainObject(anchors) ? anchors.fileStorage : undefined;
+  if (
+    !isPlainObject(file) ||
+    file.provider !== "arweave" ||
+    typeof file.txId !== "string" ||
+    !isArweaveId(file.txId)
+  ) {
+    return {
+      id: "file_anchor",
+      label: "File transaction chronology",
+      status: "unsupported",
+      explanation:
+        "No supported explicit Arweave file-storage identifier is recorded. Audit events and arbitrary URLs are not substituted for it.",
+    };
+  }
+  const fileRecord = { ...record, arweaveTxId: file.txId };
+  delete fileRecord.reportedArweaveBlockTimestamp;
+  delete fileRecord.reportedArweaveBlockHeight;
+  const result = await verifier(fileRecord, fetcher);
+  return { ...result, id: "file_anchor", label: "File transaction chronology" };
 }

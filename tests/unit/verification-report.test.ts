@@ -67,6 +67,9 @@ describe("dated verification reports", () => {
       expect(report.datedSnapshotDisclaimer).toContain(
         "different verifier version",
       );
+      expect(report.datedSnapshotDisclaimer).toContain(
+        "gateway-index relationships",
+      );
       expect(report).not.toHaveProperty("publicManifest");
       expect(report).not.toHaveProperty("authorName");
     } finally {
@@ -90,10 +93,23 @@ describe("dated verification reports", () => {
         explanation: "No reviewed profile is available.",
       },
       {
-        id: "publisher",
-        label: "Publisher claim",
+        id: "file_anchor",
+        label: "File transaction chronology",
         status: "reported",
-        explanation: "This is publisher-reported provenance.",
+        explanation: "This bundled relationship is gateway-reported.",
+        chronologyProvenance: {
+          referenceType: "bundled_item",
+          transactionId: "A".repeat(43),
+          rootTransactionId: "B".repeat(43),
+          parentPath: ["A".repeat(43), "B".repeat(43)],
+          block: {
+            height: 1_234,
+            hash: "block-hash",
+            timestamp: "2026-09-30T12:00:00.000Z",
+          },
+          relationship: "gateway_index",
+          indexSource: "https://turbo-gateway.com/graphql",
+        },
       },
       {
         id: "integrity",
@@ -118,6 +134,9 @@ describe("dated verification reports", () => {
       "mismatch",
     ]);
     expect(report.summary).toBe(verification.summary);
+    expect(report.checks[2]?.chronologyProvenance).toEqual(
+      statuses[2]?.chronologyProvenance,
+    );
   });
 
   it("keeps local details private by default and labels the manifest-authentication gap", async () => {

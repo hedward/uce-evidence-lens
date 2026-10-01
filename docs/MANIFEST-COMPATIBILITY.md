@@ -1,6 +1,6 @@
 # CbyUCE manifest compatibility
 
-Reviewed: 2026-09-29
+Reviewed: 2026-10-01
 Publisher contract authority: CbyUCE `main` commit
 `81abec2654ebd2f858ae4c6302a058ce7c1bb3de`
 
@@ -175,3 +175,33 @@ post-upload self-anchor. No publisher changes or new records were made.
 Only 1.0.0 and 1.1.0 classical verification is release-qualified. The hybrid
 qualification list remains empty, so 2.0.0 and 2.1.0 cryptographic checks remain
 unsupported. Publisher response flags remain reported assertions.
+
+## October 1 chronology correction (1.1.1)
+
+Publisher HEAD remains `81abec2654ebd2f858ae4c6302a058ce7c1bb3de` and all 23
+independent publisher-contract comparisons pass. The selected hash/preimage,
+serializer and signing sources remain unchanged. The existing publisher CORS
+route/test changes are outside that contract and were not modified.
+
+The public Extended file `qPwf5AxunXpjpc9ZMAXUFXVOCdhR5COnfQDZxlP7mec` is indexed
+inside ANS-104 bundle `3AMd3Dlx_0yWt77XY_MPupiERPQAGaGYM86Vzg_PtGk`. A direct
+`/tx/<item>/status` request returns 404 even though the parent transaction has
+confirmed block metadata. The previous generic retryable result omitted bundle
+discovery. The new shared chronology path queries only a fixed Turbo Gateway
+metadata endpoint, follows at most four validated parent links, and checks the
+root transaction's status against its block hash, height and membership. Any
+indexed block/date must agree. Requests have byte, time and depth limits;
+redirects, cycles, malformed identifiers and arbitrary destinations cannot pass.
+
+Bundle relationships remain **gateway-reported**, not cryptographically verified
+item inclusion. The returned block date is an anchoring timestamp, not a proven
+creation date or exact upload time. No original file or entire bundle is fetched.
+The live captured fixture records block 2,005,758 at 2026-09-21T21:08:55Z and is
+retained in `tests/fixtures/arweave-extended-bundle.json`. File chronology uses
+the explicit file anchor, separately from the manifest anchor and publisher date.
+UI, WebMCP and reports preserve this scope and incomplete verification coverage.
+
+This update does not change any hash profile, signature rule, key, parser or
+hybrid qualification. Versions 2.0.0 and 2.1.0 remain readable with their
+cryptographic verification gates intact. The submitted historical v1.0.0
+artifact and evidence record remain unchanged.

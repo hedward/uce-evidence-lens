@@ -37,7 +37,7 @@
           Public references go to the Lens service. Inspection results return to
           ChatGPT. Original files stay outside this integration.
         </p>
-        <p class="meta">Last updated: September 30, 2026</p>
+        <p class="meta">Last updated: October 1, 2026</p>
         <section>
           <h2>Scope and operator</h2>
           <p>
@@ -112,10 +112,13 @@
               processes website requests.
             </li>
             <li>
-              <strong>CbyUCE and Arweave</strong> receive requests for the
-              selected public identifiers from our server. We do not forward
-              caller cookies or credentials. Those services may maintain their
-              own request records.
+              <strong>CbyUCE and public Arweave gateways</strong> receive
+              requests for the selected public identifiers from our server. A
+              bundled Arweave item may also require a public parent-transaction
+              lookup through Turbo Gateway. These requests contain public
+              identifiers and do not include original file bytes, caller
+              cookies, or credentials. Those services may maintain their own
+              request records.
             </li>
             <li>
               <strong>Our email provider</strong> processes correspondence you

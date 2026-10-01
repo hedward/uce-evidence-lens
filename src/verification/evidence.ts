@@ -41,6 +41,7 @@ export function summarizeRecord(record: UceRecord): RecordSummary {
 export async function verifyRecord(
   record: UceRecord,
   chronologyCheck?: EvidenceCheck,
+  fileChronologyCheck?: EvidenceCheck,
 ): Promise<VerificationSnapshot> {
   const version = recognizedManifestVersion(record.schemaVersion);
   const capability = version ? MANIFEST_COMPATIBILITY[version] : undefined;
@@ -156,6 +157,8 @@ export async function verifyRecord(
     },
   );
 
+  if (fileChronologyCheck) checks.push(fileChronologyCheck);
+
   if (record.reportedArweaveBlockTimestamp) {
     checks.push({
       id: "publisher_anchor_claim",
@@ -182,6 +185,11 @@ export async function verifyRecord(
   const hasMismatch = checks.some((check) => check.status === "mismatch");
   const isChecking = checks.some((check) => check.status === "checking");
   const hasRetryable = checks.some((check) => check.status === "retryable");
+  const hasReportedChronology = checks.some(
+    (check) =>
+      check.status === "reported" &&
+      check.chronologyProvenance?.relationship === "gateway_index",
+  );
   return {
     checkedAt: new Date().toISOString(),
     coverage: {
@@ -201,7 +209,12 @@ export async function verifyRecord(
           .filter(
             (check) =>
               check.id !== "canonical_manifest_hash" &&
-              ["unsupported", "checking", "retryable"].includes(check.status),
+              (["unsupported", "checking", "retryable"].includes(
+                check.status,
+              ) ||
+                (check.status === "reported" &&
+                  check.chronologyProvenance?.relationship ===
+                    "gateway_index")),
           )
           .map((check) => `${check.label}: ${check.explanation}`),
       ],
@@ -224,7 +237,9 @@ export async function verifyRecord(
           ? "No problems found in completed checks. A check is still running."
           : hasRetryable
             ? "No problems found in completed checks. A check can be retried."
-            : "No problems found in completed checks.",
+            : hasReportedChronology
+              ? "No problems found in completed checks. A result is reported from its public source but is not independently verified."
+              : "No problems found in completed checks.",
     legalNotice: LEGAL_NOTICE,
   };
 }

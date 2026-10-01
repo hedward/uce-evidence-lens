@@ -1,6 +1,6 @@
 # UCE Evidence Lens
 
-**Version `1.1.0`: classical verification and recipient workflows.** The
+**Version `1.1.1`: manifest and file-anchor chronology, classical verification, and recipient workflows.** The
 post-contest rollout was authorized September 29, 2026. The historical submitted
 v1.0.0 source commit, artifact and published evidence remain preserved. See
 [candidate readiness](docs/POST-CONTEST-CANDIDATE.md) and the mandatory
@@ -19,7 +19,7 @@ UCE Evidence Lens is a new, independent reference verifier developed by Copyrigh
 - Verifies the public example's ES256 compact JWS only against a reviewed P-256 key pinned in the application's trusted platform-key registry; record-selected keys cannot establish trust.
 - Independently recomputes the reviewed Extended 1.1.0 public hash projection and the positive-only Standard 1.0.0 public projection. A Standard match is reported; a non-match is unresolved because some historical preimage timestamps were not preserved. Covered fields and exclusions stay explicit.
 - Contains a local ES256 + ML-DSA-65 hybrid verification engine and a reviewed public post-quantum key, but does not issue a runtime 2.0.0 or 2.1.0 cryptographic pass without genuine publisher-issued qualification records.
-- Separates claimed dates, system events, and publisher-reported ledger timestamps; no timestamp is called independent unless the browser retrieves and binds it to the transaction.
+- Separates claimed dates, system events, and publisher-reported ledger timestamps. The manifest and explicit file-storage transaction are checked separately. Direct Layer 1 membership can be verified; a bundled-item parent relationship stays gateway-reported unless bundle bytes are independently verified.
 - Hashes a user-selected file locally with SHA-256 and compares only its digest.
 - Registers eight page-scoped, read-only WebMCP tools before record loading, then confirms their same-origin discoverability when `document.modelContext.getTools` is available.
 - Shares approved public references through recipient links, without including local-file information.
@@ -70,7 +70,8 @@ The browser can locally pass these checks:
 - equality between an independently supplied CbyUCE URL/hash identifier and the manifest's recorded `manifestHash` (not independently checked for pasted JSON and direct Arweave input);
 - ES256 signature verification over the recorded 32-byte manifest hash with an exact `kid`, key reference, and reviewed P-256 JWK from the application-owned registry;
 - local SHA-256 file digest equality;
-- direct retrieval of Arweave transaction status and block metadata, including transaction membership, block binding, height, and timestamp comparison;
+- direct retrieval of Arweave transaction status and block metadata, including Layer 1 transaction membership, block binding, height, and timestamp comparison;
+- separate chronology for an explicit `anchors.fileStorage` Arweave reference; direct transactions can pass independently, while bundled data items retain a reported gateway-index relationship to the confirmed root transaction;
 - classification of publisher-reported chronology without promoting it to an independent result.
 
 Independent hash recomputation is enabled locally for the **reviewed Extended 1.1.0 profile**, with a real publisher-issued fixture, exact canonical bytes, paired publisher/Lens comparisons, and tamper tests. Its ES256 signature requires the exact supported critical header and the reviewed platform key. Standard 1.0.0 has a narrower, positive-only public projection: a match establishes only that projection; a non-match is not called tampering because historical timestamp inputs may be unavailable. Standard coverage excludes work/title, license/policy, AI disclosures, file names and other descriptors. Neither profile verifies all final fields or the truth of assertions.
@@ -113,7 +114,7 @@ Current syntax and discovery behavior were confirmed against the [Chrome WebMCP 
 - No backend, database, account, analytics, advertising, authentication, payment, or cloud storage.
 - One runtime cryptography dependency, `@noble/post-quantum`, with its MIT-licensed transitive packages; see [third-party notices](public/THIRD-PARTY-NOTICES.txt). No remote code or manifest-selected cryptography is loaded.
 - Local file bytes remain in the file-selection handler and browser Web Crypto call; the app retains only filename, size, digest, and timestamp in memory.
-- Remote hosts are restricted to HTTPS CbyUCE verification routes and Arweave transaction URLs.
+- Remote hosts are restricted to HTTPS CbyUCE verification routes, Arweave transaction and block endpoints, and a fixed `https://turbo-gateway.com/graphql` query used only to discover parent transactions for bundled public items. Original file bytes are never sent to that query.
 - JSON depth, size, string, object, and array limits reduce denial-of-service risk.
 - Remote bodies retain their timeout and byte limit throughout streaming; oversized streams are canceled before full buffering.
 - Concurrent record and file operations use generation binding so stale results cannot be paired with a newer record.
@@ -151,12 +152,12 @@ serve the dedicated HTML pages at their intended paths.
 ## Historical v1.0.0 release evidence
 
 The footer continues to use the published historical evidence route
-`https://uceevidencelens.com/evidence/v1.0.0`. No v1.1.0 UCE record exists, so
+`https://uceevidencelens.com/evidence/v1.0.0`. No v1.1.1 UCE record exists, so
 the application does not infer an evidence URL from its package version. The
-footer identifies the application as release 1.1.0 and states that the linked
+footer identifies the application as release 1.1.1 and states that the linked
 v1.0.0 evidence does not cover this release.
 
-Creating a v1.1.0 record or redirect requires separate approval and is not
+Creating a v1.1.1 record or redirect requires separate approval and is not
 implied by publishing the application. Run
 `npm run release:artifact` from a clean committed worktree to verify the project
 and create the deterministic site ZIP for registration. See the
@@ -167,7 +168,7 @@ redirect, deployment, and tagging sequence.
 
 The UCE Evidence Lens Covered Software is licensed under the [Mozilla Public License 2.0](LICENSE). The authoritative UCE Mark, associated names and marks, and the bundled logo-and-tagline artwork are treated separately and are not licensed under MPL-2.0. Their limited authorized use in this project is documented in [Notice](NOTICE.md) and [Trademarks](TRADEMARKS.md).
 
-The submitted v1.0.0 and its evidence remain separate from release `1.1.0`.
+The submitted v1.0.0 and its evidence remain separate from release `1.1.1`.
 Deployment-specific verification is recorded in [release QA](docs/RELEASE-QA.md).
 
 See [Publication Readiness](docs/PUBLICATION-READINESS.md), [License Recommendation](docs/LICENSE-RECOMMENDATION.md), [Notice](NOTICE.md), and [Trademarks](TRADEMARKS.md).
