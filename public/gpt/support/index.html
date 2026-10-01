@@ -84,9 +84,10 @@
             <dt>Why is a check unavailable or retryable?</dt>
             <dd>
               A public source may be rate limited, unavailable, or too slow to
-              respond. Arweave rate limiting observed on September 30, 2026
-              affects this preview. Retry later; an unavailable check has not
-              passed. Another completed check may still have a useful result.
+              respond. Status and block checks try a bounded fallback gateway
+              for rate limits or server errors. If that also fails, retry later;
+              an unavailable check has not passed. Another completed check may
+              still have a useful result.
             </dd>
             <dt>Why is a bundled file transaction only reported?</dt>
             <dd>

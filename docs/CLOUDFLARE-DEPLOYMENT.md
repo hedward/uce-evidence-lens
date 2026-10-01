@@ -95,3 +95,8 @@ The Galaxy response should add `Access-Control-Allow-Origin` for the one approve
 ## Rollback
 
 Cloudflare Pages retains prior deployments. If verification fails, roll back to the last known-good static deployment. Removing the Galaxy response headers independently disables cross-origin CbyUCE loading without affecting the verification website or its JSON body.
+
+Chronology status and block metadata may also use fixed Turbo Gateway paths when
+Arweave returns HTTP 429 or 5xx. Each request has at most one fallback, retains
+the same size/deadline limits, and records the actual source. This does not fetch
+original work or change the gateway-reported scope of bundle relationships.

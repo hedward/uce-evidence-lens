@@ -1,4 +1,4 @@
-# Arweave bundle chronology — release 1.1.1
+# Arweave bundle chronology — release 1.1.2
 
 The file-date checker now recognizes Arweave bundled data items. The old checker
 queried their identifiers as top-level transactions and reported 404 as a generic
@@ -11,6 +11,13 @@ cycle detection and a 25-second total chronology deadline. Status responses are
 bounded to 16 KiB, index responses to 64 KiB, and blocks to 2 MiB. Root transaction
 status, block identity/height and transaction membership must agree, as must any
 indexed block metadata. Original file content and full bundles are not fetched.
+
+The first Cloud Run check of 1.1.1 exposed a separate HTTP 429 response from
+arweave.net even though browser requests succeeded. Release 1.1.2 adds one fixed
+Turbo Gateway fallback for status/block HTTP 429 or 5xx responses, using the same
+validation and total deadline. Pending, missing, malformed, redirected or
+conflicting evidence is not bypassed. Results cite the actual metadata source.
+The fallback uses no new infrastructure or original-file downloads.
 
 Direct top-level transaction checks retain their existing gateway-metadata
 verification scope. Bundled item dates have `reported` status and preserve the

@@ -177,7 +177,7 @@ describe("visible evidence interface", () => {
     ).toBe("View bundled manifest JSON");
   });
 
-  it("labels v1.1.1 while linking only to the historical v1.0.0 evidence", () => {
+  it("labels v1.1.2 while linking only to the historical v1.0.0 evidence", () => {
     const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
@@ -191,12 +191,12 @@ describe("visible evidence interface", () => {
     expect(evidenceLink?.getAttribute("href")).toBe(
       "https://uceevidencelens.com/evidence/v1.0.0",
     );
-    expect(evidenceLink?.getAttribute("href")).not.toContain("v1.1.1");
+    expect(evidenceLink?.getAttribute("href")).not.toContain("v1.1.2");
     expect(evidenceLink?.getAttribute("aria-label")).toBe(
-      "View historical UCE evidence for submitted release 1.0.0; it does not cover UCE Evidence Lens release 1.1.1",
+      "View historical UCE evidence for submitted release 1.0.0; it does not cover UCE Evidence Lens release 1.1.2",
     );
     expect(evidenceLink?.textContent).toContain(
-      "UCE Evidence Lens release 1.1.1",
+      "UCE Evidence Lens release 1.1.2",
     );
     expect(evidenceLink?.textContent).toContain(
       "Historical v1.0.0 evidence — does not cover this release",

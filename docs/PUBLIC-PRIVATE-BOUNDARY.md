@@ -17,3 +17,8 @@ Production source/history, record-creation or signing logic, private keys, priva
 - Unknown input fields are discarded by a newly written validator.
 - Undocumented cryptographic construction is labeled unsupported rather than reconstructed.
 - Publication requires a final file, dependency, secret, and provenance review.
+
+Chronology status and block metadata may also use fixed Turbo Gateway paths when
+Arweave returns HTTP 429 or 5xx. Each request has at most one fallback, retains
+the same size/deadline limits, and records the actual source. This does not fetch
+original work or change the gateway-reported scope of bundle relationships.

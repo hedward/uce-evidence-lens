@@ -115,10 +115,11 @@
               <strong>CbyUCE and public Arweave gateways</strong> receive
               requests for the selected public identifiers from our server. A
               bundled Arweave item may also require a public parent-transaction
-              lookup through Turbo Gateway. These requests contain public
-              identifiers and do not include original file bytes, caller
-              cookies, or credentials. Those services may maintain their own
-              request records.
+              lookup through Turbo Gateway. Status and block checks may also use
+              Turbo Gateway when the primary gateway is rate limited or
+              unavailable. These requests contain public identifiers and do not
+              include original file bytes, caller cookies, or credentials. Those
+              services may maintain their own request records.
             </li>
             <li>
               <strong>Our email provider</strong> processes correspondence you
