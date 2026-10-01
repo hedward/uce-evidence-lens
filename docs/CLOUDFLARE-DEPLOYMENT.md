@@ -5,7 +5,7 @@ UCE Evidence Lens deploys as a static Cloudflare Pages application. It has no Pa
 ## Architecture boundary
 
 - Cloudflare Pages serves the compiled HTML, CSS, JavaScript, favicon, and `_headers` policy.
-- The browser retrieves only approved public HTTPS records from `cbyuce.com` and `arweave.net`.
+- The browser retrieves approved public HTTPS records from `cbyuce.com` and `arweave.net`. It may send a public bundled-item identifier to the fixed `https://turbo-gateway.com/graphql` endpoint to discover its parent transaction; it sends no original file bytes there.
 - Local files are hashed in browser memory and are never uploaded.
 - CbyUCE remains hosted on Meteor Galaxy.
 - CORS authorization for the final Evidence Lens origin, when approved, is an additive response-header change in the existing Galaxy JSON verification handler.

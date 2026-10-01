@@ -15,6 +15,8 @@ describe("Cloudflare Pages configuration", () => {
     expect(headers).toContain(
       "connect-src 'self' https://cbyuce.com https://arweave.net https://*.arweave.net",
     );
+    expect(headers).toContain("https://turbo-gateway.com");
+    expect(headers).not.toContain("https://*.turbo-gateway.com");
     expect(headers).toContain("frame-ancestors 'none'");
     expect(headers).toContain("object-src 'none'");
     expect(headers).toContain("Origin-Agent-Cluster: ?1");

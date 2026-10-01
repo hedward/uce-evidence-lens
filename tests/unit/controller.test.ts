@@ -27,6 +27,53 @@ function publicResponse(id: string, title: string): Response {
 }
 
 describe("controller operation generations", () => {
+  it("checks both the manifest and explicit file transaction on load and refresh", async () => {
+    const seenTransactionIds: Array<string | undefined> = [];
+    const verifier = vi.fn(async (record: { arweaveTxId?: string }) => {
+      seenTransactionIds.push(record.arweaveTxId);
+      return {
+        id: "independent_anchor",
+        label: "Arweave chronology check",
+        status: "verified" as const,
+        explanation: "Test transaction belongs to a public block.",
+      };
+    });
+    const controller = new AppController(fetch, verifier);
+    const states: AppState[] = [];
+    controller.subscribe((state) => states.push(state as AppState));
+
+    await controller.load("demo");
+
+    expect(
+      states.some(
+        (state) =>
+          state.verification?.checks.find((check) => check.id === "file_anchor")
+            ?.status === "checking",
+      ),
+    ).toBe(true);
+    expect(seenTransactionIds).toEqual([
+      "uphFAj1E5Vw10LwFI-qTGrSRKJsWpr2m_mzSZQI8eDU",
+      "A6QE2KzIM8lIdQwX1ReH4I2ZBRU-wE7vsXWQxfSYb6g",
+    ]);
+    expect(
+      controller
+        .getState()
+        .verification?.checks.find((check) => check.id === "file_anchor"),
+    ).toMatchObject({
+      label: "File transaction chronology",
+      status: "verified",
+    });
+
+    await controller.runVerification();
+
+    expect(seenTransactionIds).toEqual([
+      "uphFAj1E5Vw10LwFI-qTGrSRKJsWpr2m_mzSZQI8eDU",
+      "A6QE2KzIM8lIdQwX1ReH4I2ZBRU-wE7vsXWQxfSYb6g",
+      "uphFAj1E5Vw10LwFI-qTGrSRKJsWpr2m_mzSZQI8eDU",
+      "A6QE2KzIM8lIdQwX1ReH4I2ZBRU-wE7vsXWQxfSYb6g",
+    ]);
+  });
+
   it("keeps the latest record and verification paired when loads finish out of order", async () => {
     const firstResponse = deferred<Response>();
     const secondResponse = deferred<Response>();

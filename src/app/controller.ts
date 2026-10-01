@@ -8,7 +8,10 @@ import type {
   VerificationSnapshot,
 } from "../types/record";
 import { hashLocalFile } from "../verification/crypto";
-import { verifyArweaveChronology } from "../verification/arweave";
+import {
+  verifyArweaveChronology,
+  verifyFileArweaveChronology,
+} from "../verification/arweave";
 import {
   compareLocalDigest,
   inspectChronology,
@@ -40,6 +43,14 @@ type ChronologyVerifier = (
   record: UceRecord,
   fetcher: FetchLike,
 ) => Promise<EvidenceCheck>;
+
+const checkingFileChronology: ChronologyVerifier = async () => ({
+  id: "file_anchor",
+  label: "File transaction chronology",
+  status: "checking",
+  explanation:
+    "Retrieving public transaction, parent-index, and block metadata for the explicit Arweave file-storage identifier.",
+});
 
 export class AppController {
   private state: AppState = {
@@ -103,7 +114,16 @@ export class AppController {
     record: UceRecord,
     generation: number,
   ): Promise<UceRecord> {
-    const verification = await verifyRecord(record);
+    const pendingFileChronology = await verifyFileArweaveChronology(
+      record,
+      this.fetcher,
+      checkingFileChronology,
+    );
+    const verification = await verifyRecord(
+      record,
+      undefined,
+      pendingFileChronology,
+    );
     if (generation === this.recordGeneration) {
       this.update({
         record,
@@ -114,8 +134,19 @@ export class AppController {
         error: undefined,
       });
     }
-    const chronologyCheck = await this.chronologyVerifier(record, this.fetcher);
-    const completedVerification = await verifyRecord(record, chronologyCheck);
+    const [chronologyCheck, fileChronologyCheck] = await Promise.all([
+      this.chronologyVerifier(record, this.fetcher),
+      verifyFileArweaveChronology(
+        record,
+        this.fetcher,
+        this.chronologyVerifier,
+      ),
+    ]);
+    const completedVerification = await verifyRecord(
+      record,
+      chronologyCheck,
+      fileChronologyCheck,
+    );
     if (generation === this.recordGeneration && this.state.record === record) {
       this.update({ verification: completedVerification });
     }
@@ -166,12 +197,32 @@ export class AppController {
     if (!record)
       throw new Error("Load a UCE record before running verification.");
     const generation = this.recordGeneration;
-    const checkingVerification = await verifyRecord(record);
+    const pendingFileChronology = await verifyFileArweaveChronology(
+      record,
+      this.fetcher,
+      checkingFileChronology,
+    );
+    const checkingVerification = await verifyRecord(
+      record,
+      undefined,
+      pendingFileChronology,
+    );
     if (generation === this.recordGeneration && this.state.record === record) {
       this.update({ verification: checkingVerification });
     }
-    const chronologyCheck = await this.chronologyVerifier(record, this.fetcher);
-    const verification = await verifyRecord(record, chronologyCheck);
+    const [chronologyCheck, fileChronologyCheck] = await Promise.all([
+      this.chronologyVerifier(record, this.fetcher),
+      verifyFileArweaveChronology(
+        record,
+        this.fetcher,
+        this.chronologyVerifier,
+      ),
+    ]);
+    const verification = await verifyRecord(
+      record,
+      chronologyCheck,
+      fileChronologyCheck,
+    );
     if (generation === this.recordGeneration && this.state.record === record) {
       this.update({ verification });
     }

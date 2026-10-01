@@ -165,6 +165,40 @@ describe("evidence verification", () => {
     ).toBeUndefined();
   });
 
+  it("preserves a reported bundled file chronology without implying verification", async () => {
+    const manifestAnchor = {
+      id: "independent_anchor",
+      label: "Manifest transaction chronology",
+      status: "verified" as const,
+      explanation: "The manifest transaction belongs to a public block.",
+    };
+    const fileAnchor = {
+      id: "file_anchor",
+      label: "File transaction chronology",
+      status: "reported" as const,
+      explanation:
+        "A public gateway index reports this bundled item under the confirmed root transaction; bundle-byte membership was not independently verified.",
+      chronologyProvenance: {
+        referenceType: "bundled_item" as const,
+        transactionId: "A".repeat(43),
+        rootTransactionId: "B".repeat(43),
+        parentPath: ["A".repeat(43), "B".repeat(43)],
+        block: {
+          height: 1_234,
+          hash: "block-hash",
+          timestamp: "2026-09-30T12:00:00.000Z",
+        },
+        relationship: "gateway_index" as const,
+        indexSource: "https://turbo-gateway.com/graphql",
+      },
+    };
+
+    const result = await verifyRecord(demoRecord, manifestAnchor, fileAnchor);
+
+    expect(result.checks).toContainEqual(fileAnchor);
+    expect(result.summary).toContain("not independently verified");
+  });
+
   it("computes the expected local SHA-256 digest", async () => {
     const digest = await sha256Bytes(new TextEncoder().encode("hello"));
     expect(digest).toBe(

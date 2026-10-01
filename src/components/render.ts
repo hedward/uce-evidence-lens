@@ -132,7 +132,11 @@ const technicalStatuses = new Set<EvidenceStatus>(["reported", "unsupported"]);
 function checkCard(check: EvidenceCheck): HTMLElement {
   const status = el("span", {
     className: `status status--${check.status}`,
-    text: statusLabels[check.status],
+    text:
+      check.status === "reported" &&
+      check.chronologyProvenance?.relationship === "gateway_index"
+        ? "Gateway reported"
+        : statusLabels[check.status],
   });
   const card = el(
     "article",
@@ -210,6 +214,49 @@ function checkCard(check: EvidenceCheck): HTMLElement {
         );
     }
     card.append(details);
+  }
+  if (check.chronologyProvenance) {
+    const provenance = check.chronologyProvenance;
+    card.append(
+      el(
+        "details",
+        { className: "chronology-provenance" },
+        el("summary", { text: "Chronology source and relationship" }),
+        definitionList([
+          [
+            "Reference type",
+            provenance.referenceType === "bundled_item"
+              ? "Bundled data item"
+              : "Layer 1 transaction",
+          ],
+          ["Referenced transaction ID", provenance.transactionId],
+          ["Root transaction ID", provenance.rootTransactionId],
+          [
+            "Parent path",
+            provenance.parentPath.length
+              ? provenance.parentPath.join(" → ")
+              : "Direct root transaction",
+          ],
+          ["Root block height", String(provenance.block.height)],
+          ["Root block hash", provenance.block.hash],
+          ["Root block time (UTC)", provenance.block.timestamp],
+          [
+            "Relationship evidence",
+            provenance.relationship === "direct_block_membership"
+              ? "Direct transaction membership in the reported block"
+              : "Public gateway index metadata",
+          ],
+        ]),
+        provenance.indexSource
+          ? el(
+              "p",
+              { className: "source-line" },
+              "Gateway index source: ",
+              safeLink(provenance.indexSource, provenance.indexSource),
+            )
+          : null,
+      ),
+    );
   }
   return card;
 }
@@ -416,7 +463,7 @@ function loader(
     el("p", {
       className: "field-note",
       attrs: { id: "record-source-help" },
-      text: "Approved public sources only: cbyuce.com and arweave.net. If live retrieval is unavailable, reload the bundled demo, use an Arweave URL, or paste public JSON.",
+      text: "Record inputs are limited to cbyuce.com and arweave.net. For a bundled Arweave item, Lens may query turbo-gateway.com for public parent metadata; it never sends local file bytes. If live retrieval is unavailable, reload the bundled demo, use an Arweave URL, or paste public JSON.",
     }),
   );
   form.addEventListener("submit", (event) => {
@@ -655,10 +702,12 @@ function recordView(
   }
 
   const primaryChecks = (verification?.checks ?? []).filter(
-    (check) => !technicalStatuses.has(check.status),
+    (check) =>
+      !technicalStatuses.has(check.status) || check.chronologyProvenance,
   );
-  const technicalChecks = (verification?.checks ?? []).filter((check) =>
-    technicalStatuses.has(check.status),
+  const technicalChecks = (verification?.checks ?? []).filter(
+    (check) =>
+      technicalStatuses.has(check.status) && !check.chronologyProvenance,
   );
   const summaryStatus = verification?.checks.some(
     (check) => check.status === "mismatch",
@@ -668,9 +717,15 @@ function recordView(
       ? "checking"
       : verification?.checks.some((check) => check.status === "retryable")
         ? "retryable"
-        : verification?.checks.some((check) => check.status === "verified")
-          ? "verified"
-          : "incomplete";
+        : verification?.checks.some(
+              (check) =>
+                check.status === "reported" &&
+                check.chronologyProvenance?.relationship === "gateway_index",
+            )
+          ? "incomplete"
+          : verification?.checks.some((check) => check.status === "verified")
+            ? "verified"
+            : "incomplete";
 
   const checks = el(
     "section",
@@ -684,7 +739,10 @@ function recordView(
       el(
         "div",
         {},
-        el("p", { className: "eyebrow", text: "Browser-performed operations" }),
+        el("p", {
+          className: "eyebrow",
+          text: "Browser checks and clearly labeled source reports",
+        }),
         el("h2", {
           text: "Verification checks",
           attrs: { id: "checks-heading" },

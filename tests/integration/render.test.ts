@@ -177,7 +177,7 @@ describe("visible evidence interface", () => {
     ).toBe("View bundled manifest JSON");
   });
 
-  it("labels v1.1.0 while linking only to the historical v1.0.0 evidence", () => {
+  it("labels v1.1.1 while linking only to the historical v1.0.0 evidence", () => {
     const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
@@ -191,15 +191,72 @@ describe("visible evidence interface", () => {
     expect(evidenceLink?.getAttribute("href")).toBe(
       "https://uceevidencelens.com/evidence/v1.0.0",
     );
-    expect(evidenceLink?.getAttribute("href")).not.toContain("v1.1.0");
+    expect(evidenceLink?.getAttribute("href")).not.toContain("v1.1.1");
     expect(evidenceLink?.getAttribute("aria-label")).toBe(
-      "View historical UCE evidence for submitted release 1.0.0; it does not cover UCE Evidence Lens release 1.1.0",
+      "View historical UCE evidence for submitted release 1.0.0; it does not cover UCE Evidence Lens release 1.1.1",
     );
     expect(evidenceLink?.textContent).toContain(
-      "UCE Evidence Lens release 1.1.0",
+      "UCE Evidence Lens release 1.1.1",
     );
     expect(evidenceLink?.textContent).toContain(
       "Historical v1.0.0 evidence — does not cover this release",
+    );
+  });
+
+  it("keeps bundled file chronology visible and labels gateway-index provenance", async () => {
+    const controller = testController();
+    await controller.load("demo");
+    const state = controller.getState();
+    const root = document.createElement("div");
+    renderApp(root, controller, {
+      ...state,
+      verification: {
+        ...state.verification!,
+        summary:
+          "No problems found in completed checks. A result is reported from its public source but is not independently verified.",
+        checks: [
+          ...state.verification!.checks.filter(
+            (check) =>
+              check.id !== "file_anchor" && check.id !== "independent_anchor",
+          ),
+          {
+            id: "file_anchor",
+            label: "File transaction chronology",
+            status: "reported",
+            explanation:
+              "A public gateway index reports the bundled item under this confirmed root transaction.",
+            chronologyProvenance: {
+              referenceType: "bundled_item",
+              transactionId: "A".repeat(43),
+              rootTransactionId: "B".repeat(43),
+              parentPath: ["A".repeat(43), "B".repeat(43)],
+              block: {
+                height: 1_234,
+                hash: "block-hash",
+                timestamp: "2026-09-30T12:00:00.000Z",
+              },
+              relationship: "gateway_index",
+              indexSource: "https://turbo-gateway.com/graphql",
+            },
+          },
+        ],
+      },
+    });
+
+    const card = Array.from(root.querySelectorAll(".check-card")).find(
+      (candidate) =>
+        candidate.textContent?.includes("File transaction chronology"),
+    );
+    expect(card).toBeDefined();
+    expect(card?.closest("details.technical-details")).toBeNull();
+    expect(card?.textContent).toContain("Gateway reported");
+    expect(card?.textContent).toContain("Bundled data item");
+    expect(card?.textContent).toContain("Public gateway index metadata");
+    expect(card?.querySelector("a")?.getAttribute("href")).toBe(
+      "https://turbo-gateway.com/graphql",
+    );
+    expect(root.querySelector(".verification-summary")?.className).toContain(
+      "verification-summary--incomplete",
     );
   });
 

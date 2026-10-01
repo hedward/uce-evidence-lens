@@ -11,7 +11,7 @@ export const REPORT_SCHEMA = "uce.evidence-lens.verification-report";
 export const REPORT_VERSION = "1.0.0";
 
 export const DATED_SNAPSHOT_DISCLAIMER =
-  "This unsigned report is a dated snapshot of public-record checks completed at checkedAt; it is not a new UCE certificate. Any local-file comparison is a separate browser result and may have been performed at a different time. Public evidence may change or become available later. Use recheckLink, when present, to run a fresh verification; the currently published Lens may be a different verifier version.";
+  "This unsigned report is a dated snapshot of public-record checks completed at checkedAt; it is not a new UCE certificate. Reported gateway-index relationships are preserved as reported results, not promoted to independent verification. Any local-file comparison is a separate browser result and may have been performed at a different time. Public evidence may change or become available later. Use recheckLink, when present, to run a fresh verification; the currently published Lens may be a different verifier version.";
 
 const PUBLIC_LENS_URL = "https://uceevidencelens.com/";
 

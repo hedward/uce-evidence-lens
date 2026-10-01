@@ -88,6 +88,14 @@
               affects this preview. Retry later; an unavailable check has not
               passed. Another completed check may still have a useful result.
             </dd>
+            <dt>Why is a bundled file transaction only reported?</dt>
+            <dd>
+              Lens can confirm the root Layer 1 transaction and its block, but
+              the bundled item’s parent path comes from public gateway index
+              metadata. Lens does not download and verify the bundle bytes, so
+              it preserves that relationship as reported instead of calling it
+              independently verified.
+            </dd>
             <dt>Why is a format or check unsupported?</dt>
             <dd>
               Lens only claims support for reviewed formats and check rules.
