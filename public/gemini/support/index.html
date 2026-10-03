@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Setup, troubleshooting, privacy, and security support for UCE Evidence Lens for Gemini."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/gemini/support/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/gemini/site.css" />
+    <title>Gemini integration support | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Gemini integration">
+        <a href="/gemini/">Overview</a>
+        <a href="/gemini/privacy/">Privacy</a>
+        <a href="/gemini/terms/">Terms</a>
+        <a href="/gemini/support/" aria-current="page">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <article class="prose">
+        <p class="eyebrow">Gemini integration · Public preview</p>
+        <h1>Support</h1>
+        <p class="lede">
+          Help connecting UCE Evidence Lens, interpreting a result, reporting a
+          security issue, or making a privacy request.
+        </p>
+        <section id="contact">
+          <h2>Contact Lens support</h2>
+          <p>
+            Operated by 5 Race Street LLC under its registered alternate names
+            Copyright by UCE and CbyUCE.
+          </p>
+          <p>
+            <!--email_off-->
+            <strong
+              >Public support contact:
+              <a href="mailto:support@universalcreationevidence.com"
+                >support@universalcreationevidence.com</a
+              ></strong
+            >
+            <!--/email_off-->
+          </p>
+          <p>
+            For troubleshooting, include release version
+            <code>0.1.0-preview.1</code>, the approximate time and timezone,
+            Gemini surface (such as Spark or chat), whether a UCE tool action
+            appeared, and the exact error or status. Include a public record
+            reference only if you are comfortable sharing it.
+          </p>
+          <p>
+            Remove account details from screenshots. Never email an original
+            work, credential, private manifest, payment information, or
+            sensitive personal information. Report suspected security issues
+            privately by email with a brief description that contains no secrets
+            or private works.
+          </p>
+          <p>
+            Privacy requests, accessibility feedback, misuse reports, and
+            questions about the terms can use the same contact. We do not
+            promise a particular response time.
+          </p>
+        </section>
+        <section>
+          <h2>Connect and install the preview</h2>
+          <ol>
+            <li>
+              Check Google’s
+              <a
+                href="https://support.google.com/gemini/answer/17209137?hl=en-SM"
+                >current custom-app requirements</a
+              >. Feature availability is controlled by Google and can depend on
+              your account, location, settings, and Gemini surface.
+            </li>
+            <li>
+              In Gemini, add UCE Evidence Lens under custom connected apps using
+              this shared MCP endpoint:
+              <code class="sample"
+                >https://uce-evidence-lens-claude-zptt2ggs7a-uc.a.run.app/mcp</code
+              >
+            </li>
+            <li>
+              Confirm that Gemini shows exactly
+              <code>inspect_uce_record</code> and
+              <code>get_uce_inspection_report</code>. The endpoint requires no
+              UCE sign-in, API key, or OAuth credentials.
+            </li>
+            <li>
+              Download
+              <a
+                href="https://github.com/hedward/uce-evidence-lens-gemini/releases/download/v0.1.0-preview.1/inspect-uce-evidence.zip"
+                >inspect-uce-evidence.zip</a
+              >, then upload it through Gemini’s Skills settings and confirm
+              <code>inspect-uce-evidence</code> is active. Use the release ZIP,
+              not GitHub’s automatically generated source archive.
+            </li>
+          </ol>
+          <p>
+            Connecting the custom app and uploading the skill are separate
+            steps. This is public direct-install preview
+            <code>0.1.0-preview.1</code>. There is no Google app-catalog listing
+            or submission. The existing endpoint is shared with another Lens
+            integration, so its hostname retains <code>claude</code>; this does
+            not change what Lens checks or where the server performs its checks.
+          </p>
+        </section>
+        <section>
+          <h2>Common questions</h2>
+          <dl>
+            <dt>No custom-app or skill setting appears. What can I do?</dt>
+            <dd>
+              Check Google’s current eligibility and rollout requirements. The
+              package cannot enable Google features that are unavailable to your
+              account.
+            </dd>
+            <dt>The skill is installed, but the tools are missing. Why?</dt>
+            <dd>
+              Connect the MCP app separately. In the tested account, tools
+              appeared in Spark’s <code>@</code> picker. An installed skill does
+              not create the connector connection.
+            </dd>
+            <dt>Why am I asked for OAuth or an API key?</dt>
+            <dd>
+              Check the exact endpoint. This service requires neither. Stop and
+              contact Lens support if the request persists.
+            </dd>
+            <dt>What should I do after a blank or failed turn?</dt>
+            <dd>
+              Refresh once, then make one explicit retry with the same public
+              reference. Stop if it remains blank. Use the
+              <a href="/">browser-based Evidence Lens</a> or contact support. A
+              missing response says nothing about whether a record passes or
+              fails a check.
+            </dd>
+            <dt>Why is a check unavailable, partial, or unsupported?</dt>
+            <dd>
+              Review each check and its stated coverage. A public source can be
+              pending, rate limited, unavailable, or too slow. The connector
+              does not infer support for unknown record versions or hybrid
+              profiles. These statuses are not verification passes, and an
+              outage is not evidence of tampering.
+            </dd>
+            <dt>What if the reference is rejected?</dt>
+            <dd>
+              Use a public CbyUCE verification link or 64-character record hash,
+              or an Arweave manifest transaction link or 43-character ID.
+              Private links, arbitrary websites, pasted manifests, and files are
+              outside the tools’ accepted inputs.
+            </dd>
+            <dt>Why does a source link open Google Search?</dt>
+            <dd>
+              Ask Gemini to return the exact URL as copyable text. Corrected
+              direct-link rendering remains unverified in this preview.
+            </dd>
+            <dt>What if there is no report attachment?</dt>
+            <dd>
+              Native file download is unverified. Use the conversation’s report
+              results or the browser Lens. If Gemini supplies complete report
+              JSON, you may save it yourself; do not treat a prose summary as
+              the complete JSON report.
+            </dd>
+            <dt>How do I compare my original file?</dt>
+            <dd>
+              Use the separate <a href="/">browser-based Evidence Lens</a> and
+              its private local-file comparison. The Gemini connector never
+              retrieves or hashes your local original.
+            </dd>
+            <dt>Does a verified result prove ownership?</dt>
+            <dd>
+              No. Review exactly which integrity or chronology check passed and
+              what it covers. Identity, authorship, ownership, rights, consent,
+              provenance, and creation-date statements remain recorded
+              assertions.
+            </dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Tested surface</h2>
+          <p>
+            In one personal account on the Gemini web app, both tools succeeded
+            in native Spark, each after one retry. Spark also produced blank or
+            failed turns, including for a simple control request that used no
+            tools; the cause was not established. Native file downloads,
+            corrected direct links, ordinary-chat tool availability, and mobile
+            workflows remain unverified.
+          </p>
+        </section>
+        <section>
+          <h2>Help with Gemini itself</h2>
+          <p>
+            For Gemini account, subscription, eligibility, activity settings, or
+            custom-app and skill availability, use Google’s Gemini support. For
+            Lens-specific results, privacy requests, security reports, or page
+            accessibility problems, use our contact above.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/gemini/">Overview</a>
+        <a href="/gemini/privacy/">Privacy</a>
+        <a href="/gemini/terms/">Terms</a>
+        <a href="/gemini/support/" aria-current="page">Support</a>
+      </nav>
+      <p>
+        UCE Evidence Lens for Gemini · Copyright by UCE, a registered alternate
+        name of 5 Race Street LLC.
+      </p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Inspect public UCE records in Gemini with separate integrity checks, clear limitations, and unsigned reports. Install the public preview skill and connect the read-only service."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/gemini/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/gemini/site.css" />
+    <title>Lens for Gemini | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Gemini integration">
+        <a href="/gemini/" aria-current="page">Overview</a>
+        <a href="/gemini/privacy/">Privacy</a>
+        <a href="/gemini/terms/">Terms</a>
+        <a href="/gemini/support/">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <div class="hero">
+        <p class="eyebrow">
+          Gemini integration · Public preview 0.1.0-preview.1
+        </p>
+        <h1>UCE Evidence Lens for Gemini</h1>
+        <p class="lede">
+          Inspect an explicitly identified public Universal Creation Evidence
+          record in Gemini. Understand the checks, explore their limits, and
+          request an unsigned inspection report.
+        </p>
+        <div class="actions">
+          <a class="button" href="#getting-started">Set up in Gemini</a
+          ><a
+            href="https://github.com/hedward/uce-evidence-lens-gemini/releases/download/v0.1.0-preview.1/inspect-uce-evidence.zip"
+            >Download the skill ZIP</a
+          >
+        </div>
+      </div>
+      <aside class="notice" aria-label="Availability">
+        <p>
+          <strong>A public direct-install preview.</strong> Connect the UCE app
+          and upload the skill separately. Our tested workflow uses Gemini Spark
+          on the web. Google controls account, region, subscription, and rollout
+          eligibility. This release has not been submitted to or listed in a
+          Google app catalog.
+        </p>
+      </aside>
+      <div class="grid">
+        <section class="card">
+          <h2>Inspect a public record</h2>
+          <p>
+            <code>inspect_uce_record</code> retrieves an approved public record
+            and returns separate format, covered manifest-hash,
+            platform-signature, chronology, assertion, and coverage results.
+          </p>
+        </section>
+        <section class="card">
+          <h2>Create a dated report</h2>
+          <p>
+            <code>get_uce_inspection_report</code> performs a fresh inspection
+            and returns an unsigned JSON snapshot bound to that same explicit
+            record. Native downloadable report attachments remain unverified.
+          </p>
+        </section>
+      </div>
+      <article>
+        <section>
+          <h2>What a result means</h2>
+          <p>
+            Checks run on the UCE server using the reviewed Lens verifier. The
+            skill helps Gemini interpret the returned results; it is not a
+            verifier on its own.
+          </p>
+          <p>
+            Evidence integrity does not establish the truth of identity,
+            authorship, ownership, rights, consent, provenance, or creation-date
+            assertions recorded in a manifest. Parsing, covered manifest
+            hashing, signature validity, chronology, publisher reports, and
+            recorded assertions remain separate.
+          </p>
+          <p>
+            An unsigned dated report is not a UCE Certificate or a new permanent
+            record. Lens does not register copyright, provide legal advice,
+            guarantee legal protection, prevent infringement, enforce DRM, or
+            imply endorsement by Google, Anthropic, or OpenAI.
+          </p>
+        </section>
+        <section id="getting-started">
+          <h2>Connect the app and add the skill</h2>
+          <p>
+            Check access before installing. Google's custom connected apps
+            currently require a personal Google Account, age 18+, US location,
+            English, and Keep Activity enabled. Spark may require a Google
+            subscription. Review
+            <a href="https://support.google.com/gemini/answer/17209137?hl=en-SM"
+              >Google's current requirements</a
+            >, your privacy choices, and the
+            <a href="/gemini/privacy/">Lens privacy policy</a> and
+            <a href="/gemini/terms/">terms</a>.
+          </p>
+          <ol>
+            <li>
+              In the Gemini web app, open
+              <strong>Settings → Connected Apps</strong>, sometimes under
+              <strong>Personal Intelligence</strong>. Under
+              <strong>Custom apps</strong> or
+              <strong>Custom apps for Spark</strong>, add this MCP server:<code
+                class="sample"
+                >https://uce-evidence-lens-claude-zptt2ggs7a-uc.a.run.app/mcp</code
+              >
+            </li>
+            <li>
+              Review the connection and confirm both tools:
+              <code>inspect_uce_record</code> and
+              <code>get_uce_inspection_report</code>. No UCE sign-in, API key,
+              OAuth credentials, or payment is required. If your account
+              requests credentials for this endpoint, stop and
+              <a href="/gemini/support/#contact">contact support</a>.
+            </li>
+            <li>
+              <a
+                href="https://github.com/hedward/uce-evidence-lens-gemini/releases/download/v0.1.0-preview.1/inspect-uce-evidence.zip"
+                >Download <code>inspect-uce-evidence.zip</code></a
+              >. In <strong>Settings → Skills → Upload</strong>, select the ZIP,
+              review it, and create <code>inspect-uce-evidence</code>. Confirm
+              the skill is active.
+            </li>
+            <li>
+              Start a Spark task. Select <strong>UCE Evidence Lens</strong> with
+              <code>@</code> and <strong>inspect-uce-evidence</strong> with
+              <code>/</code>. Supply an explicit public record reference using
+              the example below.
+            </li>
+          </ol>
+          <p>
+            The service is shared with our Claude integration, so its hostname
+            retains <code>claude</code>. The same read-only tools serve Gemini.
+            Installing the skill does not connect the app automatically.
+          </p>
+          <p>
+            The four-file skill contains instructions, evidence boundaries, and
+            license notices. Download that skill ZIP, not GitHub's automatically
+            generated source-code archive. See the
+            <a
+              href="https://github.com/hedward/uce-evidence-lens-gemini/tree/main/skill"
+              >skill source</a
+            >,
+            <a
+              href="https://github.com/hedward/uce-evidence-lens-gemini/releases/download/v0.1.0-preview.1/SHA256SUMS"
+              >download checksum</a
+            >, and
+            <a href="https://support.google.com/gemini/answer/17094296?hl=en"
+              >Google's skill instructions</a
+            >.
+          </p>
+          <p class="meta">
+            Only share public record references. Do not send unpublished works,
+            private files or manifests, credentials, payment information, or
+            sensitive information.
+          </p>
+        </section>
+        <section id="examples">
+          <h2>Start with an explicit public record</h2>
+          <p>For example:</p>
+          <code class="sample"
+            >Inspect public UCE record
+            d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5 and
+            explain each check and what remains unsupported or incomplete.</code
+          >
+          <p>Then request a report separately:</p>
+          <code class="sample"
+            >Create an unsigned inspection report for public UCE record
+            d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5.
+            Explain what completed and what remains unchecked. Include the exact
+            returned public-record and Lens viewer URLs as direct links and
+            copyable text.</code
+          >
+          <p>
+            Look for an actual UCE tool action and returned check results. A
+            task title or an empty answer is not an inspection. Partial,
+            unsupported, unavailable, reported, and retryable results stay
+            explicit.
+          </p>
+        </section>
+        <section id="preview-status">
+          <h2>What we have tested</h2>
+          <p>
+            In our October 3, 2026 Gemini web test, the account-free connector
+            exposed both tools. Native Spark inspection and report calls
+            succeeded, each after one retry. The revised skill asked for a
+            missing reference in ordinary chat without selecting a record or
+            calling a verification tool.
+          </p>
+          <p>
+            Spark also produced blank or failed turns, including on a simple
+            no-tools control. The cause is not established. Native report
+            downloads, corrected direct-link rendering, ordinary-chat tools, and
+            mobile workflows remain unverified. A downloadable report attachment
+            is not promised.
+          </p>
+          <p>
+            If a turn is blank, refresh once and make one explicit retry with
+            the same public reference. If it is still blank, stop and
+            <a href="/gemini/support/">contact support</a> or use the
+            <a href="/">Evidence Lens browser</a>. A missing response does not
+            mean the record failed a check.
+          </p>
+          <p>
+            See the
+            <a
+              href="https://github.com/hedward/uce-evidence-lens-gemini/releases/tag/v0.1.0-preview.1"
+              >versioned release notes</a
+            >
+            for the tested scope.
+          </p>
+        </section>
+        <section>
+          <h2>Current coverage and limits</h2>
+          <ul>
+            <li>
+              No original-work uploads, accounts, evidence creation, certificate
+              issuance, payments, credit consumption, or event subscriptions.
+            </li>
+            <li>
+              No local-file retrieval, hashing, or comparison. That workflow
+              remains in the <a href="/">Evidence Lens browser</a>.
+            </li>
+            <li>
+              Retrieval is restricted to approved public sources. The service
+              does not fetch arbitrary websites, and unknown versions do not
+              silently receive a verification pass.
+            </li>
+            <li>
+              Reports preserve their explicit record, check time, coverage, and
+              limitations. A prose summary is not the complete report JSON.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>Update, remove, or get help</h2>
+          <p>
+            To update a skill, open it and choose
+            <strong>Skill actions → Replace skill</strong> with the new release
+            ZIP. Keep one active copy. To stop using it, deactivate or remove
+            the skill and disconnect or remove UCE Evidence Lens in Connected
+            Apps.
+          </p>
+          <p>
+            Read the <a href="/gemini/privacy/">privacy policy</a>,
+            <a href="/gemini/terms/">terms of use</a>, and
+            <a href="/gemini/support/">support information</a>. Manage saved
+            conversation and task data using Google's account controls.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/gemini/" aria-current="page">Overview</a
+        ><a href="/gemini/privacy/">Privacy</a><a href="/gemini/terms/">Terms</a
+        ><a href="/gemini/support/">Support</a>
+      </nav>
+      <p>
+        UCE Evidence Lens for Gemini · Copyright by UCE, a registered alternate
+        name of 5 Race Street LLC.
+      </p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>
