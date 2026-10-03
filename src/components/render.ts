@@ -1285,6 +1285,10 @@ export function renderApp(
         text: "Lens for ChatGPT — preview, privacy, and support",
         attrs: { href: "/gpt/" },
       }),
+      el("a", {
+        text: "Lens for Claude — plugin, privacy, and support",
+        attrs: { href: "/claude/" },
+      }),
     ),
   );
   memory.content.replaceChildren(header, notice, main, footer);

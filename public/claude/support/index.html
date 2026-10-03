@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Setup, troubleshooting, privacy, and security support for UCE Evidence Lens for Claude."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/claude/support/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/claude/site.css" />
+    <title>Claude integration support | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Claude integration">
+        <a href="/claude/">Overview</a>
+        <a href="/claude/privacy/">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/" aria-current="page">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <article class="prose">
+        <p class="eyebrow">Claude integration</p>
+        <h1>Support</h1>
+        <p class="lede">
+          Help connecting UCE Evidence Lens, interpreting a result, reporting a
+          security issue, or making a privacy request.
+        </p>
+        <section id="contact">
+          <h2>Contact Lens support</h2>
+          <p>
+            Operated by 5 Race Street LLC under its registered alternate names
+            Copyright by UCE and CbyUCE.
+          </p>
+          <p>
+            <!--email_off-->
+            <strong
+              >Public support contact:
+              <a href="mailto:support@universalcreationevidence.com"
+                >support@universalcreationevidence.com</a
+              ></strong
+            >
+            <!--/email_off-->
+          </p>
+          <p>
+            For an inspection problem, include the approximate time, whether you
+            used Claude web or another host, the public reference only if it is
+            already public and lawful to share, the visible error or check
+            label, the plugin version, and whether retrying changed the result.
+          </p>
+          <p>
+            Do not email unpublished works, private files or manifests,
+            credentials, payment information, or sensitive personal information.
+            For a suspected vulnerability, start with a brief description that
+            contains no secrets or private works and request a private
+            follow-up.
+          </p>
+          <p>
+            Privacy requests, accessibility feedback, misuse reports, and
+            questions about the terms can use the same contact. We do not
+            promise a particular response time.
+          </p>
+        </section>
+        <section>
+          <h2>Connect and check the tools</h2>
+          <ol>
+            <li>
+              Install the plugin through an option available to your Claude plan
+              or workspace. If needed, use the
+              <a href="https://github.com/hedward/uce-evidence-lens-claude"
+                >public repository’s manual-install instructions</a
+              >.
+            </li>
+            <li>
+              Open the plugin’s connector settings and connect UCE Evidence
+              Lens. No UCE sign-in or credential is required.
+            </li>
+            <li>
+              If your workspace supports custom remote connectors, add:
+              <code class="sample"
+                >https://uce-evidence-lens-claude-zptt2ggs7a-uc.a.run.app/mcp</code
+              >
+            </li>
+            <li>
+              Confirm that Claude shows exactly
+              <code>inspect_uce_record</code> and
+              <code>get_uce_inspection_report</code>.
+            </li>
+          </ol>
+          <p>
+            Installing the plugin and connecting the remote server are separate
+            steps. The Claude plugin is published, but availability can vary by
+            plan, workspace, host, and listing propagation. As of October 3,
+            2026, the separate MCP connector’s directory listing is in review
+            and is not live.
+          </p>
+        </section>
+        <section>
+          <h2>Common questions</h2>
+          <dl>
+            <dt>Claude asks for a reference. Is that expected?</dt>
+            <dd>
+              Yes. Supply a public CbyUCE record hash or verification URL, or an
+              Arweave manifest transaction reference, in the current
+              conversation. Each request and report must identify its record.
+            </dd>
+            <dt>Why is a check unavailable or retryable?</dt>
+            <dd>
+              A public source may be pending, rate limited, unavailable, or too
+              slow. Retry later. An unavailable or retryable result is not
+              evidence of tampering or a mismatch, and it has not passed.
+            </dd>
+            <dt>Why is a result partial, reported, or unsupported?</dt>
+            <dd>
+              Review which checks completed and their stated coverage. The
+              connector does not infer support for unknown record versions or
+              hybrid profiles. A bundled item’s parent path may remain
+              gateway-reported when Lens has not downloaded and verified the
+              bundle bytes.
+            </dd>
+            <dt>What if the reference is rejected?</dt>
+            <dd>
+              Use a public CbyUCE verification link or 64-character record hash,
+              or an Arweave manifest transaction link or 43-character ID.
+              Private links, arbitrary websites, pasted manifests, and files are
+              outside the tools’ accepted inputs.
+            </dd>
+            <dt>How do I compare my original file?</dt>
+            <dd>
+              Use the separate <a href="/">browser-based Evidence Lens</a> and
+              its private local-file comparison. The Claude connector never
+              retrieves or hashes your local original.
+            </dd>
+            <dt>
+              What if the interactive card or report download is unavailable?
+            </dt>
+            <dd>
+              Claude hosts can still present the complete text result or JSON
+              report fallback. A report remains an unsigned dated inspection,
+              not a UCE Certificate. Saving a downloaded file depends on the
+              host and device.
+            </dd>
+            <dt>Can Lens fix or delete a public record?</dt>
+            <dd>
+              No. Lens reads public evidence. Contact the record’s publisher or
+              hosting service about corrections or removal; public or permanent
+              records may not be removable.
+            </dd>
+            <dt>Does a verified result prove ownership?</dt>
+            <dd>
+              No. Review exactly which integrity or chronology check passed and
+              what it covers. Identity, authorship, ownership, rights, consent,
+              provenance, and creation-date statements remain recorded
+              assertions.
+            </dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Tested surface</h2>
+          <p>
+            Both tools passed native Claude web testing. The inspection card, a
+            report-download acknowledgement, the external Evidence Lens link,
+            and complete text or JSON fallback were exercised. Other Claude
+            hosts and a full desktop or mobile compatibility matrix have not
+            been claimed as tested.
+          </p>
+        </section>
+        <section>
+          <h2>Help with Claude itself</h2>
+          <p>
+            For Claude account, billing, workspace policy, or plugin and
+            connector access, use the support options for your Anthropic account
+            or workspace. For Lens-specific results, privacy requests, or page
+            accessibility problems, use our contact above.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/claude/">Overview</a>
+        <a href="/claude/privacy/">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/" aria-current="page">Support</a>
+      </nav>
+      <p>
+        UCE Evidence Lens for Claude · Copyright by UCE, a registered alternate
+        name of 5 Race Street LLC.
+      </p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>

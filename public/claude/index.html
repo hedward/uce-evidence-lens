@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Inspect approved public UCE records in Claude with separate integrity checks, clear limitations, and unsigned dated reports."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/claude/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/claude/site.css" />
+    <title>Lens for Claude | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Claude integration">
+        <a href="/claude/" aria-current="page">Overview</a>
+        <a href="/claude/privacy/">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <div class="hero">
+        <p class="eyebrow">Claude integration · Read-only public evidence</p>
+        <h1>UCE Evidence Lens for Claude</h1>
+        <p class="lede">
+          Inspect an explicitly identified public Universal Creation Evidence
+          record and see what its evidence supports. Lens keeps integrity
+          checks, chronology, recorded assertions, and coverage limits separate.
+        </p>
+        <div class="actions">
+          <a class="button" href="#getting-started">Connect the Lens</a
+          ><a href="#examples">Try a public example</a>
+        </div>
+      </div>
+      <aside class="notice" aria-label="Availability">
+        <p>
+          <strong>The Claude plugin is published.</strong> Anthropic’s security
+          scan passed, and the plugin is published for Claude Code, Cowork, and
+          Claude apps. Availability can vary by Claude plan, workspace, and
+          listing propagation. As of October 3, 2026, the separate MCP
+          connector’s directory listing is in review and is not live; eligible
+          users can add the connector directly with the address below.
+        </p>
+      </aside>
+      <div class="grid">
+        <section class="card">
+          <h2>Inspect a public record</h2>
+          <p>
+            <code>inspect_uce_record</code> retrieves an approved public record
+            and returns separate format, covered manifest-hash,
+            platform-signature, chronology, assertion, and coverage results.
+          </p>
+        </section>
+        <section class="card">
+          <h2>Create a dated report</h2>
+          <p>
+            <code>get_uce_inspection_report</code> performs a fresh inspection
+            and returns an unsigned JSON snapshot bound to that same explicit
+            record.
+          </p>
+        </section>
+      </div>
+      <article>
+        <section>
+          <h2>What a result means</h2>
+          <p>
+            A valid signature, matching covered hash, or chronology result
+            addresses a specific check. Evidence integrity does not establish
+            the truth of identity, authorship, ownership, rights, consent,
+            provenance, or creation-date assertions recorded in a manifest.
+          </p>
+          <p>
+            Lens does not create evidence, issue UCE Certificates, register
+            copyright, provide legal advice, enforce DRM, prevent infringement,
+            guarantee legal protection, or imply endorsement by Anthropic or
+            OpenAI. An unsigned dated report is not a UCE Certificate or a new
+            permanent record.
+          </p>
+        </section>
+        <section id="getting-started">
+          <h2>Connect the Lens</h2>
+          <ol>
+            <li>
+              Install the plugin through an option available to your Claude plan
+              or workspace. The
+              <a href="https://github.com/hedward/uce-evidence-lens-claude"
+                >public plugin repository</a
+              >
+              contains the manual-install source and instructions.
+            </li>
+            <li>
+              Open the plugin’s connector settings and connect UCE Evidence
+              Lens. No UCE account, sign-in, API key, or payment is required.
+            </li>
+            <li>
+              If your Claude workspace supports custom remote connectors, add
+              this MCP server directly:
+              <code class="sample"
+                >https://uce-evidence-lens-claude-zptt2ggs7a-uc.a.run.app/mcp</code
+              >
+            </li>
+            <li>
+              Confirm that Claude shows <code>inspect_uce_record</code> and
+              <code>get_uce_inspection_report</code>.
+            </li>
+          </ol>
+          <p class="meta">
+            Only share public record references. Do not send unpublished works,
+            private files or manifests, credentials, payment information, or
+            sensitive information.
+          </p>
+        </section>
+        <section id="examples">
+          <h2>Start with an explicit public record</h2>
+          <p>For example:</p>
+          <code class="sample"
+            >Inspect public UCE record
+            d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5 and
+            explain what was and was not verified.</code
+          >
+          <p>Or request the second tool directly:</p>
+          <code class="sample"
+            >Create an unsigned inspection report for public UCE record
+            d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5.</code
+          >
+        </section>
+        <section>
+          <h2>Current coverage and limits</h2>
+          <ul>
+            <li>
+              The connector performs bounded server checks. It does not
+              retrieve, hash, or compare an original file. Use the separate
+              <a href="/">browser-based Lens workflow</a> for private local-file
+              comparison.
+            </li>
+            <li>
+              Retrieval is restricted to approved public CbyUCE, Arweave,
+              transaction-derived Arweave, and Turbo Gateway paths. The service
+              does not fetch arbitrary websites.
+            </li>
+            <li>
+              Unknown record versions and hybrid profiles do not silently
+              receive a verification pass. Pending, unsupported, unavailable,
+              rate-limited, incomplete, and retryable results stay explicit.
+            </li>
+            <li>
+              The connector has no Lens account, original-work upload, payment,
+              credit consumption, evidence creation, or event subscription.
+            </li>
+          </ul>
+          <p>
+            Both tools passed native Claude web testing. The inspection card,
+            report acknowledgement, external Lens link, and complete text or
+            JSON fallback were exercised. This evidence does not claim a full
+            desktop, mobile, or other-host compatibility matrix.
+          </p>
+        </section>
+        <section>
+          <h2>Know how your information is used</h2>
+          <p>
+            The connector receives the public reference in the tool call,
+            retrieves approved public evidence, and returns findings to Claude.
+            Read the <a href="/claude/privacy/">privacy policy</a>,
+            <a href="/claude/terms/">terms of use</a>, and
+            <a href="/claude/support/">support information</a> before using it.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/claude/" aria-current="page">Overview</a>
+        <a href="/claude/privacy/">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/">Support</a>
+      </nav>
+      <p>
+        UCE Evidence Lens for Claude · Copyright by UCE, a registered alternate
+        name of 5 Race Street LLC.
+      </p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>
