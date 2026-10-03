@@ -1289,6 +1289,10 @@ export function renderApp(
         text: "Lens for Claude — plugin, privacy, and support",
         attrs: { href: "/claude/" },
       }),
+      el("a", {
+        text: "Lens for Gemini — preview, privacy, and support",
+        attrs: { href: "/gemini/" },
+      }),
     ),
   );
   memory.content.replaceChildren(header, notice, main, footer);
