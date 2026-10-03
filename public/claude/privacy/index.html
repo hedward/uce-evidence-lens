@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How UCE Evidence Lens for Claude handles public references, inspection results, hosting metadata, and support requests."
+    />
+    <link rel="canonical" href="https://uceevidencelens.com/claude/privacy/" />
+    <link rel="icon" href="/uce-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/claude/site.css" />
+    <title>Claude integration privacy | UCE Evidence Lens</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/"
+        ><img src="/uce-mark.svg" alt="" width="40" height="40" /><span
+          >UCE Evidence Lens<small
+            >Public evidence, clearly examined</small
+          ></span
+        ></a
+      >
+      <nav aria-label="Claude integration">
+        <a href="/claude/">Overview</a>
+        <a href="/claude/privacy/" aria-current="page">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/">Support</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap" tabindex="-1">
+      <article class="prose">
+        <p class="eyebrow">Claude integration</p>
+        <h1>Privacy policy</h1>
+        <p class="lede">
+          Public references go to the Lens service. Inspection results return to
+          Claude. Original files stay outside this integration.
+        </p>
+        <p class="meta">Last updated: October 3, 2026</p>
+        <section>
+          <h2>Scope and operator</h2>
+          <p>
+            This policy describes the UCE Evidence Lens plugin and remote MCP
+            connector for Claude, these information pages under
+            <code>uceevidencelens.com/claude/</code>, and support
+            correspondence. The service is operated by 5 Race Street LLC under
+            its registered alternate names Copyright by UCE and CbyUCE.
+          </p>
+          <p>
+            This policy does not replace Anthropic’s policies, a public-record
+            source’s policies, or the separate browser Lens workflow’s
+            disclosures. For privacy questions or requests, use the contact on
+            our <a href="/claude/support/#contact">support page</a>.
+          </p>
+        </section>
+        <section>
+          <h2>Information processed</h2>
+          <dl>
+            <dt>Public reference and evidence</dt>
+            <dd>
+              When Claude calls a Lens tool, our connector receives the public
+              record reference you supplied. It retrieves the corresponding
+              public manifest and approved public chronology sources. Public
+              evidence can include names, titles, rights declarations,
+              assertions about identity, authorship, ownership or consent,
+              hashes, identifiers, and timestamps. The service treats these
+              assertions as untrusted public record text and does not establish
+              that they are true.
+            </dd>
+            <dt>Inspection results</dt>
+            <dd>
+              We return the reference, public record information, separate check
+              results, limitations, source links, verifier provenance, and
+              inspection time to Claude. Requested reports include the same
+              kinds of information and are unsigned.
+            </dd>
+            <dt>Connection information</dt>
+            <dd>
+              Hosting providers process network requests and associated metadata
+              to deliver and protect the connector and website. This can include
+              IP addresses, request times, routes or URLs, response status,
+              user-agent or client information, and other ordinary protocol
+              metadata. A server-to-server tool call may expose a Claude host’s
+              network address rather than your own.
+            </dd>
+            <dt>Support correspondence</dt>
+            <dd>
+              If you contact us, we receive your email address and the
+              information you choose to include. Send only what is needed to
+              understand your request.
+            </dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Purpose and recipients</h2>
+          <p>
+            We use public references and evidence to perform the requested
+            inspection or generate its report. We use operational information to
+            run, secure, and troubleshoot the service, and support
+            correspondence to respond to your request.
+          </p>
+          <ul>
+            <li>
+              <strong>Anthropic and Claude</strong> handle your conversation,
+              tool input, and returned results under the policies and controls
+              applicable to your Claude account, plan, and workspace. The
+              standalone plugin does not independently call the Anthropic API.
+              See
+              <a href="https://www.anthropic.com/legal/privacy"
+                >Anthropic’s privacy policy</a
+              >.
+            </li>
+            <li>
+              <strong>Google Cloud</strong> hosts the connector backend in the
+              United States (<code>us-central1</code>) and processes service
+              requests and operational information. See the
+              <a href="https://cloud.google.com/terms/cloud-privacy-notice"
+                >Google Cloud Privacy Notice</a
+              >.
+            </li>
+            <li>
+              <strong>Cloudflare</strong> serves these public website pages and
+              processes website requests. See
+              <a href="https://www.cloudflare.com/privacypolicy/"
+                >Cloudflare’s privacy policy</a
+              >.
+            </li>
+            <li>
+              <strong>CbyUCE and public Arweave services</strong> receive server
+              requests for the selected public identifiers. CbyUCE is operated
+              by the same company as this connector. Approved Arweave and
+              transaction-derived Arweave gateways provide public records and
+              chronology information. Turbo Gateway may provide transaction
+              status, block, and bundled-item parent relationships. These
+              requests contain public identifiers and do not include original
+              file bytes, caller cookies, or credentials. Those services may
+              keep their own request records.
+            </li>
+            <li>
+              <strong>GitHub</strong> hosts the public plugin source. Visiting
+              the repository or choosing to download or manually install from it
+              discloses request and any GitHub account information to GitHub
+              under its
+              <a
+                href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+                >General Privacy Statement</a
+              >. Source access through GitHub is optional.
+            </li>
+            <li>
+              <strong>Our email provider</strong> processes correspondence you
+              send to the published support address.
+            </li>
+          </ul>
+          <p>
+            The connector does not sell personal information or use inspection
+            data for advertising. These documentation pages include no scripts,
+            forms, advertising code, or application analytics. The connector has
+            no user-account store or application analytics.
+          </p>
+        </section>
+        <section>
+          <h2>Storage and retention</h2>
+          <p>
+            The Lens application processes inspection data in memory for each
+            request. It has no inspection database, persistent report store,
+            user-account store, or application cookies. It does not
+            intentionally log request bodies, public references, inspection
+            results, or conversation text. Generated reports return to Claude;
+            saving or sharing one is your choice.
+          </p>
+          <p>
+            For the current connector deployment, Cloud Run request logs are
+            excluded from our project’s default log sink. Ordinary application
+            and build logs in that project have a seven-day retention setting.
+            Required audit records, security and operational records, and
+            provider records follow their separate retention rules. These
+            controls do not mean Google, Anthropic, Cloudflare, GitHub, public
+            sources, or another provider keeps no connection metadata.
+          </p>
+          <p>
+            Claude conversations, public source records, GitHub activity, and
+            any report you save follow their own retention arrangements; the
+            seven-day setting does not apply to them. We keep support
+            correspondence as needed to handle the request and related security
+            or legal obligations. You may ask us about or request deletion of
+            correspondence through support.
+          </p>
+        </section>
+        <section>
+          <h2>Your choices and requests</h2>
+          <ul>
+            <li>
+              Use only public references you intend to disclose to Claude and
+              the connector. Public records can still contain personal
+              information.
+            </li>
+            <li>
+              Do not send original works, private files or manifests,
+              credentials, payment information, or sensitive personal
+              information. Lens does not need them.
+            </li>
+            <li>
+              Disable or remove the plugin or connector to stop future tool
+              calls. Use your Claude account or workspace controls for
+              conversation and account data.
+            </li>
+            <li>
+              Contact us for access, correction, deletion, or another privacy
+              request relating to information we control. Available rights
+              depend on applicable law, and we may need enough information to
+              verify and handle the request.
+            </li>
+          </ul>
+          <p>
+            We cannot alter or erase information already published in a public
+            UCE record, public blockchain or gateway, or data controlled by
+            Anthropic or another provider. Contact the relevant service for
+            those requests.
+          </p>
+          <p>
+            <!--email_off-->
+            Email privacy questions or requests to
+            <a href="mailto:support@universalcreationevidence.com"
+              >support@universalcreationevidence.com</a
+            >.
+            <!--/email_off-->
+          </p>
+        </section>
+        <section>
+          <h2>Security and changes</h2>
+          <p>
+            The connector restricts retrieval destinations, limits request and
+            response sizes, uses timeouts, rejects unsafe redirects, and
+            isolates inspection requests. No internet service can promise
+            absolute security or uninterrupted availability.
+          </p>
+          <p>
+            We will update this page when the service, providers, legal
+            requirements, or data practices change and revise the date above.
+            Contact <a href="/claude/support/#contact">Lens support</a> with
+            questions about this policy.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer class="site-footer wrap">
+      <nav aria-label="Footer">
+        <a href="/claude/">Overview</a>
+        <a href="/claude/privacy/" aria-current="page">Privacy</a>
+        <a href="/claude/terms/">Terms</a>
+        <a href="/claude/support/">Support</a>
+      </nav>
+      <p>
+        UCE Evidence Lens for Claude · Copyright by UCE, a registered alternate
+        name of 5 Race Street LLC.
+      </p>
+      <p>
+        Evidence integrity does not establish the truth of recorded assertions.
+        An unsigned Lens report is not a UCE Certificate or a new permanent
+        record.
+      </p>
+      <a href="/">Open the browser-based Evidence Lens</a>
+    </footer>
+  </body>
+</html>
