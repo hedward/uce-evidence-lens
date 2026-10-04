@@ -1157,7 +1157,7 @@ function aiIntegrations(): HTMLElement {
       {},
       el("p", { className: "eyebrow", text: "AI integrations" }),
       el("h2", {
-        text: "Use Evidence Lens with your AI assistant",
+        text: "Use UCE Evidence Lens with your AI assistant",
         attrs: { id: "ai-integrations-heading" },
       }),
       el("p", {
