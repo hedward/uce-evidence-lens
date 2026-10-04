@@ -1,5 +1,32 @@
 # Candidate accessibility, browser and PDF checks
 
+## October 4 homepage integration callout (1.1.3)
+
+The homepage now highlights the ChatGPT developer preview, published Claude
+plugin, and Gemini public preview beneath the introduction. Each link opens
+its dedicated setup and availability page. The callout uses the existing
+brand palette and accessible navigation, with three columns on desktop and
+three full-width links on mobile.
+
+`npm run check` passed all formatting, lint, type, contract, test and build
+checks: 21 test files and 419 tests, including the existing accessibility
+checks. Real Chrome checks against the built Vite preview confirmed the three
+destinations, desktop presentation, and mobile layout at 390px and 320px. At
+390px there was no horizontal overflow; at 320px the existing body minimum
+width includes the scrollbar, while the new links remain inside the callout.
+All three mobile links are at least 52px tall.
+
+The browser discovered all eight WebMCP tools. A real
+`get_uce_verification_report` call returned the loaded demo's record binding,
+verifier version 1.1.3, separate check outcomes and coverage limitations,
+including the gateway-reported file relationship, without a local-file object.
+The callout changes no parser, verifier, tools, report semantics or publisher
+behavior. The publisher drift recheck is recorded in
+[manifest compatibility](MANIFEST-COMPATIBILITY.md#october-4-alignment-recheck-113).
+
+The application version is 1.1.3; the historical v1.0.0 evidence link remains
+explicitly historical and does not cover this release.
+
 **Latest checkpoint: September 29.** The stable v1.1.0 pipeline and the
 user-assisted VoiceOver listening check pass; see the follow-up below. Earlier
 inconclusive listening attempts remain documented as history. Deployment

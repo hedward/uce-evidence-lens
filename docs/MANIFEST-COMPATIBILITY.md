@@ -1,6 +1,6 @@
 # CbyUCE manifest compatibility
 
-Reviewed: 2026-10-01
+Reviewed: 2026-10-04
 Publisher contract authority: CbyUCE `main` commit
 `81abec2654ebd2f858ae4c6302a058ce7c1bb3de`
 
@@ -214,3 +214,26 @@ shared verifier permits one fixed Turbo Gateway status/block fallback only for
 HTTP 429 or 5xx, with the existing bounds and identical metadata validation.
 This changes availability, not hash/signature coverage or bundle proof strength.
 Actual metadata sources are retained; invalid evidence is never bypassed.
+
+## October 4 alignment recheck (1.1.3)
+
+The approved publisher checkout remains at
+`81abec2654ebd2f858ae4c6302a058ce7c1bb3de`. A fresh read-only
+`contract:hash:publisher` run passed all 23 comparisons. The reviewed
+manifest/schema, preimage, serializer, record-boundary and signing sources have
+no local drift. The existing verification-route CORS change and its test remain
+outside that contract; no publisher files or records were changed.
+
+Fresh public Standard `1.0.0` (`cc94e8…` and `cc7680…`) responses retain the
+reviewed flat ES256 protected header. The `cc94e8…` manifest matches its approved
+fixture after allowing only the excluded post-upload manifest self-anchor.
+Extended `1.1.0` (`d16afb…`) still uses `extended-v1` and the exact critical
+`uceRecordFormat` ES256 header, and likewise matches its production fixture
+after allowing only that self-anchor. The immutable Extended Arweave URL
+returned a CDN HTML error page during this recheck, so its previously recorded
+4,137-byte transport hash could not be independently refreshed today.
+
+This recheck establishes alignment with the pinned source contract and the
+observable public API records. Source revision and availability are not proof
+of the revision deployed in production. No new hybrid public record was
+identified; `2.0.0` and `2.1.0` cryptographic passes remain gated.

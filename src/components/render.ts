@@ -1145,6 +1145,53 @@ function restoreUi(
   }
 }
 
+function aiIntegrations(): HTMLElement {
+  return el(
+    "section",
+    {
+      className: "ai-integrations",
+      attrs: { "aria-labelledby": "ai-integrations-heading" },
+    },
+    el(
+      "div",
+      {},
+      el("p", { className: "eyebrow", text: "AI integrations" }),
+      el("h2", {
+        text: "Use Evidence Lens with your AI assistant",
+        attrs: { id: "ai-integrations-heading" },
+      }),
+      el("p", {
+        className: "ai-integrations__description",
+        text: "Inspect public UCE records, understand the checks and their limits, and request an unsigned inspection report. Choose an integration for setup and availability.",
+      }),
+    ),
+    el(
+      "nav",
+      {
+        className: "ai-integrations__links",
+        attrs: { "aria-label": "AI integration setup and availability" },
+      },
+      ...(
+        [
+          ["ChatGPT", "Developer preview", "/gpt/"],
+          ["Claude", "Published plugin", "/claude/"],
+          ["Gemini", "Public preview", "/gemini/"],
+        ] as const
+      ).map(([name, availability, href]) =>
+        el(
+          "a",
+          { className: "ai-integration", attrs: { href } },
+          el("strong", { text: name }),
+          el("span", {
+            className: "ai-integration__availability",
+            text: availability,
+          }),
+        ),
+      ),
+    ),
+  );
+}
+
 export function renderApp(
   root: HTMLElement,
   controller: AppController,
@@ -1213,6 +1260,7 @@ export function renderApp(
       }),
     ),
     webMcpStatus(state),
+    aiIntegrations(),
   );
   const notice = el(
     "aside",

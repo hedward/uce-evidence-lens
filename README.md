@@ -1,6 +1,6 @@
 # UCE Evidence Lens
 
-**Version `1.1.2`: manifest and file-anchor chronology, classical verification, and recipient workflows.** The
+**Version `1.1.3`: homepage AI integration discovery, manifest and file-anchor chronology, classical verification, and recipient workflows.** The
 post-contest rollout was authorized September 29, 2026. The historical submitted
 v1.0.0 source commit, artifact and published evidence remain preserved. See
 [candidate readiness](docs/POST-CONTEST-CANDIDATE.md) and the mandatory
@@ -135,7 +135,13 @@ Production deployment targets static Cloudflare Pages hosting. Node.js 24 is pin
 
 See the [Cloudflare deployment runbook](docs/CLOUDFLARE-DEPLOYMENT.md) for the exact build settings, security-header review, browser checks, Galaxy CORS sequencing, and rollback procedure.
 
-## ChatGPT integration information
+## AI integration information
+
+The homepage highlights the separate ChatGPT, Claude, and Gemini integrations
+below its introduction. Each link shows its current availability and leads to
+setup instructions: ChatGPT developer preview at `/gpt/`, the published Claude
+plugin at `/claude/`, and Gemini public preview at `/gemini/`. Host eligibility
+and directory availability are described on the individual integration pages.
 
 The static `/gpt/` section explains the separate Lens ChatGPT integration and
 contains its privacy, terms, and support pages. Its public contact is
@@ -152,12 +158,12 @@ serve the dedicated HTML pages at their intended paths.
 ## Historical v1.0.0 release evidence
 
 The footer continues to use the published historical evidence route
-`https://uceevidencelens.com/evidence/v1.0.0`. No v1.1.2 UCE record exists, so
+`https://uceevidencelens.com/evidence/v1.0.0`. No v1.1.3 UCE record exists, so
 the application does not infer an evidence URL from its package version. The
-footer identifies the application as release 1.1.2 and states that the linked
+footer identifies the application as release 1.1.3 and states that the linked
 v1.0.0 evidence does not cover this release.
 
-Creating a v1.1.2 record or redirect requires separate approval and is not
+Creating a v1.1.3 record or redirect requires separate approval and is not
 implied by publishing the application. Run
 `npm run release:artifact` from a clean committed worktree to verify the project
 and create the deterministic site ZIP for registration. See the
@@ -168,7 +174,7 @@ redirect, deployment, and tagging sequence.
 
 The UCE Evidence Lens Covered Software is licensed under the [Mozilla Public License 2.0](LICENSE). The authoritative UCE Mark, associated names and marks, and the bundled logo-and-tagline artwork are treated separately and are not licensed under MPL-2.0. Their limited authorized use in this project is documented in [Notice](NOTICE.md) and [Trademarks](TRADEMARKS.md).
 
-The submitted v1.0.0 and its evidence remain separate from release `1.1.2`.
+The submitted v1.0.0 and its evidence remain separate from release `1.1.3`.
 Deployment-specific verification is recorded in [release QA](docs/RELEASE-QA.md).
 
 See [Publication Readiness](docs/PUBLICATION-READINESS.md), [License Recommendation](docs/LICENSE-RECOMMENDATION.md), [Notice](NOTICE.md), and [Trademarks](TRADEMARKS.md).
