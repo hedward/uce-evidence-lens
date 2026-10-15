@@ -39,18 +39,19 @@
           checks, chronology, recorded assertions, and coverage limits separate.
         </p>
         <div class="actions">
-          <a class="button" href="#getting-started">Connect the Lens</a
+          <a
+            class="button"
+            href="https://claude.ai/directory/connectors/uce-evidence-lens"
+            >Add from Claude’s directory</a
           ><a href="#examples">Try a public example</a>
         </div>
       </div>
       <aside class="notice" aria-label="Availability">
         <p>
-          <strong>The Claude plugin is published.</strong> Anthropic’s security
-          scan passed, and the plugin is published for Claude Code, Cowork, and
-          Claude apps. Availability can vary by Claude plan, workspace, and
-          listing propagation. As of October 3, 2026, the separate MCP
-          connector’s directory listing is in review and is not live; eligible
-          users can add the connector directly with the address below.
+          <strong>The UCE Evidence Lens connector is published.</strong> It is
+          available as a Community connector in Claude’s directory. The Claude
+          plugin remains available as an alternative workflow. Availability can
+          vary by Claude plan, workspace, host, and directory propagation.
         </p>
       </aside>
       <div class="grid">
@@ -92,20 +93,28 @@
           <h2>Connect the Lens</h2>
           <ol>
             <li>
-              Install the plugin through an option available to your Claude plan
-              or workspace. The
+              Open the
+              <a href="https://claude.ai/directory/connectors/uce-evidence-lens"
+                >UCE Evidence Lens Community connector</a
+              >
+              in Claude’s directory and add it to an eligible Claude plan or
+              workspace.
+            </li>
+            <li>
+              Follow Claude’s prompts to enable the connector. No UCE account,
+              sign-in, API key, or payment is required.
+            </li>
+            <li>
+              As an alternative, install the Claude plugin. The
               <a href="https://github.com/hedward/uce-evidence-lens-claude"
                 >public plugin repository</a
               >
               contains the manual-install source and instructions.
             </li>
             <li>
-              Open the plugin’s connector settings and connect UCE Evidence
-              Lens. No UCE account, sign-in, API key, or payment is required.
-            </li>
-            <li>
-              If your Claude workspace supports custom remote connectors, add
-              this MCP server directly:
+              If the directory or plugin workflow is unavailable and your Claude
+              workspace supports custom remote connectors, add this MCP server
+              directly:
               <code class="sample"
                 >https://uce-evidence-lens-claude-zptt2ggs7a-uc.a.run.app/mcp</code
               >
