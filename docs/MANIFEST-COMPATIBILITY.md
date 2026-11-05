@@ -1,7 +1,10 @@
 # CbyUCE manifest compatibility
 
-Reviewed: 2026-10-04
-Publisher contract authority: CbyUCE `main` commit
+Reviewed: 2026-11-04 (presentation-only alignment recheck)
+Current approved publisher source reviewed: CbyUCE `main` commit
+`01b861930e810d92f02994ffd2c2a81853116f0c`.
+The runtime verification contract remains pinned to the previously qualified
+CbyUCE commit
 `81abec2654ebd2f858ae4c6302a058ce7c1bb3de`
 
 This document defines both read/display and separately reviewed verification
@@ -237,3 +240,109 @@ This recheck establishes alignment with the pinned source contract and the
 observable public API records. Source revision and availability are not proof
 of the revision deployed in production. No new hybrid public record was
 identified; `2.0.0` and `2.1.0` cryptographic passes remain gated.
+
+## November 4 presentation alignment review
+
+This review supports the approved Lens design, copy and presentation update.
+It does not change a verification profile, source allowlist, parser, public key,
+tool schema, report schema, privacy default or publisher implementation. The
+review date is November 4, 2026 in the user's America/New_York timezone.
+
+### Current approved source and differences
+
+The current CbyUCE `main` checkout is
+`01b861930e810d92f02994ffd2c2a81853116f0c`, the merge of PR #107. This is distinct
+from the Lens runtime's qualified publisher pin `81abec26` above. A read-only
+comparison of those revisions and the current working files found:
+
+- No committed or local changes to the reviewed manifest schema
+  (`imports/api/evidenceManifests.js`), brand contract (`imports/api/brandLaunch.js`),
+  canonical serializer (`lib/utils/cryptoUtils.js`), Extended projection and
+  limits (`imports/lib/policy/extendedRecord.js` and `recordDetailsLimits.js`),
+  classical/hybrid signing services, public verification route, or manifest tags.
+- In the selected hash-contract source, `buildConnectorSource` in
+  `server/methods/manifestMethods.js` additionally recognizes `logic-pro`
+  alongside the existing music-connector platforms. This is publisher source
+  drift, not a new Lens verification profile. The existing complete public
+  connector source must remain retained. This review does not qualify a new
+  Logic Pro public record or claim deployment of that issuance path.
+- PR #107 also contains the separately authorized Arweave submission-rejection
+  correction in the publisher's provider and adapter. Its presence in source
+  does not prove a production deployment, successful new issuance, or a change
+  to Lens's cryptographic coverage. The current publisher has other application
+  changes outside this bounded manifest/signing contract review; this is not a
+  full publisher audit.
+
+The production publisher revision and feature-flag state were not independently
+identified. Current source availability, the approved PR and successful old
+records are not evidence that all source changes have been deployed.
+
+### Representative public records and checks
+
+Fresh read-only public API requests returned HTTP 200 JSON for:
+
+- Standard `1.0.0` record
+  [`cc94e8d529cfc24f6fe458470b69dca2c3ef53a78b740bb1fea9cc40d09cfd1c`](https://cbyuce.com/verify/cc94e8d529cfc24f6fe458470b69dca2c3ef53a78b740bb1fea9cc40d09cfd1c?format=json).
+- Extended `1.1.0` record
+  [`d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5`](https://cbyuce.com/verify/d16afbafda0ef0bf1be29d4f89e8629fc2aa0eae55da30103aeb5e6a59abd9a5?format=json).
+
+Both manifest objects equal their approved local fixtures after excluding only
+the manifest's post-upload `anchors.arweave.txId`. This comparison therefore
+also preserves their recorded rights, AI declarations and signature values.
+Both responses allowed the exact `https://uceevidencelens.com` origin. These
+were terminal HTTP requests carrying an Origin header, not an actual-origin
+browser CORS test or a fresh independent chronology check.
+
+The immutable Extended
+[Arweave manifest](https://arweave.net/jD5LXPMg9hJM-oUTTggKiHavSs1ndPhDufLu5cL6Vc8)
+did not yield a usable body in this attempt; retrieval ended with HTTP 302.
+Its previously recorded transport digest was not refreshed. Initial sandboxed
+requests also failed DNS resolution; successful API comparisons above used
+approved network access. Neither retrieval limitation is evidence that the
+recorded claims are false.
+
+The unchanged `contract:hash:publisher` script passed all **23 comparisons**
+against the available pinned `81abec26` checkout, whose selected contract files
+matched their committed versions. That test covers pure preimage builders and
+serializers, the existing synthetic corpus and captured public Extended record.
+It does not test issuance, signatures, the live network or the newer source
+revision. Its revision assertion was not bypassed or changed to accept current
+main. The existing hash-profile, manifest-compatibility, Extended-verification,
+Standard-hash and coverage suites also passed **220 tests across five files**.
+
+### Presentation gate and retained limits
+
+The source and fixture review supports presenting already-retained public
+fields more clearly while keeping the current verification semantics. Show
+the two AI questions separately: recorded training policy and the creator's
+declared use of AI. Preserve the exact recorded notice, its source and its
+coverage limitation. A missing declaration or a false opt-out flag is not an
+affirmative grant of permission. A recorded restriction is not an enforcement
+or legal-outcome determination. Do not substitute generic marketing notice
+text for a record's actual values.
+
+The current approved publisher and both real fixtures also support displaying
+`manifest.attestations.claimantAdoption.text`, with its separate recorded
+`accepted` value and timestamp. Text presence alone does not establish adoption
+or identity. Creator process descriptions occur at
+`manifest.aiProvenance.aiCreativeProcess` and, for Extended records,
+`manifest.recordDetails.copyright.aiCreativeProcess`. Keep the source explicit
+and preserve both values when present; do not silently merge conflicting
+declarations or invent a human contribution. Existing historical oath fields
+remain distinct from the claimant-adoption statement.
+
+Standard `1.0.0` policy, work and AI fields remain outside its narrow checked
+hash projection, while complete attestations are included only when that
+projection successfully matches. Extended `1.1.0` may cover these fields under its reviewed
+projection, but a covered declaration is still a declaration. A signature over
+the recorded hash does not repair missing or mismatched content coverage.
+Keep unsupported profiles, unresolved Standard reconstruction, source-reported
+chronology and unreadable or absent values explicit. Runtime `2.0.0` and
+`2.1.0` cryptographic passes remain gated.
+
+The scoped pre-edit publisher review is complete for this presentation-only
+change. It is not release approval, a new publisher/Lens qualification or a
+claim of automatic compatibility with new issuance. Recheck publisher drift
+and the actual-origin application before release approval; any new-format or
+expanded cryptographic claim requires its own public vectors and paired review.
+Production deployment remains under the user's manual control.

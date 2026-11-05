@@ -11,13 +11,19 @@ import {
   serializeVerificationReport,
   type VerificationReport,
 } from "../reports/verification-report";
-import { DEMO_FILE_URL, DEMO_MANIFEST_URL } from "../records/demo";
-import type { EvidenceCheck, EvidenceStatus } from "../types/record";
 import {
-  inspectChronology,
-  listAssertions,
-  LEGAL_NOTICE,
-} from "../verification/evidence";
+  DEMO_FILE_URL,
+  DEMO_MANIFEST_URL,
+  DEMO_VERIFICATION_URL,
+} from "../records/demo";
+import type { EvidenceCheck, EvidenceStatus } from "../types/record";
+import { inspectChronology, LEGAL_NOTICE } from "../verification/evidence";
+import {
+  audienceExamples,
+  educationContent,
+  type AudienceKey,
+} from "./education";
+import { renderDeclarations } from "./declarations";
 
 type Child = Node | string | null | undefined;
 
@@ -27,6 +33,9 @@ interface InteractionState {
   pending: boolean;
   fieldError: FieldAction;
   resetPrivacy: boolean;
+  resultsRequested: boolean;
+  focusResult: boolean;
+  audience?: AudienceKey;
 }
 const interactions = new WeakMap<AppController, InteractionState>();
 
@@ -38,17 +47,27 @@ function interactionFor(controller: AppController): InteractionState {
       pending: false,
       fieldError: null,
       resetPrivacy: false,
+      resultsRequested: false,
+      focusResult: false,
     };
     interactions.set(controller, interaction);
   }
   return interaction;
 }
 
-function beginAction(controller: AppController, action: FieldAction): void {
+function beginAction(
+  controller: AppController,
+  action: FieldAction,
+  inspect = false,
+): void {
   const interaction = interactionFor(controller);
   interaction.action = action;
   interaction.pending = true;
   interaction.fieldError = null;
+  if (inspect) {
+    interaction.resultsRequested = true;
+    interaction.focusResult = true;
+  }
 }
 
 interface RenderMemory {
@@ -119,17 +138,36 @@ function safeLink(url: string, label: string): HTMLElement {
 }
 
 const statusLabels: Record<EvidenceStatus, string> = {
-  verified: "Verified",
+  verified: "Check passed",
   mismatch: "Mismatch",
   checking: "Checking",
-  retryable: "Try again",
-  reported: "Publisher reported",
+  retryable: "Could not complete",
+  reported: "Source reported",
   unsupported: "Not independently checked",
 };
 
 const technicalStatuses = new Set<EvidenceStatus>(["reported", "unsupported"]);
 
-function checkCard(check: EvidenceCheck): HTMLElement {
+const checkQuestions: Record<string, string> = {
+  schema: "Can Lens read this record?",
+  identifier: "Does the reference agree with the record?",
+  canonical_manifest_hash: "Do the covered record contents match?",
+  platform_signature: "Does the platform signature check pass?",
+  independent_anchor: "What chronology can Lens check?",
+  file_anchor: "What supports the file's chronology?",
+};
+const completedCheckHelp: Record<string, string> = {
+  schema:
+    "Lens recognizes this record format. Readability is separate from checking the contents.",
+  identifier:
+    "The record reference matches the hash value written in the record. This alone does not validate the contents.",
+  canonical_manifest_hash:
+    "Lens reproduced the recorded fingerprint from the fields covered by this reviewed profile. Read the coverage and exclusions below.",
+  platform_signature:
+    "A reviewed platform key validates the signature over the recorded fingerprint. It does not prove the creator's identity or the truth of the claims.",
+};
+
+function checkCard(check: EvidenceCheck, approachable = false): HTMLElement {
   const status = el("span", {
     className: `status status--${check.status}`,
     text:
@@ -144,10 +182,32 @@ function checkCard(check: EvidenceCheck): HTMLElement {
     el(
       "div",
       { className: "check-card__heading" },
-      el("h3", { text: check.label }),
+      el("h3", {
+        text: approachable
+          ? (checkQuestions[check.id] ?? check.label)
+          : check.label,
+      }),
       status,
     ),
-    el("p", { text: check.explanation }),
+    approachable && checkQuestions[check.id]
+      ? el("p", { className: "check-technical-label", text: check.label })
+      : null,
+    approachable && check.status === "verified" && completedCheckHelp[check.id]
+      ? el(
+          "div",
+          {},
+          el("p", { text: completedCheckHelp[check.id] }),
+          el(
+            "details",
+            {
+              className: "check-explanation",
+              attrs: { id: `check-explanation-${check.id}` },
+            },
+            el("summary", { text: "Full check result and coverage" }),
+            el("p", { text: check.explanation }),
+          ),
+        )
+      : el("p", { text: check.explanation }),
   );
   if (check.source)
     card.append(
@@ -292,7 +352,7 @@ function printableReport(report: VerificationReport): HTMLElement {
     el("h2", { text: report.summary }),
     el("h3", { text: "Verification limits" }),
     ...report.coverage.limitations.map((text) => el("p", { text })),
-    ...report.checks.map(checkCard),
+    ...report.checks.map((check) => checkCard(check)),
   );
   if (report.localComparison)
     printable.append(
@@ -405,7 +465,10 @@ function reportActions(
     },
     el("h2", {
       text: "Save a dated inspection",
-      attrs: { id: "report-heading" },
+      attrs: { id: "report-heading", tabindex: "-1" },
+    }),
+    el("p", {
+      text: "Save an unsigned, dated snapshot of this inspection. It is not a new UCE Certificate or a permanent evidence record. The report includes checks and their coverage, not a full archive of the work's declarations.",
     }),
     el(
       "label",
@@ -432,7 +495,7 @@ function loader(
       id: "record-source",
       name: "source",
       type: "text",
-      placeholder: "Public CbyUCE URL, record hash, or Arweave URL",
+      placeholder: "https://cbyuce.com/verify/...",
       autocomplete: "off",
       spellcheck: "false",
       "aria-describedby":
@@ -444,46 +507,43 @@ function loader(
   });
   const submit = el("button", {
     className: "button button--primary",
-    text: busy ? "Loading…" : "Load record",
-    attrs: { id: "load-record-button" },
+    text: busy ? "Opening record..." : "Inspect record",
+    attrs: { id: "load-record-button", type: "submit" },
   });
-  submit.type = "submit";
   submit.disabled = busy;
+  const demoButton = el("button", {
+    className: "button button--quiet",
+    text: "Try an example",
+    attrs: { id: "reload-demo-button", type: "button" },
+  });
+  demoButton.disabled = busy;
+  demoButton.addEventListener("click", () => {
+    beginAction(controller, null, true);
+    void controller.load("demo").catch(() => undefined);
+  });
   const form = el(
     "form",
     {
       className: "load-form",
-      attrs: { "aria-label": "Load a public UCE record" },
+      attrs: { "aria-label": "Inspect a public UCE record" },
     },
     el("label", {
-      text: "Public record source",
+      text: "Public UCE record link",
       attrs: { for: "record-source" },
     }),
-    el("div", { className: "load-form__row" }, input, submit),
+    input,
+    el("div", { className: "loader__actions" }, submit, demoButton),
     el("p", {
       className: "field-note",
       attrs: { id: "record-source-help" },
-      text: "Record inputs are limited to cbyuce.com and arweave.net. For a bundled Arweave item, Lens may query turbo-gateway.com for public parent metadata; it never sends local file bytes. If live retrieval is unavailable, reload the bundled demo, use an Arweave URL, or paste public JSON.",
+      text: "Use a cbyuce.com record link, its 64-character record hash, or a full https://arweave.net/ transaction URL. UCE means Universal Creation Evidence.",
     }),
   );
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    beginAction(controller, "source");
+    beginAction(controller, "source", true);
     void controller.load(input.value).catch(() => undefined);
   });
-
-  const demoButton = el("button", {
-    className: "button button--quiet",
-    text: "Reload bundled demo",
-    attrs: { id: "reload-demo-button" },
-  });
-  demoButton.type = "button";
-  demoButton.disabled = busy;
-  demoButton.addEventListener("click", () => {
-    beginAction(controller, null);
-    void controller.load("demo").catch(() => undefined);
-  });
-
   const textarea = el("textarea", {
     attrs: {
       id: "record-json",
@@ -492,81 +552,117 @@ function loader(
         "Paste a public manifest or { manifest, verification } JSON response",
       spellcheck: "false",
       "aria-describedby":
-        fieldError === "json" ? "record-error" : "record-json-help",
+        fieldError === "json"
+          ? "record-json-help record-error"
+          : "record-json-help",
       ...(fieldError === "json" ? { "aria-invalid": "true" } : {}),
     },
   });
   const pasteButton = el("button", {
     className: "button button--quiet",
-    text: "Validate pasted JSON",
-    attrs: { id: "validate-json-button" },
+    text: "Inspect pasted JSON",
+    attrs: { id: "validate-json-button", type: "button" },
   });
-  pasteButton.type = "button";
   pasteButton.disabled = busy;
   pasteButton.addEventListener("click", () => {
-    beginAction(controller, "json");
+    beginAction(controller, "json", true);
     void controller.loadJson(textarea.value).catch(() => undefined);
   });
-  const details = el(
-    "details",
-    { className: "paste-panel", attrs: { id: "paste-panel" } },
-    el("summary", { text: "Paste public JSON instead" }),
-    el("label", { text: "Public record JSON", attrs: { for: "record-json" } }),
-    textarea,
-    el("p", {
-      className: "field-note",
-      attrs: { id: "record-json-help" },
-      text: "Paste public record JSON only.",
-    }),
-    pasteButton,
-  );
-
   return el(
     "section",
-    { className: "panel loader", attrs: { "aria-labelledby": "load-heading" } },
-    el("h2", {
-      text: "Open an evidence record",
-      attrs: { id: "load-heading" },
-    }),
+    {
+      className: "panel loader",
+      attrs: { "aria-labelledby": "load-heading" },
+    },
+    el("h2", { text: "Inspect a UCE record", attrs: { id: "load-heading" } }),
+    form,
     el(
-      "div",
-      { className: "manifest-compatibility" },
-      el(
-        "p",
-        {},
-        el("strong", { text: "Readable manifest versions: " }),
-        `${new Intl.ListFormat("en", { type: "conjunction" }).format(Object.keys(MANIFEST_COMPATIBILITY))}.`,
-      ),
+      "details",
+      { attrs: { id: "source-help" } },
+      el("summary", { text: "Where do I find a record link?" }),
+      el("p", {
+        text: "Ask the person who shared the work for its UCE link, or copy it from their public CbyUCE record. You do not need the original file to inspect a record.",
+      }),
+      el("p", { text: "Example accepted link:" }),
+      el("code", { text: DEMO_VERIFICATION_URL }),
       el("p", {
         className: "field-note",
-        text: "Lens can read and display these formats. Verification coverage varies by format; each record shows which checks were completed.",
+        text: "This example uses the bundled record. If live retrieval is unavailable, try the bundled example, use an Arweave URL, or paste public JSON. A bare Arweave identifier or a Lens sharing link is not an input here. Open a Lens sharing link directly.",
       }),
-      el(
-        "details",
-        {
-          className: "compatibility-details",
-          attrs: { id: "compatibility-details" },
-        },
-        el("summary", { text: "Current verification coverage" }),
-        el("p", {
-          className: "field-note",
-          text: "This build verifies the reviewed standard 1.0.0 ES256 profile and the Extended 1.1.0 critical-profile ES256 signature. Hybrid 2.0.0 and 2.1.0 signatures remain readable but are not independently verified.",
-        }),
-        el("p", {
-          className: "field-note",
-          text: "Independent manifest-hash recomputation is supported for the reviewed Extended 1.1.0 profile and, on an exact match, the narrow Standard 1.0.0 public projection. Older Standard non-matches remain unresolved because original preimage timestamps may be missing. Hybrid 2.x verification awaits real publisher-issued qualification records. A match covers only the profile's stated fields, not every displayed field or the truth of assertions.",
-        }),
-      ),
     ),
-    form,
-    el("div", { className: "loader__actions" }, demoButton),
-    details,
+    el(
+      "details",
+      { className: "paste-panel", attrs: { id: "paste-panel" } },
+      el("summary", { text: "Paste public JSON instead" }),
+      el("label", {
+        text: "Public record JSON",
+        attrs: { for: "record-json" },
+      }),
+      textarea,
+      el("p", {
+        className: "field-note",
+        attrs: { id: "record-json-help" },
+        text: "Use public record JSON only. Pasted data has no independently retrieved public location to share.",
+      }),
+      pasteButton,
+    ),
+    el(
+      "details",
+      { className: "input-technical", attrs: { id: "input-technical" } },
+      el("summary", { text: "Supported formats and network requests" }),
+      el(
+        "div",
+        { className: "manifest-compatibility" },
+        el(
+          "p",
+          {},
+          el("strong", { text: "Readable manifest versions: " }),
+          `${new Intl.ListFormat("en", { type: "conjunction" }).format(Object.keys(MANIFEST_COMPATIBILITY))}.`,
+        ),
+        el("p", {
+          className: "field-note",
+          text: "Lens can read and display these formats. Verification coverage varies by format; each record shows which checks were completed.",
+        }),
+        el(
+          "details",
+          {
+            className: "compatibility-details",
+            attrs: { id: "compatibility-details" },
+          },
+          el("summary", { text: "Current verification coverage" }),
+          el("p", {
+            className: "field-note",
+            text: "This build verifies the reviewed standard 1.0.0 ES256 profile and the Extended 1.1.0 critical-profile ES256 signature. Hybrid 2.0.0 and 2.1.0 signatures remain readable but are not independently verified.",
+          }),
+          el("p", {
+            className: "field-note",
+            text: "Independent manifest-hash recomputation is supported for the reviewed Extended 1.1.0 profile and, on an exact match, the narrow Standard 1.0.0 public projection. Older Standard non-matches remain unresolved because original preimage timestamps may be missing. Hybrid 2.x verification awaits real publisher-issued qualification records. A match covers only the profile's stated fields, not every displayed field or the truth of assertions.",
+          }),
+        ),
+      ),
+
+      el("p", {
+        className: "field-note",
+        text: "Record inputs are limited to cbyuce.com and arweave.net. For a bundled Arweave item, Lens may query turbo-gateway.com for public parent metadata. Public records and metadata are retrieved over the network; selected local file contents are not uploaded.",
+      }),
+    ),
+    el(
+      "p",
+      { className: "create-record-note" },
+      "Need a record first? ",
+      el("a", {
+        text: "Create a UCE with CbyUCE",
+        attrs: { href: "https://cbyuce.com/" },
+      }),
+      " (separate service). Lens inspects existing records.",
+    ),
   );
 }
 
 function recordView(
   controller: AppController,
   state: Readonly<AppState>,
+  active: boolean,
 ): HTMLElement | null {
   const record = state.record;
   if (!record) return null;
@@ -585,28 +681,75 @@ function recordView(
       className: "eyebrow",
       text: `Record schema: ${record.schema} · v${record.schemaVersion}`,
     }),
-    el("h2", { text: record.title, attrs: { id: "record-heading" } }),
+    el(active ? "h1" : "h2", {
+      text: record.title,
+      attrs: { id: "record-heading", tabindex: "-1" },
+    }),
+    record.loadedFrom === "bundled_demo"
+      ? el("p", {
+          className: "demo-record-note",
+          text: "Bundled example. This record data came from the copy included with Lens. Public chronology checks may still use the network.",
+        })
+      : null,
     el("p", {
       className: "field-note record-version-note",
       text: "The schema version above describes this record, not the Lens application. Work titles are displayed as recorded; the Lens app version is shown in the footer.",
     }),
     el("p", {
       className: "assertion-callout",
-      text: `Recorded author assertion: ${record.authorName}`,
+      text: `Who makes the claim? ${record.authorName}`,
     }),
-    definitionList([
-      ["Record identifier", record.id],
-      ["Recorded manifest hash", record.manifestHash],
-      ["Registration timestamp", formatDate(record.registrationTimestamp)],
-      ["Claimed creation date", record.creationDate],
-      ["Work category", record.workCategory],
-      ["Loaded from", record.loadedFrom.replaceAll("_", " ")],
-    ]),
     el(
-      "p",
-      { className: "source-line" },
-      "Public source: ",
-      safeLink(record.source, record.source),
+      "details",
+      {
+        className: "record-source-details",
+        attrs: { id: "record-source-details" },
+      },
+      el("summary", { text: "Record details and public source" }),
+      definitionList([
+        ["Record identifier", record.id],
+        ["Recorded manifest hash", record.manifestHash],
+        ["Registration timestamp", formatDate(record.registrationTimestamp)],
+        ["Claimed creation date", record.creationDate],
+        ["Work category", record.workCategory],
+        ["Loaded from", record.loadedFrom.replaceAll("_", " ")],
+      ]),
+      el(
+        "p",
+        { className: "source-line" },
+        "Public source: ",
+        safeLink(record.source, record.source),
+      ),
+    ),
+    el("p", {
+      className: "record-meaning",
+      text: "The name above is a recorded author assertion. Inspect the supporting checks below. A matching fingerprint or valid signature does not establish authorship, ownership, or permission.",
+    }),
+    el(
+      "nav",
+      {
+        className: "result-actions",
+        attrs: { "aria-label": "Inspection actions" },
+      },
+      el("a", {
+        className: "button button--primary",
+        text: "Compare my file",
+        attrs: { href: "#local-heading" },
+      }),
+      record.loadedFrom !== "pasted_json"
+        ? el("a", {
+            className: "button button--quiet",
+            text: "Share record link",
+            attrs: { href: "#share-record" },
+          })
+        : null,
+      verification
+        ? el("a", {
+            className: "button button--quiet",
+            text: "Save inspection",
+            attrs: { href: "#report-heading" },
+          })
+        : null,
     ),
   );
 
@@ -628,7 +771,7 @@ function recordView(
       linkInput.value = recipient.url;
       const copyButton = el("button", {
         className: "button button--quiet",
-        text: "Copy recipient link",
+        text: "Copy record link",
         attrs: { type: "button", id: "copy-recipient-button" },
       });
       const copyStatus = el("p", {
@@ -655,7 +798,7 @@ function recordView(
       summary.append(
         el(
           "div",
-          { className: "recipient-link" },
+          { className: "recipient-link", attrs: { id: "share-record" } },
           el("label", {
             text: "Share this public record in Lens",
             attrs: { for: "recipient-link" },
@@ -675,7 +818,7 @@ function recordView(
       el(
         "div",
         { className: "compatibility-notes" },
-        el("h3", { text: "Format support" }),
+        el("h2", { className: "format-heading", text: "Format support" }),
         ...record.compatibilityNotes.map((text) => el("p", { text })),
       ),
     );
@@ -723,9 +866,7 @@ function recordView(
                 check.chronologyProvenance?.relationship === "gateway_index",
             )
           ? "incomplete"
-          : verification?.checks.some((check) => check.status === "verified")
-            ? "verified"
-            : "incomplete";
+          : "incomplete";
 
   const checks = el(
     "section",
@@ -744,7 +885,7 @@ function recordView(
           text: "Browser checks and clearly labeled source reports",
         }),
         el("h2", {
-          text: "Verification checks",
+          text: "Which checks completed?",
           attrs: { id: "checks-heading" },
         }),
       ),
@@ -770,7 +911,15 @@ function recordView(
             : null,
         )
       : null,
-    el("div", { className: "check-grid" }, ...primaryChecks.map(checkCard)),
+    el("p", {
+      className: "field-note",
+      text: "Each result applies only to its stated check. A network problem leaves a check incomplete; it does not show that a claim is false.",
+    }),
+    el(
+      "div",
+      { className: "check-grid" },
+      ...primaryChecks.map((check) => checkCard(check, true)),
+    ),
     technicalChecks.length
       ? el(
           "details",
@@ -785,11 +934,26 @@ function recordView(
           el(
             "div",
             { className: "check-grid" },
-            ...technicalChecks.map(checkCard),
+            ...technicalChecks.map((check) => checkCard(check, true)),
           ),
         )
       : null,
   );
+
+  if (verification?.checks.some((check) => check.status === "retryable")) {
+    const retry = el("button", {
+      className: "button button--quiet",
+      text: "Retry available checks",
+      attrs: { id: "retry-checks", type: "button" },
+    });
+    retry.disabled =
+      state.busy ||
+      verification.checks.some((check) => check.status === "checking");
+    retry.addEventListener("click", () => {
+      void controller.runVerification().catch(() => undefined);
+    });
+    checks.append(retry);
+  }
 
   const firstFile = record.files[0];
   const fileInput = el("input", { attrs: { id: "local-file", type: "file" } });
@@ -809,13 +973,16 @@ function recordView(
       className: "panel local-file",
       attrs: { "aria-labelledby": "local-heading" },
     },
-    el("p", { className: "eyebrow", text: "Private by design" }),
+    el("p", {
+      className: "eyebrow",
+      text: "File contents stay in your browser",
+    }),
     el("h2", {
-      text: "Compare a local file",
+      text: "Does my file match the record?",
       attrs: { id: "local-heading", tabindex: "-1" },
     }),
     el("p", {
-      text: "The selected file is hashed with SHA-256 in this browser. Its contents are not uploaded, stored, or exposed to agent tools.",
+      text: "Choose a file to compare its digital fingerprint (SHA-256) with the first file listed in this record. The comparison runs in your browser. File contents are not uploaded, stored, or exposed to agent tools.",
     }),
     firstFile
       ? definitionList([
@@ -849,7 +1016,7 @@ function recordView(
       : null,
     el("label", {
       className: "file-label",
-      text: "Choose a file to hash",
+      text: "Choose a file to compare",
       attrs: { for: "local-file" },
     }),
     fileInput,
@@ -860,7 +1027,9 @@ function recordView(
           ["Computed SHA-256", state.localFile.sha256],
         ])
       : null,
-    state.localComparison ? checkCard(state.localComparison) : null,
+    state.localComparison
+      ? checkCard(state.localComparison)
+      : el("p", { text: "No local file has been compared." }),
   );
 
   const chronology = inspectChronology(record);
@@ -870,8 +1039,14 @@ function recordView(
       className: "section-block",
       attrs: { "aria-labelledby": "chronology-heading" },
     },
-    el("p", { className: "eyebrow", text: "Claims are not anchors" }),
-    el("h2", { text: "Chronology", attrs: { id: "chronology-heading" } }),
+    el("p", { className: "eyebrow", text: "Dates and their sources" }),
+    el("h2", {
+      text: "What dates are available?",
+      attrs: { id: "chronology-heading" },
+    }),
+    el("p", {
+      text: "A claimed creation date, a registration timestamp, and checked ledger chronology describe different events. Gateway reports do not establish the exact creation or upload time, or prove file inclusion.",
+    }),
     el(
       "ol",
       { className: "timeline" },
@@ -906,48 +1081,15 @@ function recordView(
     ),
   );
 
-  const assertions = el(
-    "section",
-    {
-      className: "section-block",
-      attrs: { "aria-labelledby": "assertions-heading" },
-    },
-    el("p", { className: "eyebrow", text: "What the record says" }),
-    el("h2", {
-      text: "Recorded assertions",
-      attrs: { id: "assertions-heading" },
-    }),
-    el(
-      "div",
-      { className: "assertion-grid" },
-      ...listAssertions(record).map((assertion) =>
-        el(
-          "article",
-          { className: "assertion-card" },
-          el("span", {
-            className: "assertion-card__category",
-            text: assertion.category.replaceAll("_", " "),
-          }),
-          el("h3", { text: assertion.label }),
-          el("p", {
-            className: "assertion-card__value",
-            text: assertion.value,
-          }),
-          el("p", { text: assertion.limitation }),
-          el("code", { text: assertion.source }),
-        ),
-      ),
-    ),
-  );
   return el(
     "div",
-    {},
+    { className: "inspection-results" },
     summary,
     checks,
-    verification ? reportActions(controller, state) : null,
+    renderDeclarations(record, verification),
     filePanel,
     timeline,
-    assertions,
+    verification ? reportActions(controller, state) : null,
   );
 }
 
@@ -1109,7 +1251,7 @@ function restoreUi(
       key === "id:compatibility-details" ||
       key === "id:webmcp-help"
     ) {
-      details.open = snapshot.openDetails.get(key) ?? false;
+      details.open = snapshot.openDetails.get(key) ?? details.open;
     }
   });
 
@@ -1150,7 +1292,10 @@ function aiIntegrations(): HTMLElement {
     "section",
     {
       className: "ai-integrations",
-      attrs: { "aria-labelledby": "ai-integrations-heading" },
+      attrs: {
+        id: "ai-integrations",
+        "aria-labelledby": "ai-integrations-heading",
+      },
     },
     el(
       "div",
@@ -1173,9 +1318,9 @@ function aiIntegrations(): HTMLElement {
       },
       ...(
         [
-          ["ChatGPT", "Developer preview", "/gpt/"],
-          ["Claude", "Published plugin", "/claude/"],
-          ["Gemini", "Public preview", "/gemini/"],
+          ["ChatGPT", "Setup and availability", "/gpt/"],
+          ["Claude", "Setup and availability", "/claude/"],
+          ["Gemini", "Preview setup", "/gemini/"],
         ] as const
       ).map(([name, availability, href]) =>
         el(
@@ -1190,6 +1335,41 @@ function aiIntegrations(): HTMLElement {
       ),
     ),
   );
+}
+
+// Recipient URLs use the fragment for record selection. Keep that reference
+// while ordinary section links move keyboard focus within the inspection.
+function preserveRecordNavigation(content: HTMLElement): void {
+  const links = Array.from(
+    content.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
+  );
+  const skip = document.querySelector<HTMLAnchorElement>(".skip-link");
+  if (skip) links.push(skip);
+  for (const link of links) {
+    const targetId =
+      link.dataset.sectionTarget ?? link.getAttribute("href")!.slice(1);
+    link.dataset.sectionTarget = targetId;
+    link.href = window.location.hash.startsWith("#record=")
+      ? window.location.href
+      : `#${targetId}`;
+    link.onclick = (event) => {
+      if (
+        !window.location.hash.startsWith("#record=") ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      event.preventDefault();
+      if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+      target.scrollIntoView?.({ block: "start" });
+    };
+  }
 }
 
 export function renderApp(
@@ -1215,7 +1395,7 @@ export function renderApp(
       className: "sr-only",
       attrs: { "aria-live": "polite", "aria-atomic": "true" },
     });
-    root.replaceChildren(content, live);
+    root.replaceChildren(live, content);
     memory = { content, live };
     renderMemory.set(root, memory);
   }
@@ -1234,57 +1414,177 @@ export function renderApp(
     state.verification.recordBinding.manifestHash === state.record.manifestHash
       ? state.verification
       : undefined;
+  // Presentation state only. Startup, record selection and verification remain
+  // owned by the controller and its existing deep-link/agent entry points.
+  if (memory.recordKey && !nextRecordKey && state.busy) {
+    interaction.resultsRequested = true;
+  }
+  const active =
+    interaction.resultsRequested ||
+    window.location.hash.startsWith("#record=") ||
+    (!!state.record && state.record.loadedFrom !== "bundled_demo");
   const header = el(
     "header",
     { className: "site-header" },
-    el("img", {
-      className: "brand-mark",
-      attrs: {
-        src: "/uce-mark.svg",
-        alt: "UCE Mark",
-        width: "84",
-        height: "84",
-      },
-    }),
     el(
-      "div",
-      {},
-      el("p", {
-        className: "eyebrow",
-        text: "Copyright by UCE",
+      "a",
+      {
+        className: "site-brand",
+        attrs: { href: "/", "aria-label": "UCE Evidence Lens home" },
+      },
+      el("img", {
+        className: "brand-mark",
+        attrs: {
+          src: "/uce-mark.svg",
+          alt: "UCE Mark",
+          width: "48",
+          height: "48",
+        },
       }),
-      el("h1", { text: "UCE Evidence Lens" }),
-      el("p", {
-        className: "lede",
-        text: "Inspect integrity, chronology, signatures, rights assertions, and local file matches—without uploading the underlying work.",
+      el(
+        "div",
+        {},
+        el("span", { className: "brand-name", text: "UCE Evidence Lens" }),
+        el("span", { className: "eyebrow", text: "Copyright by UCE" }),
+      ),
+    ),
+    el(
+      "nav",
+      { className: "site-nav", attrs: { "aria-label": "Main navigation" } },
+      el("a", { text: "How Lens helps", attrs: { href: "#how-lens-helps" } }),
+      el("a", { text: "AI integrations", attrs: { href: "#ai-integrations" } }),
+      el("a", {
+        text: "Create a UCE",
+        attrs: {
+          href: "https://cbyuce.com/",
+          "aria-label": "Create a UCE with CbyUCE, a separate service",
+        },
       }),
     ),
-    webMcpStatus(state),
-    aiIntegrations(),
-  );
-  const notice = el(
-    "aside",
-    { className: "legal-notice" },
-    el("strong", { text: "Evidence, not a legal verdict. " }),
-    LEGAL_NOTICE,
   );
   const error = state.error
     ? el(
         "div",
         {
           className: "error-banner",
-          attrs: { role: "alert", id: "record-error" },
+          attrs: { role: "alert", id: "record-error", tabindex: "-1" },
         },
         el("strong", { text: "Could not complete that request. " }),
         state.error,
+        el("p", {
+          text: state.record
+            ? "The file comparison could not complete. Review the error and choose a readable file within the size limit."
+            : "Check the input and try again, or try the bundled example. A loading failure does not establish that a claim is false.",
+        }),
       )
     : null;
+  const inputPanel = loader(controller, state.busy, interaction.fieldError);
+  if (error && !state.record)
+    inputPanel.insertBefore(error, inputPanel.querySelector("form"));
+  const inspector = el(
+    "details",
+    { className: "inspect-another", attrs: { id: "inspect-another" } },
+    el("summary", {
+      text: "Inspect another record",
+      attrs: { id: "inspect-another-control" },
+    }),
+    inputPanel,
+  );
+  inspector.open = !state.record;
+  const hero = el(
+    "section",
+    { className: "welcome", attrs: { "aria-labelledby": "welcome-heading" } },
+    el(
+      "div",
+      { className: "welcome-copy" },
+      el("p", {
+        className: "eyebrow",
+        text: "For creators and the people they share with",
+      }),
+      el("h1", {
+        text: "Understand the record behind the work.",
+        attrs: { id: "welcome-heading" },
+      }),
+      el("p", {
+        className: "lede",
+        text: "See what was declared about a creative work, which checks Lens can complete, and what still needs a closer look.",
+      }),
+      el("p", {
+        className: "welcome-note",
+        text: "Have a UCE link? Open it here. No Lens account needed.",
+      }),
+    ),
+    !active ? inputPanel : null,
+  );
+  const focusInput = () => {
+    const field = root.querySelector<HTMLInputElement>("#record-source");
+    field?.focus();
+    field?.scrollIntoView?.({ block: "center" });
+  };
+  const audience = audienceExamples(focusInput, {
+    selected: interaction.audience,
+    onSelect: (key) => {
+      interaction.audience = key;
+    },
+  });
+  const example = el(
+    "section",
+    {
+      className: "example-teaser",
+      attrs: { "aria-labelledby": "example-heading" },
+    },
+    el(
+      "div",
+      {},
+      el("p", { className: "eyebrow", text: "Start with a real example" }),
+      el("h2", {
+        text: "See what an inspection can tell you.",
+        attrs: { id: "example-heading" },
+      }),
+      el("p", {
+        text: "Explore the bundled UCE record for the original Lens artwork. See separate checks, recorded declarations, and what remains unconfirmed.",
+      }),
+    ),
+  );
+  const explore = el("button", {
+    className: "button button--quiet",
+    text: "Explore the example",
+    attrs: { id: "explore-example", type: "button" },
+  });
+  explore.disabled = state.busy;
+  explore.addEventListener("click", () => {
+    beginAction(controller, null, true);
+    void controller.load("demo").catch(() => undefined);
+  });
+  example.append(explore);
+  const results = recordView(controller, state, active);
+  if (results) results.hidden = !active;
+  if (error && state.record)
+    results?.querySelector(".local-file")?.prepend(error);
   const main = el(
     "main",
     { attrs: { id: "main", tabindex: "-1" } },
-    loader(controller, state.busy, interaction.fieldError),
-    error,
-    recordView(controller, state),
+    active ? inspector : hero,
+    active && !state.record
+      ? el("h1", {
+          className: "loading-heading",
+          text: state.error
+            ? "Open a record to continue"
+            : "Opening the public record...",
+        })
+      : null,
+    !active ? audience : null,
+    !active ? example : null,
+    results,
+    educationContent(),
+    aiIntegrations(),
+    webMcpStatus(state),
+    el(
+      "aside",
+      { className: "legal-notice" },
+      el("strong", { text: "Evidence and its limits. " }),
+      LEGAL_NOTICE,
+    ),
   );
   const footer = el(
     "footer",
@@ -1317,7 +1617,7 @@ export function renderApp(
           }),
           el("span", {
             className: "footer__evidence-record",
-            text: `Historical v${HISTORICAL_EVIDENCE_VERSION} evidence — does not cover this release`,
+            text: `Historical v${HISTORICAL_EVIDENCE_VERSION} evidence - does not cover this release`,
           }),
         ),
       ),
@@ -1330,25 +1630,49 @@ export function renderApp(
         text: "Read-only reference verifier · no account · no upload · no legal determination",
       }),
       el("a", {
-        text: "Lens for ChatGPT — preview, privacy, and support",
+        text: "Lens for ChatGPT - preview, privacy, and support",
         attrs: { href: "/gpt/" },
       }),
       el("a", {
-        text: "Lens for Claude — plugin, privacy, and support",
+        text: "Lens for Claude - plugin, privacy, and support",
         attrs: { href: "/claude/" },
       }),
       el("a", {
-        text: "Lens for Gemini — preview, privacy, and support",
+        text: "Lens for Gemini - preview, privacy, and support",
         attrs: { href: "/gemini/" },
       }),
     ),
   );
-  memory.content.replaceChildren(header, notice, main, footer);
+  memory.content.replaceChildren(header, main, footer);
+  preserveRecordNavigation(memory.content);
   restoreUi(memory.content, snapshot, preserveRecordState, preservePrivacy);
+  if (state.error && interaction.focusResult) {
+    inspector.open = true;
+    const fieldId =
+      interaction.fieldError === "json"
+        ? "record-json"
+        : interaction.fieldError === "source"
+          ? "record-source"
+          : "record-error";
+    if (fieldId === "record-json")
+      memory.content.querySelector<HTMLDetailsElement>("#paste-panel")!.open =
+        true;
+    memory.content.querySelector<HTMLElement>(`#${fieldId}`)?.focus();
+    interaction.focusResult = false;
+  } else if (interaction.focusResult && state.record && !state.busy) {
+    inspector.open = false;
+    memory.content.querySelector<HTMLElement>("#record-heading")?.focus();
+    interaction.focusResult = false;
+  }
   memory.recordKey = nextRecordKey;
   memory.localFileKey = nextLocalFileKey;
-  const liveText = state.busy
-    ? "Verification work in progress"
-    : (state.error ?? currentVerification?.summary ?? "Ready");
+  const liveText =
+    !active && !state.error
+      ? state.busy
+        ? "Preparing the bundled example."
+        : "Ready to inspect a public UCE record. An example is available."
+      : state.busy
+        ? "Verification work in progress"
+        : (state.error ?? currentVerification?.summary ?? "Ready");
   if (memory.live.textContent !== liveText) memory.live.textContent = liveText;
 }
