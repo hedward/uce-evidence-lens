@@ -54,7 +54,7 @@ describe("visible evidence interface", () => {
     const details =
       root.querySelector<HTMLDetailsElement>(".hybrid-provenance")!;
     expect(details.open).toBe(false);
-    expect(details.textContent).toContain("ES256: Verified");
+    expect(details.textContent).toContain("ES256: Check passed");
     expect(details.textContent).toContain("ML-DSA-65: Mismatch");
     expect(details.textContent).toContain("test-ec");
     expect(details.textContent).toContain(
@@ -115,9 +115,9 @@ describe("visible evidence interface", () => {
     const controller = testController();
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
-    const note = root.querySelector(".load-form .field-note");
+    const note = root.querySelector("#source-help .field-note");
     expect(note?.textContent).toContain("If live retrieval is unavailable");
-    expect(note?.textContent).toContain("reload the bundled demo");
+    expect(note?.textContent).toContain("try the bundled example");
     expect(note?.textContent).toContain("use an Arweave URL");
     expect(note?.textContent).toContain("paste public JSON");
     expect(note?.textContent).not.toContain("blocked by CORS");
@@ -199,7 +199,7 @@ describe("visible evidence interface", () => {
       "UCE Evidence Lens release 1.1.3",
     );
     expect(evidenceLink?.textContent).toContain(
-      "Historical v1.0.0 evidence — does not cover this release",
+      "Historical v1.0.0 evidence - does not cover this release",
     );
   });
 
@@ -306,7 +306,7 @@ describe("visible evidence interface", () => {
     await controller.load("demo");
     const root = document.createElement("div");
     renderApp(root, controller, controller.getState());
-    expect(root.textContent).toContain("Recorded author assertion");
+    expect(root.textContent).toContain("recorded author assertion");
     expect(root.textContent).toContain("not a legal determination");
   });
 
@@ -339,12 +339,12 @@ describe("visible evidence interface", () => {
       "No problems found in completed checks.",
     );
     expect(root.querySelector(".status--retryable")?.textContent).toBe(
-      "Try again",
+      "Could not complete",
     );
     const details =
       root.querySelector<HTMLDetailsElement>(".technical-details");
     expect(details?.open).toBe(false);
-    expect(details?.textContent).toContain("Publisher reported");
+    expect(details?.textContent).toContain("Source reported");
     expect(details?.textContent).not.toContain(
       "Independent manifest recomputation",
     );
